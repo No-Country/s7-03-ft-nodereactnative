@@ -1,13 +1,13 @@
+import { userSeeds } from './seeds/users.seeds';
 import { PrismaClient } from '@prisma/client';
+import { roleSeed } from './seeds/roles.seeds';
 
-const prisma = new PrismaClient();
+export const prisma = new PrismaClient();
 
 async function main() {
-  const user = await prisma.user.upsert({
-    where: { email: 'jared@gmail.com' },
-    update: {},
-    create: { email: 'jared@gmail.com' },
-  });
+  const adminRole = await roleSeed();
+
+  await userSeeds(adminRole);
 }
 
 main()
