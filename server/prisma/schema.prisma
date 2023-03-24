@@ -11,6 +11,198 @@ datasource db {
 }
 
 model User {
-  id    String @id @default(uuid()) @db.Uuid()
-  email String @unique
+  id        String   @id @default(uuid()) @db.Uuid()
+  firstName String   @map("first_name")
+  lastName  String   @map("last_name")
+  email     String   @unique
+  password  String
+  country   String
+  codePhone String   @map("code_phone")
+  phone     String
+  roleId    String   @map("role_id") @db.Uuid()
+  isActive  Boolean  @default(true) @map("is_active")
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt() @map("updated_at")
+
+  Role            Role              @relation(fields: [roleId], references: [id])
+  Veterinary      Veterinary[]
+  PetPreference   PetPreference[]
+  Review          Review[]
+  Cart            Cart[]
+  Purchase        Purchase[]
+  ProductFavorite ProductFavorite[]
+}
+
+model Role {
+  id        String   @id @default(uuid()) @db.Uuid()
+  name      String
+  isActive  Boolean  @default(true) @map("is_active")
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt() @map("updated_at")
+
+  User User[]
+}
+
+model Veterinary {
+  id          String   @id @default(uuid()) @db.Uuid()
+  userId      String   @map("user_id") @db.Uuid()
+  name        String
+  description String
+  country     String
+  address     String
+  latitude    String
+  longitud    String
+  phone       String
+  isActive    Boolean  @default(true) @map("is_active")
+  createdAt   DateTime @default(now()) @map("created_at")
+  updatedAt   DateTime @updatedAt() @map("updated_at")
+
+  User    User      @relation(fields: [userId], references: [id])
+  Review  Review[]
+  Product Product[]
+}
+
+model PetCategory {
+  id            String          @id @default(uuid()) @db.Uuid()
+  name          String
+  breed         String
+  size          String
+  age           Int
+  isActive      Boolean         @default(true) @map("is_active")
+  createdAt     DateTime        @default(now()) @map("created_at")
+  updatedAt     DateTime        @updatedAt() @map("updated_at")
+  PetPreference PetPreference[]
+
+  @@map("Pet_category")
+}
+
+model PetPreference {
+  id            String   @id @default(uuid()) @db.Uuid()
+  petCategoryId String   @map("pet_category_id") @db.Uuid()
+  userId        String   @map("user_id") @db.Uuid()
+  isActive      Boolean  @default(true) @map("is_active")
+  createdAt     DateTime @default(now()) @map("created_at")
+  updatedAt     DateTime @updatedAt() @map("updated_at")
+
+  PetCategory PetCategory @relation(fields: [petCategoryId], references: [id])
+  User        User        @relation(fields: [userId], references: [id])
+
+  @@map("Pet_preference")
+}
+
+enum Rating {
+  Unacceptable        @map("1")
+  NeedsImprovement    @map("2")
+  MeetsExpectations   @map("3")
+  ExceedsExpectations @map("4")
+  Outstanding         @map("5")
+}
+
+model Review {
+  id           String   @id @default(uuid()) @db.Uuid()
+  comment      String
+  rating       Rating
+  userId       String   @unique @map("user_id") @db.Uuid()
+  veterinaryId String   @map("veterinary_id") @db.Uuid()
+  isActive     Boolean  @default(true) @map("is_active")
+  createdAt    DateTime @default(now()) @map("created_at")
+  updatedAt    DateTime @updatedAt() @map("updated_at")
+
+  User       User       @relation(fields: [userId], references: [id])
+  Veterinary Veterinary @relation(fields: [veterinaryId], references: [id])
+}
+
+model Product {
+  id                String   @id @default(uuid()) @db.Uuid()
+  name              String
+  description       String
+  price             Decimal
+  quantity          Int
+  veterinaryId      String   @map("veterinary_id") @db.Uuid()
+  productCategoryId String   @map("product_category_id") @db.Uuid()
+  isActive          Boolean  @default(true) @map("is_active")
+  createdAt         DateTime @default(now()) @map("created_at")
+  updatedAt         DateTime @updatedAt() @map("updated_at")
+
+  Veterinary      Veterinary        @relation(fields: [veterinaryId], references: [id])
+  ProductCategory ProductCategory   @relation(fields: [productCategoryId], references: [id])
+  ProductImage    ProductImage[]
+  ProductInCart   ProductInCart[]
+  ProductFavorite ProductFavorite[]
+}
+
+model ProductImage {
+  id        String   @id @default(uuid()) @db.Uuid()
+  imageUrl  String   @map("image_url")
+  productId String   @map("product_id") @db.Uuid()
+  isActive  Boolean  @default(true) @map("is_active")
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt() @map("updated_at")
+
+  Product Product @relation(fields: [productId], references: [id])
+
+  @@map("Product_image")
+}
+
+model ProductCategory {
+  id        String    @id @default(uuid()) @db.Uuid()
+  name      String
+  isActive  Boolean   @default(true) @map("is_active")
+  createdAt DateTime  @default(now()) @map("created_at")
+  updatedAt DateTime  @updatedAt() @map("updated_at")
+  Product   Product[]
+
+  @@map("Product_category")
+}
+
+model Cart {
+  id        String   @id @default(uuid()) @db.Uuid()
+  userId    String   @map("user_id") @db.Uuid()
+  isPaid    Boolean  @default(false) @map("is_paid")
+  total     Decimal
+  isActive  Boolean  @default(true) @map("is_active")
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt() @map("updated_at")
+
+  User          User            @relation(fields: [userId], references: [id])
+  ProductInCart ProductInCart[]
+  Purchase      Purchase[]
+}
+
+model ProductInCart {
+  id        String   @id @default(uuid()) @db.Uuid()
+  productId String   @map("product_id") @db.Uuid()
+  cartId    String   @map("cart_Id") @db.Uuid()
+  quantity  Int
+  isActive  Boolean  @default(true) @map("is_active")
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt() @map("updated_at")
+
+  Product Product @relation(fields: [productId], references: [id])
+  Cart    Cart    @relation(fields: [cartId], references: [id])
+
+  @@map("Product_in_cart")
+}
+
+model Purchase {
+  id        String   @id @default(uuid()) @db.Uuid()
+  cartId    String   @map("cart_id") @db.Uuid()
+  userId    String   @map("user_id") @db.Uuid()
+  isActive  Boolean  @default(true) @map("is_active")
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt() @map("updated_at")
+
+  Cart Cart @relation(fields: [cartId], references: [id])
+  User User @relation(fields: [userId], references: [id])
+}
+
+model ProductFavorite {
+  id        String @id @default(uuid()) @db.Uuid()
+  userId    String @map("user_id") @db.Uuid()
+  productId String @map("product_id") @db.Uuid()
+
+  User    User    @relation(fields: [userId], references: [id])
+  Product Product @relation(fields: [productId], references: [id])
+
+  @@map("Product_favorite")
 }
