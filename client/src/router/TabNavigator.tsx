@@ -5,7 +5,7 @@ const TabNavigator = () => {
     let test: string = 'Esta el tab navigator';
     console.log(test);
     return (
-        <View>
+        <View style={{ marginTop: 50 }}>
             <Text>Test tab navigator</Text>
         </View>
     );
