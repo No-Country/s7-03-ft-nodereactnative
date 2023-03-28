@@ -1,3 +1,4 @@
+import { ApiBearerAuth, ApiOkResponse, ApiTags } from '@nestjs/swagger';
 import {
   Controller,
   Get,
@@ -11,6 +12,8 @@ import { UsersService } from './users.service';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { Request } from 'express';
 
+@ApiTags('Users')
+@ApiBearerAuth()
 @Controller('api/v1/users')
 export class UsersController {
   constructor(private readonly usersService: UsersService) {}
@@ -20,6 +23,7 @@ export class UsersController {
     return this.usersService.findAll();
   }
 
+  @ApiOkResponse({ description: 'returns the user currently in session' })
   @Get('/me')
   async getUserInSession(@Req() req: Request) {
     const user = await this.usersService.getUserInSession(req.user);
