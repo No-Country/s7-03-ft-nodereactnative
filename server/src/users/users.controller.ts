@@ -21,8 +21,10 @@ export class UsersController {
   }
 
   @Get('/me')
-  getUserInSession(@Req() req: Request) {
-    return this.usersService.getUserInSession(req.user);
+  async getUserInSession(@Req() req: Request) {
+    const user = await this.usersService.getUserInSession(req.user);
+
+    return { user };
   }
 
   @Get(':id')

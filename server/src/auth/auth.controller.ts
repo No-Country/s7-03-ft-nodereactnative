@@ -19,15 +19,19 @@ export class AuthController {
   @HttpCode(200)
   @SkipAuth()
   @Post('/signup')
-  signUp(@Body() body: SignUpDto) {
-    return this.authService.signUp(body);
+  async signUp(@Body() body: SignUpDto) {
+    const user = await this.authService.signUp(body);
+
+    return { user };
   }
 
   @HttpCode(200)
   @SkipAuth()
   @UseGuards(LocalAuthGuard)
   @Post('/login')
-  login(@Body() body: LoginDto, @Req() req: Request) {
-    return this.authService.login(req.user);
+  async login(@Body() body: LoginDto, @Req() req: Request) {
+    const { user, token } = await this.authService.login(req.user);
+
+    return { user, token };
   }
 }
