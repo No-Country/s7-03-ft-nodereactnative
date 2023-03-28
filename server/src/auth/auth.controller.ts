@@ -11,12 +11,14 @@ import { AuthService } from './auth.service';
 import { SkipAuth } from './decorators/skip-auth.decorator';
 import { LoginDto, SignUpDto } from './dto/auth.dto';
 import { Request } from 'express';
+import { ApiCreatedResponse, ApiOkResponse, ApiTags } from '@nestjs/swagger';
 
+@ApiTags('Auth')
 @Controller('api/v1/auth')
 export class AuthController {
   constructor(private readonly authService: AuthService) {}
 
-  @HttpCode(200)
+  @ApiCreatedResponse({ description: 'Creates an user in the database' })
   @SkipAuth()
   @Post('/signup')
   async signUp(@Body() body: SignUpDto) {
@@ -25,6 +27,7 @@ export class AuthController {
     return { user };
   }
 
+  @ApiOkResponse({ description: 'returns the user and the token' })
   @HttpCode(200)
   @SkipAuth()
   @UseGuards(LocalAuthGuard)
