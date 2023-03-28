@@ -1,4 +1,5 @@
-import { LoginDto, SignUpDto } from './dto/auth.dto';
+import { UserSession } from './../types/user.type';
+import { SignUpDto } from './dto/auth.dto';
 import {
   ConflictException,
   ForbiddenException,
@@ -49,12 +50,7 @@ export class AuthService {
     }
   }
 
-  async login(body: LoginDto) {
-    const user = await this.validate({
-      email: body.email,
-      password: body.password,
-    });
-
+  async login(user: UserSession) {
     const payload = { id: user.id };
     const token = this.jwt.sign(payload);
 
@@ -64,6 +60,7 @@ export class AuthService {
   async validate(body: { email: string; password: string }) {
     const user = await this.prisma.user.findFirst({
       where: { email: body.email, isActive: true },
+      include: { role: { select: { name: true } } },
     });
 
     if (!user) {

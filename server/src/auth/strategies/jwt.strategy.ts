@@ -17,18 +17,12 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
   async validate(payload: any) {
     const user = await this.prisma.user.findFirst({
       where: { id: payload.id, isActive: true },
-      select: {
-        id: true,
-        roleId: true,
-        email: true,
-        codePhone: true,
-        country: true,
-        updatedAt: true,
-        createdAt: true,
-        firstName: true,
-        lastName: true,
-        Role: true,
-        password: false,
+      include: {
+        role: {
+          select: {
+            name: true,
+          },
+        },
       },
     });
 
@@ -37,6 +31,9 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
         'The Owner Of The Session Is No Longer Active',
       );
     }
+
+    //@ts-expect-error delete user password from the request
+    delete user.password;
 
     return user;
   }
