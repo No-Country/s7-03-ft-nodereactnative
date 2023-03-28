@@ -18,7 +18,7 @@ const AuthStack = () => {
                 name="login"
                 component={Login}
                 options={{
-                    headerShown: true,
+                    headerShown: false,
                 }}
             />
             <Stack.Screen
