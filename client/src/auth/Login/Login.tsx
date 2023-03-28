@@ -65,8 +65,8 @@ const Login = ({ navigation }: LoginProps) => {
                     onPress={() => setShowPassword(!showPassword)}
                     style={{
                         position: 'absolute',
-                        top: 112,
-                        left: 150,
+                        top: 132,
+                        left: 300,
                     }}
                 >
                     <Icon size={20} name={showPassword ? 'eye-off' : 'eye'} />
