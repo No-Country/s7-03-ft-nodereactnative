@@ -24,10 +24,21 @@ export class AuthService {
       const hashedPassword = await bcrypt.hash(body.password, salt);
 
       body.password = hashedPassword;
+
+      let normalRole = '';
+      if (!body.roleId) {
+        const { id } = await this.prisma.role.findFirstOrThrow({
+          where: { name: 'NORMAL' },
+        });
+
+        normalRole = id;
+      }
+
       //create User
       const newUser = await this.prisma.user.create({
         data: {
           ...body,
+          roleId: body.roleId || normalRole,
         },
         select: {
           id: true,
