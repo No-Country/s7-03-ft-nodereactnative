@@ -9,10 +9,12 @@ import {
   Delete,
   Req,
   HttpCode,
+  UseGuards,
 } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { UpdateUserDto, UserParamsDto } from './dto/update-user.dto';
 import { Request } from 'express';
+import { CheckAdminGuard } from 'src/auth/guards/check-admin-auth.guard';
 
 @ApiTags('Users')
 @ApiBearerAuth()
@@ -20,6 +22,7 @@ import { Request } from 'express';
 export class UsersController {
   constructor(private readonly usersService: UsersService) {}
 
+  @UseGuards(CheckAdminGuard)
   @Get()
   async findAll() {
     const users = await this.usersService.findAll();
