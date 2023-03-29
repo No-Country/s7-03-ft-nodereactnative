@@ -5,7 +5,6 @@ import {
   ApiNotFoundResponse,
   ApiOkResponse,
   ApiOperation,
-  ApiSecurity,
   ApiTags,
 } from '@nestjs/swagger';
 import {
