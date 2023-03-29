@@ -1,3 +1,4 @@
+import { SkipAuth } from './../auth/decorators/skip-auth.decorator';
 import { ApiBearerAuth, ApiOkResponse, ApiTags } from '@nestjs/swagger';
 import {
   Controller,
@@ -7,9 +8,10 @@ import {
   Param,
   Delete,
   Req,
+  HttpCode,
 } from '@nestjs/common';
 import { UsersService } from './users.service';
-import { UpdateUserDto } from './dto/update-user.dto';
+import { UpdateUserDto, UserParamsDto } from './dto/update-user.dto';
 import { Request } from 'express';
 
 @ApiTags('Users')
@@ -19,8 +21,10 @@ export class UsersController {
   constructor(private readonly usersService: UsersService) {}
 
   @Get()
-  findAll() {
-    return this.usersService.findAll();
+  async findAll() {
+    const users = await this.usersService.findAll();
+
+    return { users };
   }
 
   @ApiOkResponse({ description: 'returns the user currently in session' })
@@ -31,18 +35,32 @@ export class UsersController {
     return { user };
   }
 
+  @SkipAuth()
   @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.usersService.findOne(+id);
+  async findOne(@Param() params: UserParamsDto) {
+    const user = await this.usersService.findOne(params.id);
+
+    return { user };
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto) {
-    return this.usersService.update(+id, updateUserDto);
+  async update(
+    @Param() params: UserParamsDto,
+    @Body() updateUserDto: UpdateUserDto,
+    @Req() req: Request,
+  ) {
+    const user = await this.usersService.update(
+      params.id,
+      updateUserDto,
+      req.user,
+    );
+
+    return { user };
   }
 
+  @HttpCode(204)
   @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.usersService.remove(+id);
+  remove(@Param() params: UserParamsDto, @Req() req: Request) {
+    return this.usersService.remove(params.id, req.user);
   }
 }

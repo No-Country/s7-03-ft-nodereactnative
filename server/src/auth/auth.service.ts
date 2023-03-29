@@ -1,4 +1,4 @@
-import { UserSession } from './../types/user.type';
+import { UserSession } from '../types/users/user.type';
 import { SignUpDto } from './dto/auth.dto';
 import {
   ConflictException,
