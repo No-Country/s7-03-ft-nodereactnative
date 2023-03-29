@@ -10,7 +10,11 @@ interface DataRegister {
     password2: string;
 }
 
-const Register = () => {
+interface Props {
+    navigation: any;
+}
+
+const Register = ({ navigation }: Props) => {
     const {
         handleSubmit,
         control,
@@ -80,7 +84,7 @@ const Register = () => {
             />
 
             <ButtonSecondaryEmpty
-                onPress={handleSubmit(onSubmit)}
+                onPress={() => navigation.navigate('login')}
                 title="Ir al Login"
             />
         </View>
