@@ -1,8 +1,28 @@
 import React from 'react';
-import { Text, View, StyleSheet, TextInput } from 'react-native';
 import { useForm, Controller } from 'react-hook-form';
-import { ButtonPrimary } from '../../components/buttons/ButtonPrimary';
-import { ButtonSecondaryEmpty } from '../../components/buttons/ButtonSecondaryEmpty';
+import { ButtonPrimary } from '../../../components/buttons/ButtonPrimary';
+import { ButtonSecondaryEmpty } from '../../../components/buttons/ButtonSecondaryEmpty';
+import { TextLogo, ViewForm, ViewLogo } from '../Login/login.styled';
+import SvgLogo from '../Login/SvgLogo';
+import styled from 'styled-components/native';
+
+const Label = styled.Text`
+    color: black;
+    margin: 15px auto -8px 30px;
+    padding: 0 5px;
+    z-index: 5;
+    background-color: white;
+`;
+
+const Input = styled.TextInput`
+    padding: 10px;
+    background-color: white;
+    height: 56px;
+    border-radius: 4px;
+    border-width: 1px;
+    width: 90%;
+    margin-bottom: 15px;
+`;
 
 interface DataRegister {
     email: string;
@@ -26,19 +46,23 @@ const Register = ({ navigation }: Props) => {
             password2: '',
         },
     });
-    const onSubmit = (data:DataRegister) => {
+
+    const onSubmit = (data: DataRegister) => {
         console.log(data);
     };
-    
+
     return (
-        <View style={styles.container}>
-            <Text style={styles.label}>Email</Text>
+        <ViewForm>
+            <ViewLogo>
+                <TextLogo>PetDidos Ya</TextLogo>
+                <SvgLogo />
+            </ViewLogo>
+            <Label>Email</Label>
             <Controller
                 control={control}
                 render={({ field: { onChange, onBlur, value } }) => (
-                    <TextInput
+                    <Input
                         keyboardType="email-address"
-                        style={styles.input}
                         onBlur={onBlur}
                         onChangeText={(value) => onChange(value)}
                         value={value}
@@ -47,13 +71,12 @@ const Register = ({ navigation }: Props) => {
                 name="email"
                 rules={{ required: true }}
             />
-            <Text style={styles.label}>Password</Text>
+            <Label>Contraseña</Label>
             <Controller
                 control={control}
                 render={({ field: { onChange, onBlur, value } }) => (
-                    <TextInput
+                    <Input
                         secureTextEntry
-                        style={styles.input}
                         onBlur={onBlur}
                         onChangeText={(value) => onChange(value)}
                         value={value}
@@ -62,13 +85,12 @@ const Register = ({ navigation }: Props) => {
                 name="password"
                 rules={{ required: true }}
             />
-            <Text style={styles.label}>Repeat Password</Text>
+            <Label>Repetir Contraseña</Label>
             <Controller
                 control={control}
                 render={({ field: { onChange, onBlur, value } }) => (
-                    <TextInput
+                    <Input
                         secureTextEntry
-                        style={styles.input}
                         onBlur={onBlur}
                         onChangeText={(value) => onChange(value)}
                         value={value}
@@ -87,36 +109,8 @@ const Register = ({ navigation }: Props) => {
                 onPress={() => navigation.navigate('login')}
                 title="Ir al Login"
             />
-        </View>
+        </ViewForm>
     );
 };
-
-const styles = StyleSheet.create({
-    label: {
-        color: 'black',
-        marginTop: 15,
-        marginLeft: 15,
-    },
-    button: {
-        marginTop: 40,
-        color: 'white',
-        height: 40,
-        borderRadius: 8,
-        overflow: 'hidden',
-        backgroundColor: '#ec5990',
-    },
-    container: {
-        flex: 1,
-        justifyContent: 'center',
-        padding: 10,
-    },
-    input: {
-        backgroundColor: 'white',
-        height: 40,
-        padding: 10,
-        borderRadius: 4,
-        borderWidth: 1,
-    },
-});
 
 export default Register;
