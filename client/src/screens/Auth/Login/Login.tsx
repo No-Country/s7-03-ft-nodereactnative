@@ -16,12 +16,20 @@ import { Image, Text, TouchableOpacity, View } from 'react-native';
 import { useForm, Controller } from 'react-hook-form';
 import Icon from 'react-native-vector-icons/Ionicons';
 import SvgLogo from './SvgLogo';
+import { useDispatch, useSelector } from 'react-redux';
+import { useGetRandomNamesQuery } from '../../../reduxFeature/user/userSlice';
 
-type FormValues = {
+interface FormValues {
     email: string;
     password: string;
     onSubmit: (data: FormValues) => void;
-};
+}
+
+interface Redux {
+    user: {
+        name: string;
+    };
+}
 
 interface LoginProps {
     navigation: any;
@@ -29,6 +37,8 @@ interface LoginProps {
 
 const Login = ({ navigation }: LoginProps) => {
     const [showPassword, setShowPassword] = useState(false);
+
+    // const { isFetching, data } = useGetRandomNamesQuery();
 
     const {
         control,
