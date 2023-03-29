@@ -24,23 +24,23 @@ model User {
   createdAt DateTime @default(now()) @map("created_at")
   updatedAt DateTime @updatedAt() @map("updated_at")
 
-  Role            Role              @relation(fields: [roleId], references: [id])
-  Veterinary      Veterinary[]
-  PetPreference   PetPreference[]
-  Review          Review[]
-  Cart            Cart[]
-  Purchase        Purchase[]
-  ProductFavorite ProductFavorite[]
+  role            Role              @relation(fields: [roleId], references: [id])
+  veterinary      Veterinary[]
+  petPreference   PetPreference[]
+  review          Review[]
+  cart            Cart[]
+  purchase        Purchase[]
+  productFavorite ProductFavorite[]
 }
 
 model Role {
   id        String   @id @default(uuid()) @db.Uuid()
-  name      String
+  name      String   @unique
   isActive  Boolean  @default(true) @map("is_active")
   createdAt DateTime @default(now()) @map("created_at")
   updatedAt DateTime @updatedAt() @map("updated_at")
 
-  User User[]
+  user User[]
 }
 
 model Veterinary {
@@ -57,21 +57,22 @@ model Veterinary {
   createdAt   DateTime @default(now()) @map("created_at")
   updatedAt   DateTime @updatedAt() @map("updated_at")
 
-  User    User      @relation(fields: [userId], references: [id])
-  Review  Review[]
-  Product Product[]
+  user    User      @relation(fields: [userId], references: [id])
+  review  Review[]
+  product Product[]
 }
 
 model PetCategory {
-  id            String          @id @default(uuid()) @db.Uuid()
-  name          String
-  breed         String
-  size          String
-  age           Int
-  isActive      Boolean         @default(true) @map("is_active")
-  createdAt     DateTime        @default(now()) @map("created_at")
-  updatedAt     DateTime        @updatedAt() @map("updated_at")
-  PetPreference PetPreference[]
+  id        String   @id @default(uuid()) @db.Uuid()
+  name      String
+  breed     String
+  size      String
+  age       Int
+  isActive  Boolean  @default(true) @map("is_active")
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt() @map("updated_at")
+
+  petPreference PetPreference[]
 
   @@map("Pet_category")
 }
@@ -84,8 +85,8 @@ model PetPreference {
   createdAt     DateTime @default(now()) @map("created_at")
   updatedAt     DateTime @updatedAt() @map("updated_at")
 
-  PetCategory PetCategory @relation(fields: [petCategoryId], references: [id])
-  User        User        @relation(fields: [userId], references: [id])
+  petCategory PetCategory @relation(fields: [petCategoryId], references: [id])
+  user        User        @relation(fields: [userId], references: [id])
 
   @@map("Pet_preference")
 }
@@ -108,8 +109,8 @@ model Review {
   createdAt    DateTime @default(now()) @map("created_at")
   updatedAt    DateTime @updatedAt() @map("updated_at")
 
-  User       User       @relation(fields: [userId], references: [id])
-  Veterinary Veterinary @relation(fields: [veterinaryId], references: [id])
+  user       User       @relation(fields: [userId], references: [id])
+  veterinary Veterinary @relation(fields: [veterinaryId], references: [id])
 }
 
 model Product {
@@ -124,11 +125,11 @@ model Product {
   createdAt         DateTime @default(now()) @map("created_at")
   updatedAt         DateTime @updatedAt() @map("updated_at")
 
-  Veterinary      Veterinary        @relation(fields: [veterinaryId], references: [id])
-  ProductCategory ProductCategory   @relation(fields: [productCategoryId], references: [id])
-  ProductImage    ProductImage[]
-  ProductInCart   ProductInCart[]
-  ProductFavorite ProductFavorite[]
+  veterinary      Veterinary        @relation(fields: [veterinaryId], references: [id])
+  productCategory ProductCategory   @relation(fields: [productCategoryId], references: [id])
+  productImage    ProductImage[]
+  productInCart   ProductInCart[]
+  productFavorite ProductFavorite[]
 }
 
 model ProductImage {
@@ -139,18 +140,19 @@ model ProductImage {
   createdAt DateTime @default(now()) @map("created_at")
   updatedAt DateTime @updatedAt() @map("updated_at")
 
-  Product Product @relation(fields: [productId], references: [id])
+  product Product @relation(fields: [productId], references: [id])
 
   @@map("Product_image")
 }
 
 model ProductCategory {
-  id        String    @id @default(uuid()) @db.Uuid()
+  id        String   @id @default(uuid()) @db.Uuid()
   name      String
-  isActive  Boolean   @default(true) @map("is_active")
-  createdAt DateTime  @default(now()) @map("created_at")
-  updatedAt DateTime  @updatedAt() @map("updated_at")
-  Product   Product[]
+  isActive  Boolean  @default(true) @map("is_active")
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt() @map("updated_at")
+
+  product Product[]
 
   @@map("Product_category")
 }
@@ -164,9 +166,9 @@ model Cart {
   createdAt DateTime @default(now()) @map("created_at")
   updatedAt DateTime @updatedAt() @map("updated_at")
 
-  User          User            @relation(fields: [userId], references: [id])
-  ProductInCart ProductInCart[]
-  Purchase      Purchase[]
+  user          User            @relation(fields: [userId], references: [id])
+  productInCart ProductInCart[]
+  purchase      Purchase[]
 }
 
 model ProductInCart {
@@ -178,8 +180,8 @@ model ProductInCart {
   createdAt DateTime @default(now()) @map("created_at")
   updatedAt DateTime @updatedAt() @map("updated_at")
 
-  Product Product @relation(fields: [productId], references: [id])
-  Cart    Cart    @relation(fields: [cartId], references: [id])
+  product Product @relation(fields: [productId], references: [id])
+  cart    Cart    @relation(fields: [cartId], references: [id])
 
   @@map("Product_in_cart")
 }
@@ -192,8 +194,8 @@ model Purchase {
   createdAt DateTime @default(now()) @map("created_at")
   updatedAt DateTime @updatedAt() @map("updated_at")
 
-  Cart Cart @relation(fields: [cartId], references: [id])
-  User User @relation(fields: [userId], references: [id])
+  cart Cart @relation(fields: [cartId], references: [id])
+  user User @relation(fields: [userId], references: [id])
 }
 
 model ProductFavorite {
@@ -201,8 +203,8 @@ model ProductFavorite {
   userId    String @map("user_id") @db.Uuid()
   productId String @map("product_id") @db.Uuid()
 
-  User    User    @relation(fields: [userId], references: [id])
-  Product Product @relation(fields: [productId], references: [id])
+  user    User    @relation(fields: [userId], references: [id])
+  product Product @relation(fields: [productId], references: [id])
 
   @@map("Product_favorite")
 }
