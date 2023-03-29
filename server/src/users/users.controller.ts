@@ -1,5 +1,13 @@
 import { SkipAuth } from './../auth/decorators/skip-auth.decorator';
-import { ApiBearerAuth, ApiOkResponse, ApiTags } from '@nestjs/swagger';
+import {
+  ApiBearerAuth,
+  ApiNoContentResponse,
+  ApiNotFoundResponse,
+  ApiOkResponse,
+  ApiOperation,
+  ApiSecurity,
+  ApiTags,
+} from '@nestjs/swagger';
 import {
   Controller,
   Get,
@@ -23,6 +31,8 @@ export class UsersController {
   constructor(private readonly usersService: UsersService) {}
 
   @UseGuards(CheckAdminGuard)
+  @ApiOperation({ description: 'Only admins have access to this endpoint' })
+  @ApiOkResponse({ description: 'Returns all users in the databse' })
   @Get()
   async findAll() {
     const users = await this.usersService.findAll();
@@ -38,6 +48,12 @@ export class UsersController {
     return { user };
   }
 
+  @ApiOkResponse({
+    description: 'Return user by the given id from the database',
+  })
+  @ApiNotFoundResponse({
+    description: 'User not found either does not exist or has been disabled',
+  })
   @SkipAuth()
   @Get(':id')
   async findOne(@Param() params: UserParamsDto) {
@@ -46,6 +62,10 @@ export class UsersController {
     return { user };
   }
 
+  @ApiOkResponse({ description: 'Returns the user with the updated fields' })
+  @ApiNotFoundResponse({
+    description: 'User not found either does not exist or has been disabled',
+  })
   @Patch(':id')
   async update(
     @Param() params: UserParamsDto,
@@ -61,6 +81,10 @@ export class UsersController {
     return { user };
   }
 
+  @ApiNoContentResponse({ description: 'No return the user has been deleted' })
+  @ApiNotFoundResponse({
+    description: 'User not found either does not exist or has been disabled',
+  })
   @HttpCode(204)
   @Delete(':id')
   remove(@Param() params: UserParamsDto, @Req() req: Request) {

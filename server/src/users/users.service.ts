@@ -31,6 +31,7 @@ export class UsersService {
         createdAt: true,
         password: false,
       },
+      take: 100,
     });
     return users;
   }
