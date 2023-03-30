@@ -1,38 +1,50 @@
-import { Controller, Delete, Get, Patch, Post } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  Param,
+  Patch,
+  Post,
+} from '@nestjs/common';
 import { SkipAuth } from 'src/auth/decorators/skip-auth.decorator';
+import { CreateRoleDto, RoleParamsDto } from './dto/roles.dto';
 import { RolesService } from './roles.service';
 
 @Controller('/api/v1/roles')
 export class RolesController {
-  constructor(private readonly RolesService: RolesService) {}
+  constructor(private readonly rolesService: RolesService) {}
 
   @SkipAuth()
   @Get()
-  getAll() {
-    return this.RolesService.getAll();
+  async getAll() {
+    return this.rolesService.getAll();
   }
 
   @SkipAuth()
-  @Get()
-  getById() {
-    return this.RolesService.getById();
+  @Get(':id')
+  async getById(@Param() params: RoleParamsDto) {
+    const role = await this.rolesService.getById(params.id);
+    return { role };
   }
 
   @SkipAuth()
   @Post()
-  create() {
-    return this.RolesService.create();
+  async create(@Body() body: CreateRoleDto) {
+    const role = await this.rolesService.create(body);
+    return role;
   }
 
   @SkipAuth()
-  @Patch()
-  update() {
-    return this.RolesService.update();
+  @Patch(':id')
+  async update(@Param() params: RoleParamsDto, @Body() body: CreateRoleDto) {
+    const role = await this.rolesService.update(params, body);
+    return role;
   }
 
   @SkipAuth()
   @Delete()
   remove() {
-    return this.RolesService.remove();
+    return this.rolesService.remove();
   }
 }
