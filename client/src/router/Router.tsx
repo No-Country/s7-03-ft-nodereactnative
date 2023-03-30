@@ -32,7 +32,7 @@ const NoLoggedStack = () => {
 };
 
 const Router = () => {
-    let isLogged: boolean = false;
+    let isLogged: boolean = true;
     return (
         <NavigationContainer>
             {isLogged ? <LoggedStack /> : <NoLoggedStack />}

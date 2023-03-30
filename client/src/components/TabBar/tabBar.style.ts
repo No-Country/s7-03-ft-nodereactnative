@@ -5,7 +5,7 @@ const safeSpace = Constants.statusBarHeight + 5;
 
 export const TabBarContainer = styled.View`
     width: 100%;
-    margin: ${safeSpace}px 10px;
+    margin: ${safeSpace}px 20px;
     display: flex;
     flex-direction: row;
     align-items: center;

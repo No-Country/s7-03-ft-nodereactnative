@@ -5,10 +5,6 @@ export const TabContainer = styled.View`
     flex-direction: row;
     padding: 15px;
     margin: 20px;
-    shadow-opacity: 1;
-    shadow-radius: 5px;
-    shadow-color: #000;
-    shadow-offset: 10px 10px;
     border: 1px solid #a1a1a1;
     border-radius: 5px;
     background-color: #fff;

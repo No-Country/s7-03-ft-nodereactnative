@@ -10,11 +10,12 @@ const TabBar: React.FC<TabBarProps> = () => {
     return (
         <TabBarContainer>
             <TabBarIcon>
-                <Entypo name="menu" size={30} color={colors.primary} />
+                <Entypo name="menu" size={30} color={colors.primaryLight} />
             </TabBarIcon>
-                <TabBarLogo
-                    source={require('../../../assets/PetsDidosYaLogo/Logo.webp')}
-                />
+            <TabBarLogo
+                source={require('../../../assets/PetsDidosYaLogo/Logo.webp')}
+            />
+            
         </TabBarContainer>
     );
 };
