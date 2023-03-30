@@ -32,17 +32,23 @@
 $ pnpm install
 ```
 
+## Database
+```bash
+# Generate prisma client
+$ pnpm prisma generate
+
+# Apply migrations
+$ pnpm prisma migrate deploy
+```
+
 ## Running the app
 
 ```bash
-# development
+# production mode
 $ pnpm run start
 
 # watch mode
 $ pnpm run start:dev
-
-# production mode
-$ pnpm run start:prod
 ```
 
 ## Test
