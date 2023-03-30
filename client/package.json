@@ -31,7 +31,8 @@
     "react-native-web": "~0.18.10",
     "react-redux": "^8.0.5",
     "styled-components": "^5.3.9",
-    "typescript-styled-plugin": "^0.18.2"
+    "typescript-styled-plugin": "^0.18.2",
+    "expo-constants": "~14.2.1"
   },
   "devDependencies": {
     "@babel/core": "^7.20.0",

@@ -2,6 +2,7 @@ import { createStackNavigator } from '@react-navigation/stack';
 import React from 'react';
 import { Login } from '../../auth/Login';
 import { Register } from '../../auth/Register';
+import { Home } from '../../screens/Home';
 
 const Stack = createStackNavigator();
 

@@ -1,11 +1,15 @@
-import React from 'react';
-import { Text, View } from 'react-native';
+import { Text } from 'react-native';
+import { TabBar } from '../../components/TabBar';
+import { ContainerHome } from './home.styled';
 
-const Home = () => {
+export interface HomeProps {}
+
+const Home: React.FC<HomeProps> = () => {
     return (
-        <View>
-            <Text>Home de la aplicacion</Text>
-        </View>
+        <ContainerHome>
+            <TabBar />
+            <Text>hola</Text>
+        </ContainerHome>
     );
 };
 
