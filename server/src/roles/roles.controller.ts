@@ -6,7 +6,9 @@ import {
   Param,
   Patch,
   Post,
+  Req,
 } from '@nestjs/common';
+import { Request } from 'express';
 import { SkipAuth } from 'src/auth/decorators/skip-auth.decorator';
 import { CreateRoleDto, RoleParamsDto } from './dto/roles.dto';
 import { RolesService } from './roles.service';
@@ -18,7 +20,8 @@ export class RolesController {
   @SkipAuth()
   @Get()
   async getAll() {
-    return this.rolesService.getAll();
+    const roles = await this.rolesService.getAll();
+    return roles;
   }
 
   @SkipAuth()
@@ -37,14 +40,19 @@ export class RolesController {
 
   @SkipAuth()
   @Patch(':id')
-  async update(@Param() params: RoleParamsDto, @Body() body: CreateRoleDto) {
-    const role = await this.rolesService.update(params, body);
+  async update(
+    @Param() params: RoleParamsDto,
+    @Body() body: CreateRoleDto,
+    @Req() req: Request,
+  ) {
+    const role = await this.rolesService.update(params.id, body, req.user);
     return role;
   }
 
   @SkipAuth()
-  @Delete()
-  remove() {
-    return this.rolesService.remove();
+  @Delete(':id')
+  async remove(@Param() params: RoleParamsDto, @Req() req: Request) {
+    const role = await this.rolesService.remove(params.id, req.user);
+    return role;
   }
 }

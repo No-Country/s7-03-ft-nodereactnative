@@ -1,6 +1,11 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import {
+  ForbiddenException,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
 import { PrismaService } from 'src/prisma/prisma.service';
-import { CreateRoleDto, RoleParamsDto } from './dto/roles.dto';
+import { UserSession } from 'src/types/users/user.type';
+import { CreateRoleDto } from './dto/roles.dto';
 
 @Injectable()
 export class RolesService {
@@ -46,11 +51,36 @@ export class RolesService {
     return role;
   }
 
-  async update(id: RoleParamsDto, body: CreateRoleDto) {
-    return [];
+  async update(id: string, body: CreateRoleDto, userSession: UserSession) {
+    const role = await this.prisma.role.findFirst({ where: { id } });
+    if (!role) {
+      throw new NotFoundException(`Role with id: ${id}`);
+    }
+    if (userSession.id !== role.id) {
+      throw new ForbiddenException('You are not the owner of this account');
+    }
+    const updateRole = await this.prisma.role.update({
+      where: { id },
+      data: { ...body },
+    });
+    return updateRole;
   }
 
-  async remove() {
-    return [];
+  async remove(id: string, userSession: UserSession) {
+    const role = await this.prisma.role.findFirst({
+      where: { id, isActive: true },
+    });
+    if (!role) {
+      throw new NotFoundException(`Role with id: ${id}`);
+    }
+    if (userSession.id !== role.id) {
+      throw new ForbiddenException('You are not the owner of this account');
+    }
+
+    await this.prisma.role.update({
+      where: { id },
+      data: { isActive: false },
+    });
+    return;
   }
 }
