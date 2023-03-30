@@ -35,7 +35,7 @@ model User {
 
 model Role {
   id        String   @id @default(uuid()) @db.Uuid()
-  name      String
+  name      String   @unique
   isActive  Boolean  @default(true) @map("is_active")
   createdAt DateTime @default(now()) @map("created_at")
   updatedAt DateTime @updatedAt() @map("updated_at")
@@ -63,15 +63,15 @@ model Veterinary {
 }
 
 model PetCategory {
-  id            String          @id @default(uuid()) @db.Uuid()
-  name          String
-  breed         String
-  size          String
-  age           Int
-  isActive      Boolean         @default(true) @map("is_active")
-  createdAt     DateTime        @default(now()) @map("created_at")
-  updatedAt     DateTime        @updatedAt() @map("updated_at")
-  
+  id        String   @id @default(uuid()) @db.Uuid()
+  name      String
+  breed     String
+  size      String
+  age       Int
+  isActive  Boolean  @default(true) @map("is_active")
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt() @map("updated_at")
+
   petPreference PetPreference[]
 
   @@map("Pet_category")
@@ -146,13 +146,13 @@ model ProductImage {
 }
 
 model ProductCategory {
-  id        String    @id @default(uuid()) @db.Uuid()
+  id        String   @id @default(uuid()) @db.Uuid()
   name      String
-  isActive  Boolean   @default(true) @map("is_active")
-  createdAt DateTime  @default(now()) @map("created_at")
-  updatedAt DateTime  @updatedAt() @map("updated_at")
-  
-  product   Product[]
+  isActive  Boolean  @default(true) @map("is_active")
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt() @map("updated_at")
+
+  product Product[]
 
   @@map("Product_category")
 }
