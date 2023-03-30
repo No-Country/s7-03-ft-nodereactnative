@@ -12,6 +12,12 @@ yarn-error.log*
 lerna-debug.log*
 
 .env
+
+#gcp
+.gcloudignore
+app.yaml
+cloudbuild.yaml
+
 # OS
 .DS_Store
 

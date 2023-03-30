@@ -5,9 +5,9 @@ import { roleSeed } from './seeds/roles.seeds';
 export const prisma = new PrismaClient();
 
 async function main() {
-  const adminRole = await roleSeed();
+  const { adminRole, normalRole } = await roleSeed();
 
-  await userSeeds(adminRole);
+  await userSeeds({ adminRole, normalRole });
 }
 
 main()

@@ -1,6 +1,7 @@
 import {
   IsEmail,
   IsNotEmpty,
+  IsOptional,
   IsString,
   IsUUID,
   MinLength,
@@ -40,7 +41,8 @@ export class SignUpDto {
   @IsString()
   @IsNotEmpty()
   @IsUUID()
-  roleId: string;
+  @IsOptional()
+  roleId?: string;
 }
 
 export class LoginDto {

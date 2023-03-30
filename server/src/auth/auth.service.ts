@@ -1,4 +1,4 @@
-import { UserSession } from './../types/user.type';
+import { UserSession } from '../types/users/user.type';
 import { SignUpDto } from './dto/auth.dto';
 import {
   ConflictException,
@@ -24,10 +24,21 @@ export class AuthService {
       const hashedPassword = await bcrypt.hash(body.password, salt);
 
       body.password = hashedPassword;
+
+      let normalRole = '';
+      if (!body.roleId) {
+        const { id } = await this.prisma.role.findFirstOrThrow({
+          where: { name: 'NORMAL' },
+        });
+
+        normalRole = id;
+      }
+
       //create User
       const newUser = await this.prisma.user.create({
         data: {
           ...body,
+          roleId: body.roleId || normalRole,
         },
         select: {
           id: true,
@@ -47,6 +58,7 @@ export class AuthService {
       if (error.code === 'P2002') {
         throw new ConflictException('Email Already Exists');
       }
+      throw error;
     }
   }
 

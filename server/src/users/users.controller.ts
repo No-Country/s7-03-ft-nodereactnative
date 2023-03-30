@@ -1,4 +1,12 @@
-import { ApiBearerAuth, ApiOkResponse, ApiTags } from '@nestjs/swagger';
+import { SkipAuth } from './../auth/decorators/skip-auth.decorator';
+import {
+  ApiBearerAuth,
+  ApiNoContentResponse,
+  ApiNotFoundResponse,
+  ApiOkResponse,
+  ApiOperation,
+  ApiTags,
+} from '@nestjs/swagger';
 import {
   Controller,
   Get,
@@ -7,10 +15,13 @@ import {
   Param,
   Delete,
   Req,
+  HttpCode,
+  UseGuards,
 } from '@nestjs/common';
 import { UsersService } from './users.service';
-import { UpdateUserDto } from './dto/update-user.dto';
+import { UpdateUserDto, UserParamsDto } from './dto/update-user.dto';
 import { Request } from 'express';
+import { CheckAdminGuard } from 'src/auth/guards/check-admin-auth.guard';
 
 @ApiTags('Users')
 @ApiBearerAuth()
@@ -18,9 +29,14 @@ import { Request } from 'express';
 export class UsersController {
   constructor(private readonly usersService: UsersService) {}
 
+  @UseGuards(CheckAdminGuard)
+  @ApiOperation({ description: 'Only admins have access to this endpoint' })
+  @ApiOkResponse({ description: 'Returns all users in the databse' })
   @Get()
-  findAll() {
-    return this.usersService.findAll();
+  async findAll() {
+    const users = await this.usersService.findAll();
+
+    return { users };
   }
 
   @ApiOkResponse({ description: 'returns the user currently in session' })
@@ -31,18 +47,46 @@ export class UsersController {
     return { user };
   }
 
+  @ApiOkResponse({
+    description: 'Return user by the given id from the database',
+  })
+  @ApiNotFoundResponse({
+    description: 'User not found either does not exist or has been disabled',
+  })
+  @SkipAuth()
   @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.usersService.findOne(+id);
+  async findOne(@Param() params: UserParamsDto) {
+    const user = await this.usersService.findOne(params.id);
+
+    return { user };
   }
 
+  @ApiOkResponse({ description: 'Returns the user with the updated fields' })
+  @ApiNotFoundResponse({
+    description: 'User not found either does not exist or has been disabled',
+  })
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto) {
-    return this.usersService.update(+id, updateUserDto);
+  async update(
+    @Param() params: UserParamsDto,
+    @Body() updateUserDto: UpdateUserDto,
+    @Req() req: Request,
+  ) {
+    const user = await this.usersService.update(
+      params.id,
+      updateUserDto,
+      req.user,
+    );
+
+    return { user };
   }
 
+  @ApiNoContentResponse({ description: 'No return the user has been deleted' })
+  @ApiNotFoundResponse({
+    description: 'User not found either does not exist or has been disabled',
+  })
+  @HttpCode(204)
   @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.usersService.remove(+id);
+  remove(@Param() params: UserParamsDto, @Req() req: Request) {
+    return this.usersService.remove(params.id, req.user);
   }
 }
