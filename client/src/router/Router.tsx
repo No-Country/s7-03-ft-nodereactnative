@@ -1,6 +1,7 @@
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import React from 'react';
+import { Home } from '../screens/Home';
 import { AuthStack } from './AuthStack';
 import { TabNavigator } from './TabNavigator';
 
@@ -13,7 +14,7 @@ const LoggedStack = () => {
                 headerShown: false,
             }}
         >
-            <Stack.Screen name="Home" component={TabNavigator} />
+            <Stack.Screen name="Home" component={Home} />
         </Stack.Navigator>
     );
 };
@@ -31,7 +32,7 @@ const NoLoggedStack = () => {
 };
 
 const Router = () => {
-    let isLogged: boolean = false;
+    let isLogged: boolean = true;
     return (
         <NavigationContainer>
             {isLogged ? <LoggedStack /> : <NoLoggedStack />}

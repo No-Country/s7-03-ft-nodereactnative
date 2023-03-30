@@ -7,6 +7,9 @@ import { ConfigModule } from '@nestjs/config';
 import { APP_GUARD, APP_INTERCEPTOR } from '@nestjs/core';
 import { JwtAuthGuard } from './auth/guards/jwt-auth.guard';
 import { UsersModule } from './users/users.module';
+import { ProductCategoriesService } from './product-categories/product-categories.service';
+import { ProductCategoriesController } from './product-categories/product-categories.controller';
+import { ProductCategoriesModule } from './product-categories/product-categories.module';
 
 @Module({
   imports: [
@@ -14,11 +17,16 @@ import { UsersModule } from './users/users.module';
     AuthModule,
     ConfigModule.forRoot({ envFilePath: '.env', isGlobal: true }),
     UsersModule,
+    ProductCategoriesModule,
   ],
   providers: [
-    PrismaService,
+    //PrismaService,
     { provide: APP_GUARD, useClass: JwtAuthGuard },
     { provide: APP_INTERCEPTOR, useClass: TransformInterceptor },
+    ProductCategoriesService,
+  ],
+  controllers: [
+    /* ProductCategoriesController */
   ],
 })
 export class AppModule {}
