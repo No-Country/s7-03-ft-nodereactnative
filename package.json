@@ -1,0 +1,23 @@
+{
+  "name": "s7-03-ft-nodereactnative",
+  "version": "1.0.0",
+  "description": "",
+  "main": "server/dist/src/main.js",
+  "scripts": {
+    "install": "cd server && npm i",
+    "start": "cd server && npm run start",
+    "build": "cd server && npm run build",
+    "gcp-build": "npm run build"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/No-Country/s7-03-ft-nodereactnative.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/No-Country/s7-03-ft-nodereactnative/issues"
+  },
+  "homepage": "https://github.com/No-Country/s7-03-ft-nodereactnative#readme"
+}
