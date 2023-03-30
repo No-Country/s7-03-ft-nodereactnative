@@ -7,7 +7,8 @@
     "install": "cd server && npm i",
     "start": "cd server && npm run start",
     "build": "cd server && npm run build",
-    "gcp-build": "npm run build"
+    "gcp-build": "npm run build",
+    "create-env": "cd server && npm run create-env"
   },
   "repository": {
     "type": "git",
