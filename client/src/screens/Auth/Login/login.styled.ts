@@ -16,6 +16,7 @@ export const TextLogo = styled.Text`
     color: #551391;
     font-weight: 400;
     line-height: 28px;
+    font-size: 22px;
 `;
 
 export const ViewLogo = styled.View`
