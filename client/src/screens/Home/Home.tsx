@@ -1,11 +1,57 @@
-import React from 'react';
-import { Text, View } from 'react-native';
+import {
+    InputBuscador,
+    CategoriaBox,
+    TabBar,
+    StoreTab,
+} from '../../components';
+import {
+    ContainerCategorias,
+    ContainerHome,
+    ContainerOfertas,
+    ContainerTitleOfertas,
+    FilaCategorias,
+    ImageOferta,
+    ListaStore,
+    SaludoUser,
+    Title,
+} from './home.styled';
 
-const Home = () => {
+export interface HomeProps {}
+
+const Home: React.FC<HomeProps> = () => {
     return (
-        <View>
-            <Text>Home de la aplicacion</Text>
-        </View>
+        <ContainerHome>
+            <TabBar />
+            <SaludoUser>Hola, Mery!</SaludoUser>
+            <InputBuscador />
+            <ContainerCategorias>
+                <ContainerTitleOfertas>
+                    <Title>Categorías</Title>
+                </ContainerTitleOfertas>
+                <FilaCategorias horizontal>
+                    <CategoriaBox text="Alimentos" />
+                    <CategoriaBox text="Veterinarias" />
+                    <CategoriaBox text="Tiendas cercanas" />
+                    <CategoriaBox text="Juguetes" />
+                    <CategoriaBox text="Cuidadores" />
+                    <CategoriaBox text="Alimentos" />
+                </FilaCategorias>
+            </ContainerCategorias>
+            <ContainerOfertas>
+                <Title>Las mejores ofertas</Title>
+                <ImageOferta
+                    source={require('../../../assets/ImgOfertas/Oferta.webp')}
+                />
+            </ContainerOfertas>
+            <ListaStore>
+                <StoreTab />
+                <StoreTab />
+                <StoreTab />
+                <StoreTab />
+                <StoreTab />
+                <StoreTab />
+            </ListaStore>
+        </ContainerHome>
     );
 };
 
