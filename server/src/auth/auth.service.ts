@@ -44,6 +44,7 @@ export class AuthService {
           email: true,
           codePhone: true,
           country: true,
+          phone: true,
           updatedAt: true,
           createdAt: true,
           firstName: true,

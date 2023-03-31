@@ -37,11 +37,13 @@ export class SignUpDto {
 
   @IsString()
   @IsNotEmpty()
-  codePhone: string;
+  @IsOptional()
+  codePhone?: string;
 
   @IsString()
   @IsNotEmpty()
-  phone: string;
+  @IsOptional()
+  phone?: string;
 
   @IsString()
   @IsNotEmpty()
