@@ -3,7 +3,7 @@ import { IsNotEmpty, IsString, IsUUID } from 'class-validator';
 import { SignUpDto } from 'src/auth/dto/auth.dto';
 
 export class UpdateUserDto extends PartialType(
-  OmitType(SignUpDto, ['password', 'email', 'roleId'] as const),
+  OmitType(SignUpDto, ['password', 'email', 'role'] as const),
 ) {}
 
 export class UserParamsDto {

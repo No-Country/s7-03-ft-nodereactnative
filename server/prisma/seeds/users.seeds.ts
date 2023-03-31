@@ -4,6 +4,7 @@ import { prisma } from '../seeds';
 export const userSeeds = async (roles: {
   adminRole: Role;
   normalRole: Role;
+  veterinaryRole: Role;
 }) => {
   await prisma.user.upsert({
     where: { email: 'jared@gmail.com' },

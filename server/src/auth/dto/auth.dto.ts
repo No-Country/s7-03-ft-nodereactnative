@@ -1,11 +1,16 @@
 import {
   IsEmail,
+  IsEnum,
   IsNotEmpty,
   IsOptional,
   IsString,
-  IsUUID,
   MinLength,
 } from 'class-validator';
+
+export enum Roles {
+  'VETERINARY' = 'VETERINARY',
+  'NORMAL' = 'NORMAL',
+}
 
 export class SignUpDto {
   @IsString()
@@ -40,9 +45,9 @@ export class SignUpDto {
 
   @IsString()
   @IsNotEmpty()
-  @IsUUID()
+  @IsEnum(Roles)
   @IsOptional()
-  roleId?: string;
+  role?: Roles = Roles.NORMAL;
 }
 
 export class LoginDto {
