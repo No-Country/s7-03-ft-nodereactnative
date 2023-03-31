@@ -1,10 +1,6 @@
-import {
-  ForbiddenException,
-  Injectable,
-  NotFoundException,
-} from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
+import { Role } from '@prisma/client';
 import { PrismaService } from 'src/prisma/prisma.service';
-import { UserSession } from 'src/types/users/user.type';
 import { CreateRoleDto } from './dto/roles.dto';
 
 @Injectable()
@@ -30,7 +26,7 @@ export class RolesService {
     });
 
     if (!role) {
-      throw new NotFoundException(`Role with id: ${id}`);
+      throw new NotFoundException(`Role with id: ${id} not found`);
     }
     return role;
   }
@@ -51,13 +47,12 @@ export class RolesService {
     return role;
   }
 
-  async update(id: string, body: CreateRoleDto, userSession: UserSession) {
-    const role = await this.prisma.role.findFirst({ where: { id } });
+  async update(id: string, body: CreateRoleDto) {
+    const role: Role | null = await this.prisma.role.findFirst({
+      where: { id },
+    });
     if (!role) {
-      throw new NotFoundException(`Role with id: ${id}`);
-    }
-    if (userSession.id !== role.id) {
-      throw new ForbiddenException('You are not the owner of this account');
+      throw new NotFoundException(`Role with id: ${id} not found`);
     }
     const updateRole = await this.prisma.role.update({
       where: { id },
@@ -66,15 +61,12 @@ export class RolesService {
     return updateRole;
   }
 
-  async remove(id: string, userSession: UserSession) {
+  async remove(id: string) {
     const role = await this.prisma.role.findFirst({
       where: { id, isActive: true },
     });
     if (!role) {
-      throw new NotFoundException(`Role with id: ${id}`);
-    }
-    if (userSession.id !== role.id) {
-      throw new ForbiddenException('You are not the owner of this account');
+      throw new NotFoundException(`Role with id: ${id} not found`);
     }
 
     await this.prisma.role.update({
