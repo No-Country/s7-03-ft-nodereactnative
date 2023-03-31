@@ -8,6 +8,7 @@ import { JwtAuthGuard } from './auth/guards/jwt-auth.guard';
 import { UsersModule } from './users/users.module';
 import { ProductCategoriesModule } from './product-categories/product-categories.module';
 import { RolesGuard } from './auth/guards/role-auth.guard';
+import { RolesModule } from './roles/roles.module';
 
 @Module({
   imports: [
@@ -16,6 +17,7 @@ import { RolesGuard } from './auth/guards/role-auth.guard';
     ConfigModule.forRoot({ envFilePath: '.env', isGlobal: true }),
     UsersModule,
     ProductCategoriesModule,
+    RolesModule,
   ],
   providers: [
     { provide: APP_GUARD, useClass: JwtAuthGuard },
