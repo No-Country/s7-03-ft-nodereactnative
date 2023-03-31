@@ -17,8 +17,8 @@ import {
   ApiOperation,
   ApiTags,
 } from '@nestjs/swagger';
-
-import { CheckAdminGuard } from 'src/auth/guards/check-admin-auth.guard';
+import { Roles } from 'src/auth/decorators/role.decorator';
+import { Roles as RolesEnum } from '../types/roles/roles.types';
 import { CreateRoleDto, RoleParamsDto } from './dto/roles.dto';
 import { RolesService } from './roles.service';
 @ApiTags('Roles')
@@ -27,7 +27,7 @@ import { RolesService } from './roles.service';
 export class RolesController {
   constructor(private readonly rolesService: RolesService) {}
 
-  @UseGuards(CheckAdminGuard)
+  @Roles(RolesEnum.ADIMN)
   @ApiOperation({ description: 'Only admins have access to this endpoint' })
   @ApiOkResponse({ description: 'Returns all roles in the database' })
   @Get()
@@ -36,7 +36,7 @@ export class RolesController {
     return roles;
   }
 
-  @UseGuards(CheckAdminGuard)
+  @Roles(RolesEnum.ADIMN)
   @ApiOperation({ description: 'Only admins have access to this endpoint' })
   @ApiOkResponse({ description: 'Returns a role by id' })
   @Get(':id')
@@ -45,7 +45,7 @@ export class RolesController {
     return { role };
   }
 
-  @UseGuards(CheckAdminGuard)
+  @Roles(RolesEnum.ADIMN)
   @ApiOperation({ description: 'Only admins have access to this endpoint' })
   @ApiCreatedResponse({ description: 'Create a role in the database' })
   @Post()
@@ -54,7 +54,7 @@ export class RolesController {
     return role;
   }
 
-  @UseGuards(CheckAdminGuard)
+  @Roles(RolesEnum.ADIMN)
   @ApiOperation({ description: 'Only admins have access to this endpoint' })
   @ApiOkResponse({ description: 'Update a role by id' })
   @Patch(':id')
@@ -63,7 +63,7 @@ export class RolesController {
     return role;
   }
 
-  @UseGuards(CheckAdminGuard)
+  @Roles(RolesEnum.ADIMN)
   @ApiOperation({ description: 'Only admins have access to this endpoint' })
   @ApiNoContentResponse({ description: 'the role has been disabled' })
   @HttpCode(204)
