@@ -14,7 +14,7 @@ interface UserState {
 export const userApi = createApi({
     reducerPath: 'user',
     baseQuery: fetchBaseQuery({
-        baseUrl: 'http://localhost:5000',
+        baseUrl: 'http://192.168.0.77:5000',
         prepareHeaders: (headers, { getState }) => {
             headers.set('Content-Type', 'application/json');
             return headers;
@@ -28,7 +28,20 @@ export const userApi = createApi({
                 body: JSON.stringify(credentials),
             }),
         }),
+        getUsers: builder.query({
+            query: () => ({
+                url: '/api/v1/users',
+                method: 'GET',
+            }),
+        }),
+        getProducts: builder.query({
+            query: () => ({
+                url: '/api/v1/product-categories',
+                method: 'GET',
+            }),
+        }),
     }),
 });
 
-export const { useLoginUserMutation } = userApi;
+export const { useLoginUserMutation, useGetUsersQuery, useGetProductsQuery } =
+    userApi;

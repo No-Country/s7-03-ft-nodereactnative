@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
     ViewForm,
     Form,
@@ -16,7 +16,14 @@ import { Image, Text, TouchableOpacity, View } from 'react-native';
 import { useForm, Controller } from 'react-hook-form';
 import Icon from 'react-native-vector-icons/Ionicons';
 import SvgLogo from './SvgLogo';
-import { useLoginUserMutation } from '../../../reduxFeature/user/userSlice';
+import {
+    useGetProductsQuery,
+    userApi,
+} from '../../../reduxFeature/user/userSlice';
+import {
+    useGetUsersQuery,
+    useLoginUserMutation,
+} from '../../../reduxFeature/user/userSlice';
 
 interface FormValues {
     email: string;
@@ -30,13 +37,16 @@ interface LoginProps {
 
 const Login = ({ navigation }: LoginProps) => {
     const [showPassword, setShowPassword] = useState(false);
-    const [info, setInfo] = useState({
-        email: 'fran.rey_lp@hotmail.com',
-        password: 'franrey10',
-    });
+
+    // const { useGetUsersQuery } = userApi;
+
+    // const { data = [], error, isLoading } = useGetProductsQuery('');
+
+    // console.log(data, error);
 
     const [loginUser, { isLoading, data }] = useLoginUserMutation();
-    console.log('esto viene del console log login:', isLoading, data);
+    console.log(data);
+
     const {
         control,
         handleSubmit,
@@ -117,12 +127,6 @@ const Login = ({ navigation }: LoginProps) => {
                 </TextSesion>
             </View>
             <ViewIcons>
-                <Image
-                    style={{ width: 34, height: 34 }}
-                    source={{
-                        uri: 'https://s3-alpha-sig.figma.com/img/95a7/9e45/6f7841e646c9578066ec0ea5d1c8608c?Expires=1681084800&Signature=C0odVy1yQgFN-E4w~OfctsRUYQsm3-tq1uVwc9Y6hVdcfS4iLqy~JkHx~fMib-O9qW9XIyo6DHKtfk68BoN6ymf5pTJlDluWfeV9lz9ClrvQnxNs6il0MTMl0I3TuP1LAbe6oR2TK0nB5ZlvcLEiSq2wQvBIh7p1hiH4lwU4yKjvRTWsloEXs-X735760KzPctaZdrAHns-YyH~jT~cb3Kv0R-ttlJ6zx6NPfQfXdLnMj9w-qqkfNt4For8bFdv6gRPCiNLYorFm2iTPC5i32SCHXcpCo-Z63bmcaVKZLdHGhhxjCGLMINLUWuQ1qoe4~RbdWocf5YFlP6UNlGSVKg__&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4',
-                    }}
-                />
                 <Image
                     style={{ width: 34, height: 34 }}
                     source={{
