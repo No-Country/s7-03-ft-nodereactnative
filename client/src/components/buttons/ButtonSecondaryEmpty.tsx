@@ -11,13 +11,13 @@ const Button = styled.TouchableOpacity`
     height: 36px;
     border-radius: 20px;
     background-color: transparent;
-    border: 1px ${colors.secondary};
+    border: 1px ${colors.primary};
 `;
 
 const Text = styled.Text`
     font-size: 13px;
     text-align: center;
-    color: ${colors.secondary};
+    color: ${colors.primary};
 `;
 interface Props {
     onPress: (event: GestureResponderEvent) => void;
