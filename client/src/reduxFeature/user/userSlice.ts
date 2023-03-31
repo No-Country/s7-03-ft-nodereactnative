@@ -1,27 +1,34 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
-import { useFormState } from 'react-hook-form';
 
-interface UserState {
-    name: string;
+interface UserCredentials {
+    email: string;
     password: string;
-    status: string;
-    userInfo: {
-        token: string;
-        id: string;
-        isLogged: string;
+}
+interface UserState {
+    data: {
+        email: string;
+        password: string;
     };
 }
 
 export const userApi = createApi({
     reducerPath: 'user',
     baseQuery: fetchBaseQuery({
-        baseUrl: 'https://randomuser.me/api',
+        baseUrl: 'http://localhost:5000',
+        prepareHeaders: (headers, { getState }) => {
+            headers.set('Content-Type', 'application/json');
+            return headers;
+        },
     }),
     endpoints: (builder) => ({
-        getRandomNames: builder.query<UserState[], number | undefined>({
-            query: () => `/?results=10`,
+        loginUser: builder.mutation<UserState[], UserCredentials>({
+            query: (credentials) => ({
+                url: '/api/v1/auth/login',
+                method: 'POST',
+                body: JSON.stringify(credentials),
+            }),
         }),
     }),
 });
 
-export const { useGetRandomNamesQuery } = userApi;
+export const { useLoginUserMutation } = userApi;

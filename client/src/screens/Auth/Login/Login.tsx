@@ -16,19 +16,12 @@ import { Image, Text, TouchableOpacity, View } from 'react-native';
 import { useForm, Controller } from 'react-hook-form';
 import Icon from 'react-native-vector-icons/Ionicons';
 import SvgLogo from './SvgLogo';
-import { useDispatch, useSelector } from 'react-redux';
-import { useGetRandomNamesQuery } from '../../../reduxFeature/user/userSlice';
+import { useLoginUserMutation } from '../../../reduxFeature/user/userSlice';
 
 interface FormValues {
     email: string;
     password: string;
     onSubmit: (data: FormValues) => void;
-}
-
-interface Redux {
-    user: {
-        name: string;
-    };
 }
 
 interface LoginProps {
@@ -37,9 +30,13 @@ interface LoginProps {
 
 const Login = ({ navigation }: LoginProps) => {
     const [showPassword, setShowPassword] = useState(false);
+    const [info, setInfo] = useState({
+        email: 'fran.rey_lp@hotmail.com',
+        password: 'franrey10',
+    });
 
-    // const { isFetching, data } = useGetRandomNamesQuery();
-
+    const [loginUser, { isLoading, data }] = useLoginUserMutation();
+    console.log('esto viene del console log login:', isLoading, data);
     const {
         control,
         handleSubmit,
@@ -47,8 +44,14 @@ const Login = ({ navigation }: LoginProps) => {
         formState: { errors },
     } = useForm<FormValues>();
 
-    const onSubmit = (data: FormValues) => {
-        console.log(data);
+    const onSubmit = async (data: FormValues) => {
+        // navigation.navigate('Home');
+        try {
+            const response = await loginUser(data);
+            console.log('esta es la respuesta:', response);
+        } catch (error) {
+            console.log('este es el error', error);
+        }
         reset();
     };
 

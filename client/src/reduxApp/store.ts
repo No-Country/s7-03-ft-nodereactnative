@@ -7,6 +7,8 @@ export const store = configureStore({
         counter: baseSlice,
         [userApi.reducerPath]: userApi.reducer,
     },
+    middleware: (getDefaultMiddleware) =>
+        getDefaultMiddleware().concat(userApi.middleware),
 });
 
 export type AppDispatch = typeof store.dispatch;
