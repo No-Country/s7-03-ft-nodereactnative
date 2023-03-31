@@ -6,6 +6,7 @@ import {
   NotFoundException,
 } from '@nestjs/common';
 import { UpdateUserDto } from './dto/update-user.dto';
+import { Roles } from 'src/types/roles/roles.types';
 
 @Injectable()
 export class UsersService {
@@ -92,7 +93,7 @@ export class UsersService {
   }
 
   protectUsersAccount(userId: string, userSession: UserSession) {
-    if (userSession.role.name === 'ADMIN') {
+    if (userSession.role.name === Roles.ADIMN) {
       return;
     }
 

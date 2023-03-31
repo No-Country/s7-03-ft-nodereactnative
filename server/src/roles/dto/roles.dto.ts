@@ -1,8 +1,14 @@
 import { IsNotEmpty, IsString, IsUUID } from 'class-validator';
 
-export class SearchProductCategoryById {
-  @IsString()
+export class CreateRoleDto {
   @IsNotEmpty()
+  @IsString()
+  name: string;
+}
+
+export class RoleParamsDto {
+  @IsNotEmpty()
+  @IsString()
   @IsUUID()
   id: string;
 }

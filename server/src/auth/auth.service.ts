@@ -9,6 +9,7 @@ import {
 import { PrismaService } from 'src/prisma/prisma.service';
 import * as bcrypt from 'bcrypt';
 import { JwtService } from '@nestjs/jwt';
+import { Prisma } from '@prisma/client';
 
 @Injectable()
 export class AuthService {
@@ -25,26 +26,25 @@ export class AuthService {
 
       body.password = hashedPassword;
 
-      let normalRole = '';
-      if (!body.roleId) {
-        const { id } = await this.prisma.role.findFirstOrThrow({
-          where: { name: 'NORMAL' },
-        });
+      const { id } = await this.prisma.role.findFirstOrThrow({
+        where: { name: body.role },
+      });
 
-        normalRole = id;
-      }
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      const { role, ...userData } = body;
 
       //create User
       const newUser = await this.prisma.user.create({
         data: {
-          ...body,
-          roleId: body.roleId || normalRole,
+          ...userData,
+          roleId: id,
         },
         select: {
           id: true,
           email: true,
           codePhone: true,
           country: true,
+          phone: true,
           updatedAt: true,
           createdAt: true,
           firstName: true,
@@ -55,8 +55,13 @@ export class AuthService {
 
       return newUser;
     } catch (error) {
-      if (error.code === 'P2002') {
-        throw new ConflictException('Email Already Exists');
+      if (error instanceof Prisma.PrismaClientKnownRequestError) {
+        if (error.code === 'P2002') {
+          throw new ConflictException('Email Already Exists');
+        }
+        if (error.code === 'P2025') {
+          throw new NotFoundException('Role Not Found');
+        }
       }
       throw error;
     }

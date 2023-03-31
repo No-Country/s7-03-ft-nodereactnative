@@ -1,11 +1,16 @@
 import {
   IsEmail,
+  IsEnum,
   IsNotEmpty,
   IsOptional,
   IsString,
-  IsUUID,
   MinLength,
 } from 'class-validator';
+
+enum RolesWithoutAdmin {
+  'normal' = 'NORMAL',
+  'veterinary' = 'VETERINARY',
+}
 
 export class SignUpDto {
   @IsString()
@@ -32,17 +37,19 @@ export class SignUpDto {
 
   @IsString()
   @IsNotEmpty()
-  codePhone: string;
-
-  @IsString()
-  @IsNotEmpty()
-  phone: string;
-
-  @IsString()
-  @IsNotEmpty()
-  @IsUUID()
   @IsOptional()
-  roleId?: string;
+  codePhone?: string;
+
+  @IsString()
+  @IsNotEmpty()
+  @IsOptional()
+  phone?: string;
+
+  @IsString()
+  @IsNotEmpty()
+  @IsOptional()
+  @IsEnum(RolesWithoutAdmin)
+  role?: RolesWithoutAdmin = RolesWithoutAdmin.normal;
 }
 
 export class LoginDto {

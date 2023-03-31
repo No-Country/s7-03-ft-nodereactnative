@@ -17,8 +17,8 @@ model User {
   email     String   @unique
   password  String
   country   String
-  codePhone String   @map("code_phone")
-  phone     String
+  codePhone String?  @map("code_phone")
+  phone     String?
   roleId    String   @map("role_id") @db.Uuid()
   isActive  Boolean  @default(true) @map("is_active")
   createdAt DateTime @default(now()) @map("created_at")

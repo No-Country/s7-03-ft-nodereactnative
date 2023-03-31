@@ -17,5 +17,13 @@ export const roleSeed = async () => {
     create: { name: 'NORMAL' },
   });
 
-  return { adminRole, normalRole };
+  const veterinaryRole = await prisma.role.upsert({
+    where: {
+      name: 'VETERINARY',
+    },
+    update: {},
+    create: { name: 'VETERINARY' },
+  });
+
+  return { adminRole, normalRole, veterinaryRole };
 };
