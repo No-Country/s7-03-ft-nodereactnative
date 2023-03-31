@@ -16,12 +16,12 @@ import {
   Delete,
   Req,
   HttpCode,
-  UseGuards,
 } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { UpdateUserDto, UserParamsDto } from './dto/update-user.dto';
 import { Request } from 'express';
-import { CheckAdminGuard } from 'src/auth/guards/check-admin-auth.guard';
+import { Roles } from 'src/auth/decorators/role.decorator';
+import { Roles as RolesEnum } from '../types/roles/roles.types';
 
 @ApiTags('Users')
 @ApiBearerAuth()
@@ -29,7 +29,7 @@ import { CheckAdminGuard } from 'src/auth/guards/check-admin-auth.guard';
 export class UsersController {
   constructor(private readonly usersService: UsersService) {}
 
-  @UseGuards(CheckAdminGuard)
+  @Roles(RolesEnum.ADIMN)
   @ApiOperation({ description: 'Only admins have access to this endpoint' })
   @ApiOkResponse({ description: 'Returns all users in the databse' })
   @Get()

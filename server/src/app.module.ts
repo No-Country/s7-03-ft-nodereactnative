@@ -6,8 +6,8 @@ import { ConfigModule } from '@nestjs/config';
 import { APP_GUARD, APP_INTERCEPTOR } from '@nestjs/core';
 import { JwtAuthGuard } from './auth/guards/jwt-auth.guard';
 import { UsersModule } from './users/users.module';
-import { ProductCategoriesService } from './product-categories/product-categories.service';
 import { ProductCategoriesModule } from './product-categories/product-categories.module';
+import { RolesGuard } from './auth/guards/role-auth.guard';
 
 @Module({
   imports: [
@@ -20,7 +20,7 @@ import { ProductCategoriesModule } from './product-categories/product-categories
   providers: [
     { provide: APP_GUARD, useClass: JwtAuthGuard },
     { provide: APP_INTERCEPTOR, useClass: TransformInterceptor },
-    ProductCategoriesService,
+    { provide: APP_GUARD, useClass: RolesGuard },
   ],
 })
 export class AppModule {}

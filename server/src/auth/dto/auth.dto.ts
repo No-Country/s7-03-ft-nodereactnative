@@ -7,9 +7,9 @@ import {
   MinLength,
 } from 'class-validator';
 
-export enum Roles {
-  'VETERINARY' = 'VETERINARY',
-  'NORMAL' = 'NORMAL',
+enum RolesWithoutAdmin {
+  'normal' = 'NORMAL',
+  'veterinary' = 'VETERINARY',
 }
 
 export class SignUpDto {
@@ -45,9 +45,9 @@ export class SignUpDto {
 
   @IsString()
   @IsNotEmpty()
-  @IsEnum(Roles)
   @IsOptional()
-  role?: Roles = Roles.NORMAL;
+  @IsEnum(RolesWithoutAdmin)
+  role?: RolesWithoutAdmin = RolesWithoutAdmin.normal;
 }
 
 export class LoginDto {
