@@ -4,7 +4,6 @@ export const ShadowBox = styled.View`
     padding: 10px 20px;
     border-radius: 100px;
     overflow: hidden;
-    width: 65%;
     margin: 0 auto;
 `;
 
