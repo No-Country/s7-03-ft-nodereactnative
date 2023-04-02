@@ -3,7 +3,15 @@ import { createStackNavigator } from '@react-navigation/stack';
 import React from 'react';
 import { Home } from '../screens/Home';
 import { AuthStack } from './AuthStack';
-import { TabNavigator } from './TabNavigator';
+import { useSelector } from 'react-redux';
+import { User } from '../reduxApp/services/types';
+
+interface AuthSlice {
+    authSlice: {
+        token: string;
+        user: User;
+    };
+}
 
 const Stack = createStackNavigator();
 
@@ -32,11 +40,11 @@ const NoLoggedStack = () => {
 };
 
 const Router = () => {
-    let isLogged: boolean = false;
-    console.log(isLogged);
+    const infoUser = useSelector((state: AuthSlice) => state.authSlice);
+
     return (
         <NavigationContainer>
-            {isLogged ? <LoggedStack /> : <NoLoggedStack />}
+            {infoUser.token ? <LoggedStack /> : <NoLoggedStack />}
         </NavigationContainer>
     );
 };
