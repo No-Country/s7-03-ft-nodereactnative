@@ -4,19 +4,12 @@ import React from 'react';
 import { Home } from '../screens/Home';
 import { AuthStack } from './AuthStack';
 import { TabNavigator } from './TabNavigator';
+import { DrawerNavigation } from './DrawerNavigation';
 
 const Stack = createStackNavigator();
 
 const LoggedStack = () => {
-    return (
-        <Stack.Navigator
-            screenOptions={{
-                headerShown: false,
-            }}
-        >
-            <Stack.Screen name="Home" component={Home} />
-        </Stack.Navigator>
-    );
+    return <DrawerNavigation />;
 };
 
 const NoLoggedStack = () => {

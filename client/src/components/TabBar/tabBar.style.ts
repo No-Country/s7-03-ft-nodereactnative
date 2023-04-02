@@ -3,7 +3,7 @@ import Constants from 'expo-constants';
 
 const safeSpace = Constants.statusBarHeight + 5;
 
-export const TabBarContainer = styled.View`
+export const TabBarContainer = styled.TouchableOpacity`
     width: 100%;
     margin: ${safeSpace}px 20px;
     display: flex;
