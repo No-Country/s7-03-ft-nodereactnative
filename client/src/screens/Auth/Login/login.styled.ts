@@ -1,4 +1,5 @@
 import styled from 'styled-components/native';
+import { colors } from '../../../constants';
 
 interface ButtonProps {
     primary?: boolean;
@@ -53,7 +54,7 @@ export const Button = styled.TouchableOpacity<ButtonProps>`
     background-color: ${(props) => (props.primary ? 'white' : '#551391')};
     padding: 10px;
     border: 1px solid;
-    border-color: ${(props) => (props.primary ? '#FFC100' : '#551391')};
+    border-color: ${(props) => (props.primary ? colors.primary : '#551391')};
     border-radius: 4px;
     margin-top: 20px;
     width: 160px;
@@ -61,7 +62,7 @@ export const Button = styled.TouchableOpacity<ButtonProps>`
 `;
 
 export const ButtonText = styled.Text<ButtonProps>`
-    color: ${(props) => (props.primary ? 'white' : '#ffc100')};
+    color: ${(props) => (props.primary ? 'white' : colors.primary)};
     font-size: 16px;
     text-align: center;
 `;

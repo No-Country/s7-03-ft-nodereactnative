@@ -21,13 +21,14 @@ const Text = styled.Text`
 interface Props {
     onPress: (event: GestureResponderEvent) => void;
     title: string;
+    disabled?: boolean
 }
 
 export const ButtonPrimary = (props: Props) => {
-    const { onPress, title } = props;
+    const { onPress, title, disabled } = props;
 
     return (
-        <Button onPress={onPress}>
+        <Button onPress={onPress} disabled={disabled || false}>
             <Text>{title}</Text>
         </Button>
     );

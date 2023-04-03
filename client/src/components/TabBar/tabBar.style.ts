@@ -11,5 +11,4 @@ export const TabBarContainer = styled.View`
     align-items: center;
 `;
 export const TabBarIcon = styled.View``;
-export const TabBarLogo = styled.Image`
-`;
+export const TabBarLogo = styled.Image``;

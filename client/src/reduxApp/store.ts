@@ -1,13 +1,14 @@
 import { configureStore } from '@reduxjs/toolkit';
 import { baseSlice } from '../reduxFeature';
-import { apiAuthSlice } from './api-slices/auth-api-slice';
+import { userApi } from '../reduxFeature/user/userSlice';
 
 export const store = configureStore({
     reducer: {
         counter: baseSlice,
-        [apiAuthSlice.reducerPath]: apiAuthSlice.reducer
+        [userApi.reducerPath]: userApi.reducer,
     },
-    middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(apiAuthSlice.middleware)
+    middleware: (getDefaultMiddleware) =>
+        getDefaultMiddleware().concat(userApi.middleware),
 });
 
 export type AppDispatch = typeof store.dispatch;

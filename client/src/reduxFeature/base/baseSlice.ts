@@ -1,6 +1,5 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
-
 //Esto es solo un ejemplo - debe borrarse luego
 interface CounterState {
     value: number;
