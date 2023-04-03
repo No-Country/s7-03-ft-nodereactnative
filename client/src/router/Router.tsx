@@ -1,10 +1,13 @@
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Home } from '../screens/Home';
 import { AuthStack } from './AuthStack';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { User } from '../reduxApp/services/auth/types';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { setCredentials } from '../reduxFeature/auth/authSlice';
+import { ActivityIndicator } from 'react-native';
 
 interface AuthSlice {
     authSlice: {
@@ -40,11 +43,27 @@ const NoLoggedStack = () => {
 };
 
 const Router = () => {
+    const dispatch = useDispatch();
     const infoUser = useSelector((state: AuthSlice) => state.authSlice);
+
+    const fetchCurrentUser = async () => {
+        const currentUser = await AsyncStorage.getItem('token');
+        if (currentUser) {
+            dispatch(setCredentials({ token: currentUser }));
+        }
+    };
+
+    useEffect(() => {
+        fetchCurrentUser();
+    }, [dispatch]);
+
+    if (infoUser?.token === null) {
+        return <ActivityIndicator />;
+    }
 
     return (
         <NavigationContainer>
-            {infoUser.token ? <LoggedStack /> : <NoLoggedStack />}
+            {infoUser?.token ? <LoggedStack /> : <NoLoggedStack />}
         </NavigationContainer>
     );
 };

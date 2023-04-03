@@ -25,9 +25,10 @@ import SvgLogo from './SvgLogo';
 import { useLoginUserMutation } from '../../../reduxApp/services/auth/auth';
 import { useDispatch } from 'react-redux';
 import { setCredentials } from '../../../reduxFeature/auth/authSlice';
-import { ResponseLogin } from '../../../reduxApp/services/auth/types';
 import { alertToast } from '../../../utils/alerts';
-import { Alert } from 'react-native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { yupResolver } from '@hookform/resolvers/yup';
+import * as yup from 'yup';
 
 interface FormValues {
     email: string;
@@ -39,6 +40,19 @@ interface LoginProps {
     navigation: any;
 }
 
+const schema = yup
+    .object({
+        email: yup
+            .string()
+            .email('Ingresa un correo válido')
+            .required('Ingresa tu correo'),
+        password: yup
+            .string()
+            .min(6, 'La contraseña debe ser de al menos 6 caracteres')
+            .required('Ingresa tu contraseña'),
+    })
+    .required();
+
 const Login = ({ navigation }: LoginProps) => {
     const [showPassword, setShowPassword] = useState(false);
     const dispatch = useDispatch();
@@ -48,35 +62,48 @@ const Login = ({ navigation }: LoginProps) => {
         handleSubmit,
         reset,
         formState: { errors },
-    } = useForm<FormValues>();
+    } = useForm<FormValues>({ resolver: yupResolver(schema) });
 
     const [loginUser, { isLoading }] = useLoginUserMutation();
 
     const onSubmit = async (values: FormValues) => {
         try {
-            const response: any = await loginUser(values);
+            const response = await loginUser(values);
 
-            console.log(response);
-
-            if (response?.data?.results?.token) {
+            if ('data' in response && response?.data?.results?.token) {
+                const { data } = response;
+                await AsyncStorage.setItem('token', data.results?.token);
+                dispatch(setCredentials(data?.results));
                 alertToast(
                     'success',
                     'Sesion iniciada',
                     'Se inicio sesion correctamente!'
                 );
-                dispatch(setCredentials(response?.data?.results));
             }
-            if (response?.error?.status === 404) {
-                alertToast('error', 'X', 'Error en el usuario o contraseña!');
-                console.log('Usuario no encontrado');
-            }
-            if (response?.error?.status === 403) {
-                alertToast('error', 'X', 'Error en el usuario o contraseña!');
-                console.log('Error en el usuario o contraseña!');
-            }
-            if (response?.error?.status === 400) {
-                alertToast('error', 'X', 'Error en el servidor');
-                console.log('Error en la peticion!');
+            if ('error' in response) {
+                const { error } = response;
+                if (error) {
+                    if ('status' in error && error.status === 404) {
+                        alertToast(
+                            'error',
+                            'X',
+                            'Error en el usuario o contraseña!'
+                        );
+                        console.log('Usuario no encontrado');
+                    }
+                    if ('status' in error && error.status === 403) {
+                        alertToast(
+                            'error',
+                            'X',
+                            'Error en el usuario o contraseña!'
+                        );
+                        console.log('Error en el usuario o contraseña!');
+                    }
+                    if ('status' in error && error.status === 400) {
+                        alertToast('error', 'X', 'Error en el servidor');
+                        console.log('Error en la petición!');
+                    }
+                }
             }
         } catch (error) {
             console.log(error);
@@ -104,30 +131,38 @@ const Login = ({ navigation }: LoginProps) => {
                         />
                     )}
                 />
-
+                {errors.email && <Text>{errors.email.message}</Text>}
                 <Label>Password</Label>
-                <Controller
-                    control={control}
-                    name="password"
-                    render={({ field: { onChange, onBlur, value } }) => (
-                        <Input
-                            onBlur={onBlur}
-                            onChangeText={onChange}
-                            value={value}
-                            secureTextEntry={!showPassword}
-                        />
-                    )}
-                />
-                <TouchableOpacity
-                    onPress={() => setShowPassword(!showPassword)}
+                <View
                     style={{
-                        position: 'absolute',
-                        top: 137,
-                        left: 300,
+                        flexDirection: 'row',
+                        alignItems: 'center',
+                        width: '100%',
                     }}
                 >
-                    <Icon size={20} name={showPassword ? 'eye-off' : 'eye'} />
-                </TouchableOpacity>
+                    <Controller
+                        control={control}
+                        name="password"
+                        render={({ field: { onChange, onBlur, value } }) => (
+                            <Input
+                                onBlur={onBlur}
+                                onChangeText={onChange}
+                                value={value}
+                                secureTextEntry={!showPassword}
+                                style={{ flex: 1 }}
+                            />
+                        )}
+                    />
+
+                    <Icon
+                        style={{}}
+                        onPress={() => setShowPassword(!showPassword)}
+                        size={20}
+                        name={showPassword ? 'eye-off' : 'eye'}
+                    />
+                </View>
+
+                {errors.password && <Text>{errors.password?.message}</Text>}
                 <ViewButton>
                     <Button onPress={handleSubmit(onSubmit)}>
                         <ButtonText primary>Continuar</ButtonText>

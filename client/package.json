@@ -10,6 +10,8 @@
   },
   "dependencies": {
     "@expo/webpack-config": "^18.0.1",
+    "@hookform/resolvers": "^3.0.0",
+    "@react-native-async-storage/async-storage": "^1.18.1",
     "@react-navigation/bottom-tabs": "^6.5.7",
     "@react-navigation/drawer": "^6.6.2",
     "@react-navigation/native": "^6.1.6",
@@ -35,7 +37,8 @@
     "react-native-web": "~0.18.10",
     "react-redux": "^8.0.5",
     "styled-components": "^5.3.9",
-    "typescript-styled-plugin": "^0.18.2"
+    "typescript-styled-plugin": "^0.18.2",
+    "yup": "^1.0.2"
   },
   "devDependencies": {
     "@babel/core": "^7.20.0",

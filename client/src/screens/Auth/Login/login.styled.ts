@@ -33,8 +33,11 @@ export const Form = styled.View`
 `;
 
 export const Label = styled.Text`
-    font-size: 16px;
-    margin-bottom: 5px;
+    color: black;
+    margin: 15px auto -8px 10px;
+    padding: 0 5px;
+    z-index: 5;
+    background-color: white;
 `;
 
 export const Input = styled.TextInput`
