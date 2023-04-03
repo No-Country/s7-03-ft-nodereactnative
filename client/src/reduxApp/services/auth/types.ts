@@ -1,8 +1,22 @@
 export interface ResponseLogin {
-    results: {
-        token: string;
-        user: User;
+    data?: {
+        results: Results;
     };
+    error?: {
+        data: Data;
+        status: number;
+    };
+}
+
+export interface Results {
+    token: string;
+    user: User[];
+}
+
+export interface Data {
+    error: string;
+    message: string;
+    statusCode: number;
 }
 
 export interface User {
@@ -22,4 +36,10 @@ export interface User {
 
 export interface Role {
     name: string;
+}
+
+export interface Data {
+    error: string;
+    message: string;
+    statusCode: number;
 }
