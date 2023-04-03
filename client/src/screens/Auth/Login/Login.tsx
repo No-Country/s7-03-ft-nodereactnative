@@ -16,14 +16,10 @@ import { Image, Text, TouchableOpacity, View } from 'react-native';
 import { useForm, Controller } from 'react-hook-form';
 import Icon from 'react-native-vector-icons/Ionicons';
 import SvgLogo from './SvgLogo';
-import {
-    useGetProductsQuery,
-    userApi,
-} from '../../../reduxFeature/user/userSlice';
-import {
-    useGetUsersQuery,
-    useLoginUserMutation,
-} from '../../../reduxFeature/user/userSlice';
+import { useLoginUserMutation } from '../../../reduxApp/services/auth';
+import { useDispatch } from 'react-redux';
+import { setCredentials } from '../../../reduxFeature/auth/authSlice';
+import { ResponseLogin } from '../../../reduxApp/services/types';
 
 interface FormValues {
     email: string;
@@ -37,15 +33,10 @@ interface LoginProps {
 
 const Login = ({ navigation }: LoginProps) => {
     const [showPassword, setShowPassword] = useState(false);
+    const dispatch = useDispatch();
 
-    // const { useGetUsersQuery } = userApi;
-
-    // const { data = [], error, isLoading } = useGetProductsQuery('');
-
-    // console.log(data, error);
-
-    const [loginUser, { isLoading, data }] = useLoginUserMutation();
-    console.log(data);
+    const [loginUser, { isLoading, isError, status, error }] =
+        useLoginUserMutation();
 
     const {
         control,
@@ -55,12 +46,18 @@ const Login = ({ navigation }: LoginProps) => {
     } = useForm<FormValues>();
 
     const onSubmit = async (data: FormValues) => {
-        // navigation.navigate('Home');
         try {
             const response = await loginUser(data);
-            console.log('esta es la respuesta:', response);
+            dispatch(
+                dispatch(
+                    setCredentials(
+                        (response as { data: ResponseLogin }).data?.results
+                    )
+                )
+            );
+            navigation.navigate('Home');
         } catch (error) {
-            console.log('este es el error', error);
+            console.log(error);
         }
         reset();
     };
