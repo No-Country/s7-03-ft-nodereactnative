@@ -11,9 +11,9 @@ import {
 import { ApiTags } from '@nestjs/swagger';
 import { ProductCategoriesService } from './product-categories.service';
 import { SkipAuth } from 'src/auth/decorators/skip-auth.decorator';
-import { CreateProductCategoryDTO } from './dtos/createProductCategory.dto';
-import { UpdateProductCategoryDTO } from './dtos/updateProductCategory.dto';
-import { SearchProductCategoryById } from './dtos/searchById.dto';
+import { CreateProductCategoryDTO } from './dtos/CreateProductCategory.dto';
+import { UpdateProductCategoryDTO } from './dtos/UpdateProductCategory.dto';
+import { SearchProductCategoryById } from './dtos/SearchById.dto';
 
 @ApiTags('Product-Categories')
 @Controller('api/v1/product-categories')
