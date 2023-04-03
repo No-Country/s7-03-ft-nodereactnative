@@ -107,11 +107,11 @@ const Register = ({ navigation }: Props) => {
         },
     });
 
-    const onSubmit = (data: DataRegister) => {
+    const onSubmit = async (data: DataRegister) => {
         const countryName = country?.name.toString()
         console.log(data, countryName);
         const { firstName, lastName, password, email } = data;
-        const resp = register({
+        const resp: any = await register({
             firstName,
             lastName,
             password,
@@ -119,7 +119,7 @@ const Register = ({ navigation }: Props) => {
             country: countryName
         });
         console.log(resp);
-        
+        if ( !(resp.error)) navigation.navigate('login')
         console.log(isLoading);
     };
 

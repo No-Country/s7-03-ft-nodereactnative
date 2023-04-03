@@ -6,7 +6,7 @@ import { AuthStack } from './AuthStack';
 import { useSelector } from 'react-redux';
 import { User } from '../reduxApp/services/auth/types';
 
-interface AuthSlice {
+export interface AuthSlice {
     authSlice: {
         token: string;
         user: User;
