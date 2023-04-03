@@ -2,12 +2,12 @@ import React, { useState } from 'react';
 import { useForm, Controller } from 'react-hook-form';
 import { ButtonPrimary } from '../../../components/buttons/ButtonPrimary';
 import styled from 'styled-components/native';
-import { useRegisterUserMutation } from '../../../reduxFeature/user/userSlice';
 import CountryPicker, {
     Country,
     CountryCode,
 } from 'react-native-country-picker-modal';
 import { Text } from 'react-native';
+import { useRegisterUserMutation } from '../../../reduxApp/services/auth/auth';
 
 const Container = styled.ScrollView`
     background-color: white;

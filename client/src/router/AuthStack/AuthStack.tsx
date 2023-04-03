@@ -6,8 +6,6 @@ import { Home } from '../../screens/Home';
 const Stack = createStackNavigator();
 
 const AuthStack = () => {
-    let test: string = 'Estas en la autenticacion de usuario';
-    console.log(test);
     return (
         <Stack.Navigator
             screenOptions={{

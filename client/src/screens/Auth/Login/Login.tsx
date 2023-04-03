@@ -12,18 +12,22 @@ import {
     TextSesion,
     ViewIcons,
 } from './login.styled';
-import { Image, Text, TouchableOpacity, View } from 'react-native';
+import {
+    ActivityIndicator,
+    Image,
+    Text,
+    TouchableOpacity,
+    View,
+} from 'react-native';
 import { useForm, Controller } from 'react-hook-form';
 import Icon from 'react-native-vector-icons/Ionicons';
 import SvgLogo from './SvgLogo';
-import {
-    useGetProductsQuery,
-    userApi,
-} from '../../../reduxFeature/user/userSlice';
-import {
-    useGetUsersQuery,
-    useLoginUserMutation,
-} from '../../../reduxFeature/user/userSlice';
+import { useLoginUserMutation } from '../../../reduxApp/services/auth/auth';
+import { useDispatch } from 'react-redux';
+import { setCredentials } from '../../../reduxFeature/auth/authSlice';
+import { ResponseLogin } from '../../../reduxApp/services/auth/types';
+import { alertToast } from '../../../utils/alerts';
+import { Alert } from 'react-native';
 
 interface FormValues {
     email: string;
@@ -37,15 +41,7 @@ interface LoginProps {
 
 const Login = ({ navigation }: LoginProps) => {
     const [showPassword, setShowPassword] = useState(false);
-
-    // const { useGetUsersQuery } = userApi;
-
-    // const { data = [], error, isLoading } = useGetProductsQuery('');
-
-    // console.log(data, error);
-
-    const [loginUser, { isLoading, data }] = useLoginUserMutation();
-    console.log(data);
+    const dispatch = useDispatch();
 
     const {
         control,
@@ -54,13 +50,36 @@ const Login = ({ navigation }: LoginProps) => {
         formState: { errors },
     } = useForm<FormValues>();
 
-    const onSubmit = async (data: FormValues) => {
-        // navigation.navigate('Home');
+    const [loginUser, { isLoading }] = useLoginUserMutation();
+
+    const onSubmit = async (values: FormValues) => {
         try {
-            const response = await loginUser(data);
-            console.log('esta es la respuesta:', response);
+            const response: any = await loginUser(values);
+
+            console.log(response);
+
+            if (response?.data?.results?.token) {
+                alertToast(
+                    'success',
+                    'Sesion iniciada',
+                    'Se inicio sesion correctamente!'
+                );
+                dispatch(setCredentials(response?.data?.results));
+            }
+            if (response?.error?.status === 404) {
+                alertToast('error', 'X', 'Error en el usuario o contraseña!');
+                console.log('Usuario no encontrado');
+            }
+            if (response?.error?.status === 403) {
+                alertToast('error', 'X', 'Error en el usuario o contraseña!');
+                console.log('Error en el usuario o contraseña!');
+            }
+            if (response?.error?.status === 400) {
+                alertToast('error', 'X', 'Error en el servidor');
+                console.log('Error en la peticion!');
+            }
         } catch (error) {
-            console.log('este es el error', error);
+            console.log(error);
         }
         reset();
     };
@@ -71,6 +90,7 @@ const Login = ({ navigation }: LoginProps) => {
                 <TextLogo>PetDidos Ya</TextLogo>
                 <SvgLogo />
             </ViewLogo>
+            {isLoading && <ActivityIndicator size={24} />}
             <Form>
                 <Label>Email</Label>
                 <Controller
