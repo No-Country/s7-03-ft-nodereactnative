@@ -9,7 +9,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { setCredentials } from '../reduxFeature/auth/authSlice';
 import { ActivityIndicator } from 'react-native';
 
-interface AuthSlice {
+export interface AuthSlice {
     authSlice: {
         token: string;
         user: User;

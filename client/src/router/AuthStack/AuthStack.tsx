@@ -24,6 +24,7 @@ const AuthStack = () => {
                 component={Register}
                 options={{
                     headerShown: true,
+                    title: 'Registro'
                 }}
             />
         </Stack.Navigator>

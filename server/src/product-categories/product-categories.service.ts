@@ -3,7 +3,6 @@ import { PrismaService } from 'src/prisma/prisma.service';
 import { CreateProductCategoryDTO } from './dtos/CreateProductCategory.dto';
 import { UpdateProductCategoryDTO } from './dtos/UpdateProductCategory.dto';
 
-
 @Injectable()
 export class ProductCategoriesService {
   constructor(private readonly prisma: PrismaService) {}

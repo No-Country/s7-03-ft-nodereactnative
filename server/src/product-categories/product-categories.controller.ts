@@ -15,7 +15,6 @@ import { CreateProductCategoryDTO } from './dtos/CreateProductCategory.dto';
 import { SearchProductCategoryById } from './dtos/SearchById.dto';
 import { UpdateProductCategoryDTO } from './dtos/UpdateProductCategory.dto';
 
-
 @ApiTags('Product-Categories')
 @Controller('api/v1/product-categories')
 export class ProductCategoriesController {
