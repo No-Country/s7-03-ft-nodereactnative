@@ -7,7 +7,6 @@ import { useDispatch, useSelector } from 'react-redux';
 import { User } from '../reduxApp/services/auth/types';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { setCredentials } from '../reduxFeature/auth/authSlice';
-import { ActivityIndicator } from 'react-native';
 
 export interface AuthSlice {
     authSlice: {
@@ -49,17 +48,14 @@ const Router = () => {
     const fetchCurrentUser = async () => {
         const currentUser = await AsyncStorage.getItem('token');
         if (currentUser) {
-            dispatch(setCredentials({ token: currentUser }));
+            const parsedData = JSON.parse(currentUser);
+            dispatch(setCredentials(parsedData));
         }
     };
 
     useEffect(() => {
         fetchCurrentUser();
     }, [dispatch]);
-
-    if (infoUser?.token === null) {
-        return <ActivityIndicator />;
-    }
 
     return (
         <NavigationContainer>

@@ -69,10 +69,12 @@ const Login = ({ navigation }: LoginProps) => {
     const onSubmit = async (values: FormValues) => {
         try {
             const response = await loginUser(values);
-
             if ('data' in response && response?.data?.results?.token) {
                 const { data } = response;
-                await AsyncStorage.setItem('token', data.results?.token);
+                await AsyncStorage.setItem(
+                    'token',
+                    JSON.stringify(data.results)
+                );
                 dispatch(setCredentials(data?.results));
                 alertToast(
                     'success',
