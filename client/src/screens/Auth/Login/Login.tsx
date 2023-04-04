@@ -20,14 +20,16 @@ import {
     View,
 } from 'react-native';
 import { useForm, Controller } from 'react-hook-form';
-import Icon from 'react-native-vector-icons/Ionicons';
+import { Ionicons } from '@expo/vector-icons';
 import SvgLogo from './SvgLogo';
 import { useLoginUserMutation } from '../../../reduxApp/services/auth/auth';
 import { useDispatch } from 'react-redux';
 import { setCredentials } from '../../../reduxFeature/auth/authSlice';
-import { ResponseLogin } from '../../../reduxApp/services/auth/types';
 import { alertToast } from '../../../utils/alerts';
-import { Alert } from 'react-native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { yupResolver } from '@hookform/resolvers/yup';
+import * as yup from 'yup';
+import { ButtonPrimary, ButtonSecondaryEmpty } from '../../../components';
 
 interface FormValues {
     email: string;
@@ -39,6 +41,19 @@ interface LoginProps {
     navigation: any;
 }
 
+const schema = yup
+    .object({
+        email: yup
+            .string()
+            .email('Ingresa un correo válido')
+            .required('Ingresa tu correo'),
+        password: yup
+            .string()
+            .min(6, 'La contraseña debe ser de al menos 6 caracteres')
+            .required('Ingresa tu contraseña'),
+    })
+    .required();
+
 const Login = ({ navigation }: LoginProps) => {
     const [showPassword, setShowPassword] = useState(false);
     const dispatch = useDispatch();
@@ -48,35 +63,50 @@ const Login = ({ navigation }: LoginProps) => {
         handleSubmit,
         reset,
         formState: { errors },
-    } = useForm<FormValues>();
+    } = useForm<FormValues>({ resolver: yupResolver(schema) });
 
     const [loginUser, { isLoading }] = useLoginUserMutation();
 
     const onSubmit = async (values: FormValues) => {
         try {
-            const response: any = await loginUser(values);
-
-            console.log(response);
-
-            if (response?.data?.results?.token) {
+            const response = await loginUser(values);
+            if ('data' in response && response?.data?.results?.token) {
+                const { data } = response;
+                await AsyncStorage.setItem(
+                    'token',
+                    JSON.stringify(data.results)
+                );
+                dispatch(setCredentials(data?.results));
                 alertToast(
                     'success',
                     'Sesion iniciada',
                     'Se inicio sesion correctamente!'
                 );
-                dispatch(setCredentials(response?.data?.results));
             }
-            if (response?.error?.status === 404) {
-                alertToast('error', 'X', 'Error en el usuario o contraseña!');
-                console.log('Usuario no encontrado');
-            }
-            if (response?.error?.status === 403) {
-                alertToast('error', 'X', 'Error en el usuario o contraseña!');
-                console.log('Error en el usuario o contraseña!');
-            }
-            if (response?.error?.status === 400) {
-                alertToast('error', 'X', 'Error en el servidor');
-                console.log('Error en la peticion!');
+            if ('error' in response) {
+                const { error } = response;
+                if (error) {
+                    if ('status' in error && error.status === 404) {
+                        alertToast(
+                            'error',
+                            'X',
+                            'Error en el usuario o contraseña!'
+                        );
+                        console.log('Usuario no encontrado');
+                    }
+                    if ('status' in error && error.status === 403) {
+                        alertToast(
+                            'error',
+                            'X',
+                            'Error en el usuario o contraseña!'
+                        );
+                        console.log('Error en el usuario o contraseña!');
+                    }
+                    if ('status' in error && error.status === 400) {
+                        alertToast('error', 'X', 'Error en el servidor');
+                        console.log('Error en la petición!');
+                    }
+                }
             }
         } catch (error) {
             console.log(error);
@@ -101,21 +131,42 @@ const Login = ({ navigation }: LoginProps) => {
                             onBlur={onBlur}
                             onChangeText={onChange}
                             value={value}
+                            error={errors.email ? true : false}
                         />
                     )}
                 />
+                {errors.email && <Text>{errors.email.message}</Text>}
+                <Label>Contraseña</Label>
 
-                <Label>Password</Label>
                 <Controller
                     control={control}
                     name="password"
                     render={({ field: { onChange, onBlur, value } }) => (
-                        <Input
-                            onBlur={onBlur}
-                            onChangeText={onChange}
-                            value={value}
-                            secureTextEntry={!showPassword}
-                        />
+                        <View
+                            style={{
+                                flexDirection: 'row',
+                                alignItems: 'center',
+                            }}
+                        >
+                            <Input
+                                onBlur={onBlur}
+                                onChangeText={onChange}
+                                value={value}
+                                secureTextEntry={!showPassword}
+                                style={{ flex: 1 }}
+                                error={errors.password ? true : false}
+                            />
+                            <Ionicons
+                                name={showPassword ? 'eye-off' : 'eye'}
+                                style={{
+                                    position: 'absolute',
+                                    right: 10,
+                                    top: 10,
+                                }}
+                                onPress={() => setShowPassword(!showPassword)}
+                                size={20}
+                            />
+                        </View>
                     )}
                 />
                 <TouchableOpacity
@@ -126,25 +177,34 @@ const Login = ({ navigation }: LoginProps) => {
                         left: 300,
                     }}
                 >
-                    <Icon size={20} name={showPassword ? 'eye-off' : 'eye'} />
                 </TouchableOpacity>
+                {errors.password && <Text>{errors.password?.message}</Text>}
+                <Text style={{ marginVertical: 20 }}>
+                    ¿Olvidaste tu contraseña?
+                </Text>
                 <ViewButton>
-                    <Button onPress={handleSubmit(onSubmit)}>
-                        <ButtonText primary>Continuar</ButtonText>
-                    </Button>
-                    <Button
-                        primary
+                    <ButtonPrimary
+                        onPress={handleSubmit(onSubmit)}
+                        title="Continuar"
+                        disabled={false}
+                    />
+
+                    <ButtonSecondaryEmpty
+                        title="Registrarse"
                         onPress={() => navigation.navigate('register')}
-                    >
-                        <ButtonText>Registrarse</ButtonText>
-                    </Button>
+                    />
                 </ViewButton>
             </Form>
-            <View style={{ width: '100%' }}>
-                <TextSesion>
-                    ------------------------- O inicia sesión con
-                    ----------------------
-                </TextSesion>
+            <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                <View
+                    style={{ flex: 1, height: 1, backgroundColor: 'black' }}
+                />
+                <Text style={{ marginHorizontal: 10 }}>
+                    O inicia sesión con
+                </Text>
+                <View
+                    style={{ flex: 1, height: 1, backgroundColor: 'black' }}
+                />
             </View>
             <ViewIcons>
                 <Image

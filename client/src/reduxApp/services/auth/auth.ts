@@ -8,17 +8,18 @@ interface UserCredentials {
 
 interface Data {
     firstName: string;
-      lastName: string;
-      email: string;
-      password: string;
-      country: string;
-  }  
+    lastName: string;
+    email: string;
+    password: string;
+    country: string;
+}
 
 export const userApi = createApi({
     reducerPath: 'user',
     baseQuery: fetchBaseQuery({
-        // baseUrl: 'http://192.168.0.77:5000',
-        baseUrl: 'http://192.168.11.128:5000',
+        // baseUrl rey: http://192.168.0.77:5000
+        // baseUrl: 'http://192.168.11.128:5000',
+        baseUrl: 'http://192.168.0.77:5000',
         prepareHeaders: (headers, { getState }) => {
             headers.set('Content-Type', 'application/json');
             return headers;
@@ -33,14 +34,19 @@ export const userApi = createApi({
             }),
         }),
         registerUser: builder.mutation({
-            query:({ firstName, lastName, password, email, country}: Data)=>({
+            query: ({
+                firstName,
+                lastName,
+                password,
+                email,
+                country,
+            }: Data) => ({
                 url: '/api/v1/auth/signup',
                 method: 'POST',
-                body: { firstName, lastName, password, email, country }
-            })
-        })
+                body: { firstName, lastName, password, email, country },
+            }),
+        }),
     }),
 });
 
-export const { useLoginUserMutation, useRegisterUserMutation } =
-    userApi;
+export const { useLoginUserMutation, useRegisterUserMutation } = userApi;
