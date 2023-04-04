@@ -98,9 +98,20 @@ export class UsersService {
     }
 
     if (userSession.id !== userId) {
-      throw new ForbiddenException('You are not the owner of this account');
+      throw new ForbiddenException('You are not the owner');
     }
 
     return;
+  }
+
+  async changeUserRole(id: string, role: Roles) {
+    await this.userExists(id);
+
+    const updatedUser = await this.prisma.user.update({
+      where: { id },
+      data: { role: { connect: { name: role } } },
+    });
+
+    return updatedUser;
   }
 }
