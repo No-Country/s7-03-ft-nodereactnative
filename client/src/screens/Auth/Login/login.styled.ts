@@ -3,6 +3,7 @@ import { colors } from '../../../constants';
 
 interface ButtonProps {
     primary?: boolean;
+    error?: boolean;
 }
 
 export const ViewForm = styled.View`
@@ -33,16 +34,23 @@ export const Form = styled.View`
 `;
 
 export const Label = styled.Text`
-    font-size: 16px;
-    margin-bottom: 5px;
+    color: black;
+    margin: 15px auto -8px 10px;
+    padding: 0 5px;
+    z-index: 5;
+    background-color: white;
 `;
 
-export const Input = styled.TextInput`
-    height: 56px;
+export const Input = styled.TextInput<ButtonProps>`
     padding: 10px;
+    background-color: white;
+    height: 40px;
     border-radius: 4px;
-    border: 1px solid #ccc;
-    margin-bottom: 10px;
+    border-width: 1px;
+    width: 100%;
+    margin-bottom: 5px;
+    border: 1px solid;
+    border-color: ${(props) => (props.error ? 'red' : 'black')};
 `;
 
 export const ViewButton = styled.View`
