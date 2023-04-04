@@ -29,6 +29,7 @@ import { alertToast } from '../../../utils/alerts';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
+import { ButtonPrimary, ButtonSecondaryEmpty } from '../../../components';
 
 interface FormValues {
     email: string;
@@ -130,58 +131,71 @@ const Login = ({ navigation }: LoginProps) => {
                             onBlur={onBlur}
                             onChangeText={onChange}
                             value={value}
+                            error={errors.email ? true : false}
                         />
                     )}
                 />
                 {errors.email && <Text>{errors.email.message}</Text>}
-                <Label>Password</Label>
-                <View
-                    style={{
-                        flexDirection: 'row',
-                        alignItems: 'center',
-                        width: '100%',
-                    }}
-                >
-                    <Controller
-                        control={control}
-                        name="password"
-                        render={({ field: { onChange, onBlur, value } }) => (
+                <Label>Contraseña</Label>
+
+                <Controller
+                    control={control}
+                    name="password"
+                    render={({ field: { onChange, onBlur, value } }) => (
+                        <View
+                            style={{
+                                flexDirection: 'row',
+                                alignItems: 'center',
+                            }}
+                        >
                             <Input
                                 onBlur={onBlur}
                                 onChangeText={onChange}
                                 value={value}
                                 secureTextEntry={!showPassword}
                                 style={{ flex: 1 }}
+                                error={errors.password ? true : false}
                             />
-                        )}
-                    />
-
-                    <Icon
-                        style={{}}
-                        onPress={() => setShowPassword(!showPassword)}
-                        size={20}
-                        name={showPassword ? 'eye-off' : 'eye'}
-                    />
-                </View>
-
+                            <Icon
+                                style={{
+                                    position: 'absolute',
+                                    right: 10,
+                                    top: 10,
+                                }}
+                                onPress={() => setShowPassword(!showPassword)}
+                                size={20}
+                                name={showPassword ? 'eye-off' : 'eye'}
+                            />
+                        </View>
+                    )}
+                />
                 {errors.password && <Text>{errors.password?.message}</Text>}
+                <Text style={{ marginVertical: 20 }}>
+                    ¿Olvidaste tu contraseña?
+                </Text>
                 <ViewButton>
-                    <Button onPress={handleSubmit(onSubmit)}>
-                        <ButtonText primary>Continuar</ButtonText>
-                    </Button>
-                    <Button
-                        primary
+                    <ButtonPrimary
+                        onPress={handleSubmit(onSubmit)}
+                        title="Continuar"
+                        disabled={false}
+                    />
+
+                    <ButtonSecondaryEmpty
+                        title="Registrarse"
                         onPress={() => navigation.navigate('register')}
-                    >
-                        <ButtonText>Registrarse</ButtonText>
-                    </Button>
+                    />
                 </ViewButton>
             </Form>
-            <View style={{ width: '100%' }}>
-                <TextSesion>
-                    ------------------------- O inicia sesión con
-                    ----------------------
-                </TextSesion>
+            <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                <View
+                    style={{ flex: 1, height: 1, backgroundColor: 'black' }}
+                />
+                <Text style={{ marginHorizontal: 10 }}>
+                    O inicia sesión con
+                </Text>
+                <View
+                    style={{ flex: 1, height: 1, backgroundColor: 'black' }}
+                />
             </View>
             <ViewIcons>
                 <Image
