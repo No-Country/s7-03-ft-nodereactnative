@@ -4,10 +4,12 @@ import {
     CategoriaBox,
     TabBar,
     StoreTab,
+    InputUbicacion,
 } from '../../components';
 import {
     ContainerCategorias,
     ContainerHome,
+    ContainerMenuyUbicacion,
     ContainerOfertas,
     ContainerTitleOfertas,
     FilaCategorias,
@@ -22,10 +24,14 @@ export interface HomeProps {}
 
 const Home: React.FC<HomeProps> = () => {
     const infoUser = useSelector((state: AuthSlice) => state.authSlice);
+
     return (
         <ContainerHome>
-            <TabBar />
-            <SaludoUser>Hola, {infoUser.user.firstName}!</SaludoUser>
+            <ContainerMenuyUbicacion>
+                <TabBar />
+                <InputUbicacion />
+            </ContainerMenuyUbicacion>
+            <SaludoUser>Hola, Mery!</SaludoUser>
             <InputBuscador />
             <ContainerCategorias>
                 <ContainerTitleOfertas>

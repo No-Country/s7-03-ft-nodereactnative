@@ -1,14 +1,16 @@
 import styled from 'styled-components/native';
-import Constants from 'expo-constants';
+import { safeTopSpace } from '../../constants';
 
-const safeSpace = Constants.statusBarHeight + 5;
-
-export const TabBarContainer = styled.View`
+export const TabBarContainer = styled.TouchableOpacity`
     width: 100%;
-    margin: ${safeSpace}px 20px;
+    margin: ${safeTopSpace}px 0;
     display: flex;
     flex-direction: row;
     align-items: center;
 `;
-export const TabBarIcon = styled.View``;
-export const TabBarLogo = styled.Image``;
+export const TabBarIcon = styled.View`
+
+`;
+export const TabBarLogo = styled.Image`
+
+`;
