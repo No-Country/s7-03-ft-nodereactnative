@@ -16,3 +16,4 @@ export const InputBuscadorWrapper = styled.View`
 
 export const Input = styled.TextInput`
 `;
+

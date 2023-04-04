@@ -6,11 +6,17 @@ export const ContainerHome = styled.ScrollView`
     flex: 1;
 `;
 
+export const ContainerMenuyUbicacion = styled.View`
+    width: 80%;
+    margin: 0 auto;
+`;
+
 export const SaludoUser = styled.Text`
     text-align: center;
     color: ${colors.primary};
     font-size: 40px;
     font-weight: 300;
+    margin-top: 30px;
     margin-bottom: 25px;
 `;
 
@@ -20,7 +26,7 @@ export const ContainerCategorias = styled.View`
 export const ContainerTitleOfertas = styled.View`
     padding-left: 23px;
     padding-bottom: 20px;
-`
+`;
 
 export const Title = styled.Text`
     color: ${colors.primary};
@@ -44,4 +50,4 @@ export const ImageOferta = styled.Image`
     object-fit: contain;
 `;
 
-export const ListaStore = styled.View`` 
+export const ListaStore = styled.View``;

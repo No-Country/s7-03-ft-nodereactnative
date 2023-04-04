@@ -4,10 +4,12 @@ import {
     CategoriaBox,
     TabBar,
     StoreTab,
+    InputUbicacion,
 } from '../../components';
 import {
     ContainerCategorias,
     ContainerHome,
+    ContainerMenuyUbicacion,
     ContainerOfertas,
     ContainerTitleOfertas,
     FilaCategorias,
@@ -25,8 +27,11 @@ const Home: React.FC<HomeProps> = () => {
 
     return (
         <ContainerHome>
-            <TabBar />
-            <SaludoUser>Hola, {infoUser?.user?.firstName}!</SaludoUser>
+            <ContainerMenuyUbicacion>
+                <TabBar />
+                <InputUbicacion />
+            </ContainerMenuyUbicacion>
+            <SaludoUser>Hola, Mery!</SaludoUser>
             <InputBuscador />
             <ContainerCategorias>
                 <ContainerTitleOfertas>

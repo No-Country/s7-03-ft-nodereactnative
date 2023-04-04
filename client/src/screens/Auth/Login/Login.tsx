@@ -20,7 +20,7 @@ import {
     View,
 } from 'react-native';
 import { useForm, Controller } from 'react-hook-form';
-import Icon from 'react-native-vector-icons/Ionicons';
+import { Ionicons } from '@expo/vector-icons';
 import SvgLogo from './SvgLogo';
 import { useLoginUserMutation } from '../../../reduxApp/services/auth/auth';
 import { useDispatch } from 'react-redux';
@@ -156,7 +156,8 @@ const Login = ({ navigation }: LoginProps) => {
                                 style={{ flex: 1 }}
                                 error={errors.password ? true : false}
                             />
-                            <Icon
+                            <Ionicons
+                                name={showPassword ? 'eye-off' : 'eye'}
                                 style={{
                                     position: 'absolute',
                                     right: 10,
@@ -164,11 +165,19 @@ const Login = ({ navigation }: LoginProps) => {
                                 }}
                                 onPress={() => setShowPassword(!showPassword)}
                                 size={20}
-                                name={showPassword ? 'eye-off' : 'eye'}
                             />
                         </View>
                     )}
                 />
+                <TouchableOpacity
+                    onPress={() => setShowPassword(!showPassword)}
+                    style={{
+                        position: 'absolute',
+                        top: 137,
+                        left: 300,
+                    }}
+                >
+                </TouchableOpacity>
                 {errors.password && <Text>{errors.password?.message}</Text>}
                 <Text style={{ marginVertical: 20 }}>
                     ¿Olvidaste tu contraseña?
