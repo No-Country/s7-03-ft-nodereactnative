@@ -22,10 +22,11 @@ export interface HomeProps {}
 
 const Home: React.FC<HomeProps> = () => {
     const infoUser = useSelector((state: AuthSlice) => state.authSlice);
+
     return (
         <ContainerHome>
             <TabBar />
-            <SaludoUser>Hola, {infoUser.user.firstName}!</SaludoUser>
+            <SaludoUser>Hola, {infoUser?.user?.firstName}!</SaludoUser>
             <InputBuscador />
             <ContainerCategorias>
                 <ContainerTitleOfertas>
