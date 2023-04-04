@@ -1,7 +1,5 @@
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
-import React from 'react';
-import { Home } from '../screens/Home';
 import { AuthStack } from './AuthStack';
 import { TabNavigator } from './TabNavigator';
 import { DrawerNavigation } from './DrawerNavigation';
@@ -25,7 +23,7 @@ const NoLoggedStack = () => {
 };
 
 const Router = () => {
-    let isLogged: boolean = false;
+    let isLogged: boolean = true;
     console.log(isLogged);
     return (
         <NavigationContainer>

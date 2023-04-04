@@ -14,7 +14,7 @@ import {
 } from './login.styled';
 import { Image, Text, TouchableOpacity, View } from 'react-native';
 import { useForm, Controller } from 'react-hook-form';
-import Icon from 'react-native-vector-icons/Ionicons';
+import { Ionicons } from '@expo/vector-icons'; 
 import SvgLogo from './SvgLogo';
 import {
     useGetProductsQuery,
@@ -106,7 +106,7 @@ const Login = ({ navigation }: LoginProps) => {
                         left: 300,
                     }}
                 >
-                    <Icon size={20} name={showPassword ? 'eye-off' : 'eye'} />
+                    <Ionicons name={showPassword ? 'eye-off' : 'eye'} size={20} />
                 </TouchableOpacity>
                 <ViewButton>
                     <Button onPress={handleSubmit(onSubmit)}>
