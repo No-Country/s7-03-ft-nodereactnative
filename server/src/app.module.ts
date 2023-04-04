@@ -10,6 +10,7 @@ import { ProductCategoriesModule } from './product-categories/product-categories
 import { RolesGuard } from './auth/guards/role-auth.guard';
 import { RolesModule } from './roles/roles.module';
 import { VeterinariesModule } from './veterinaries/veterinaries.module';
+import { ProductsModule } from './products/products.module';
 
 @Module({
   imports: [
@@ -20,11 +21,13 @@ import { VeterinariesModule } from './veterinaries/veterinaries.module';
     ProductCategoriesModule,
     RolesModule,
     VeterinariesModule,
+    ProductsModule,
   ],
   providers: [
     { provide: APP_GUARD, useClass: JwtAuthGuard },
     { provide: APP_INTERCEPTOR, useClass: TransformInterceptor },
     { provide: APP_GUARD, useClass: RolesGuard },
   ],
+  controllers: [],
 })
 export class AppModule {}

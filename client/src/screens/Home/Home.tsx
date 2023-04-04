@@ -18,7 +18,8 @@ import {
 } from './home.styled';
 import { AuthSlice } from '../../router/Router';
 import { useGetUserQuery } from '../../reduxApp/services/users/users';
-import { useEffect } from 'react';
+import { ContainerMenuyUbicacion } from './home.styled';
+import { InputUbicacion } from '../../components/InputUbicacion';
 
 export interface HomeProps {}
 
@@ -31,8 +32,11 @@ const Home: React.FC<HomeProps> = () => {
 
     return (
         <ContainerHome>
-            <TabBar />
-            <SaludoUser>Hola, {infoUser?.user?.firstName}!</SaludoUser>
+            <ContainerMenuyUbicacion>
+                <TabBar />
+                <InputUbicacion />
+            </ContainerMenuyUbicacion>
+            <SaludoUser>Hola, {infoUser.user.firstName}!</SaludoUser>
             <InputBuscador />
             <ContainerCategorias>
                 <ContainerTitleOfertas>
