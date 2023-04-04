@@ -11,10 +11,9 @@ import {
 import { ApiTags } from '@nestjs/swagger';
 import { ProductCategoriesService } from './product-categories.service';
 import { SkipAuth } from 'src/auth/decorators/skip-auth.decorator';
-import { CreateProductCategoryDTO } from './dtos/CreateProductCategory.dto';
-import { SearchProductCategoryById } from './dtos/SearchById.dto';
-import { UpdateProductCategoryDTO } from './dtos/UpdateProductCategory.dto';
-
+import { CreateProductCategoryDTO } from './dtos/create-product-category.dto';
+import { SearchProductCategoryById } from './dtos/search-by-id.dto';
+import { UpdateProductCategoryDTO } from './dtos/update-product-category.dto';
 
 @ApiTags('Product-Categories')
 @Controller('api/v1/product-categories')
@@ -32,7 +31,6 @@ export class ProductCategoriesController {
     return { productCategories };
   }
 
-  @SkipAuth()
   @HttpCode(201)
   @Post()
   async createProductCategory(@Body() body: CreateProductCategoryDTO) {
@@ -50,7 +48,6 @@ export class ProductCategoriesController {
     return { productCategory };
   }
 
-  @SkipAuth()
   @HttpCode(200)
   @Patch(':id')
   async updateProductCategory(
@@ -64,7 +61,6 @@ export class ProductCategoriesController {
     return { productCategory };
   }
 
-  @SkipAuth()
   @HttpCode(200)
   @Delete(':id')
   async removeProductCategory(@Param() params: SearchProductCategoryById) {

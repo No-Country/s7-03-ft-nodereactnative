@@ -1,3 +1,4 @@
+import { useSelector } from 'react-redux';
 import {
     InputBuscador,
     CategoriaBox,
@@ -17,10 +18,13 @@ import {
     SaludoUser,
     Title,
 } from './home.styled';
+import { AuthSlice } from '../../router/Router';
 
 export interface HomeProps {}
 
 const Home: React.FC<HomeProps> = () => {
+    const infoUser = useSelector((state: AuthSlice) => state.authSlice);
+
     return (
         <ContainerHome>
             <ContainerMenuyUbicacion>
