@@ -24,13 +24,14 @@ model User {
   createdAt DateTime @default(now()) @map("created_at")
   updatedAt DateTime @updatedAt() @map("updated_at")
 
-  role            Role              @relation(fields: [roleId], references: [id])
-  veterinary      Veterinary[]
-  petPreference   PetPreference[]
-  review          Review[]
-  cart            Cart[]
-  purchase        Purchase[]
-  productFavorite ProductFavorite[]
+  role               Role                 @relation(fields: [roleId], references: [id])
+  veterinary         Veterinary[]
+  petPreference      PetPreference[]
+  review             Review[]
+  cart               Cart[]
+  purchase           Purchase[]
+  productFavorite    ProductFavorite[]
+  VeterinaryFavorite VeterinaryFavorite[]
 }
 
 model Role {
@@ -51,15 +52,16 @@ model Veterinary {
   country     String
   address     String
   latitude    String
-  longitude    String
+  longitude   String
   phone       String
   isActive    Boolean  @default(true) @map("is_active")
   createdAt   DateTime @default(now()) @map("created_at")
   updatedAt   DateTime @updatedAt() @map("updated_at")
 
-  user    User      @relation(fields: [userId], references: [id])
-  review  Review[]
-  product Product[]
+  user               User                 @relation(fields: [userId], references: [id])
+  review             Review[]
+  product            Product[]
+  VeterinaryFavorite VeterinaryFavorite[]
 }
 
 model PetCategory {
@@ -207,4 +209,15 @@ model ProductFavorite {
   product Product @relation(fields: [productId], references: [id])
 
   @@map("Product_favorite")
+}
+
+model VeterinaryFavorite {
+  id           String @id @default(uuid()) @db.Uuid()
+  userId       String @map("user_id") @db.Uuid()
+  veterinaryId String @map("veterinary_id") @db.Uuid()
+
+  user       User       @relation(fields: [userId], references: [id])
+  veterinary Veterinary @relation(fields: [veterinaryId], references: [id])
+
+  @@map("Veterinary_favorite")
 }
