@@ -1,1 +1,48 @@
-console.log('a');
+import { API_APP_BASE_URL } from '@env';
+import { fetchBaseQuery, createApi } from '@reduxjs/toolkit/query/react';
+
+export interface UserId {
+    id: string;
+}
+
+interface UserUpdate {
+    firstName?: string;
+    lastName?: string;
+    country?: string;
+    codePhone?: string;
+    phone?: string;
+}
+
+export const userApi = createApi({
+    reducerPath: 'user',
+    baseQuery: fetchBaseQuery({
+        // baseUrl: 'http://192.168.11.128:5000',
+        baseUrl: `${API_APP_BASE_URL}:5000`,
+        prepareHeaders: (headers, { getState }) => {
+            headers.set('Content-Type', 'application/json');
+            return headers;
+        },
+    }),
+    endpoints: (builder) => ({
+        getUser: builder.query<UserId, string>({
+            query: (id) => ({
+                url: `/api/v1/users/${id}`,
+            }),
+        }),
+        updateUser: builder.mutation<UserId, { id: string; data: UserUpdate }>({
+            query: ({ id, data }) => ({
+                url: `/api/v1/users/${id}`,
+                method: 'PATCH',
+                body: data,
+            }),
+        }),
+        deleteUser: builder.mutation<void, string>({
+            query: (id) => ({
+                url: `/api/v1/users/${id}`,
+                method: 'DELETE',
+            }),
+        }),
+    }),
+});
+
+export const { useGetUserQuery } = userApi;

@@ -72,6 +72,7 @@ const Login = ({ navigation }: LoginProps) => {
             const response = await loginUser(values);
             if ('data' in response && response?.data?.results?.token) {
                 const { data } = response;
+                console.log(response);
                 await AsyncStorage.setItem(
                     'token',
                     JSON.stringify(data.results)

@@ -17,11 +17,17 @@ import {
     Title,
 } from './home.styled';
 import { AuthSlice } from '../../router/Router';
+import { useGetUserQuery } from '../../reduxApp/services/users/users';
+import { useEffect } from 'react';
 
 export interface HomeProps {}
 
 const Home: React.FC<HomeProps> = () => {
     const infoUser = useSelector((state: AuthSlice) => state.authSlice);
+
+    const { data, isFetching } = useGetUserQuery(infoUser.user.id);
+
+    console.log('data de la query getUser', data);
 
     return (
         <ContainerHome>
