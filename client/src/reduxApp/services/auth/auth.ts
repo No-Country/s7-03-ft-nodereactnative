@@ -18,8 +18,8 @@ export const userApi = createApi({
     reducerPath: 'user',
     baseQuery: fetchBaseQuery({
         // baseUrl rey: http://192.168.0.77:5000
-        // baseUrl: 'http://192.168.11.128:5000',
-        baseUrl: 'http://192.168.0.77:5000',
+        baseUrl: 'http://192.168.11.128:5000',
+        // baseUrl: 'http://192.168.0.77:5000',
         prepareHeaders: (headers, { getState }) => {
             headers.set('Content-Type', 'application/json');
             return headers;
