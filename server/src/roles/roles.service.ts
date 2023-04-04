@@ -31,6 +31,18 @@ export class RolesService {
     return role;
   }
 
+  async getByName(name: string) {
+    const role = await this.prisma.role.findFirst({
+      where: { name, isActive: true },
+    });
+
+    if (!role) {
+      throw new NotFoundException(`Role not found`);
+    }
+
+    return role;
+  }
+
   async create(body: CreateRoleDto) {
     const role = await this.prisma.role.create({
       data: {
