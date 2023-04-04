@@ -1,61 +1,25 @@
 import React, { useState } from 'react';
 import { useForm, Controller } from 'react-hook-form';
 import { ButtonPrimary } from '../../../components/buttons/ButtonPrimary';
-import styled from 'styled-components/native';
 import CountryPicker, {
     Country,
     CountryCode,
 } from 'react-native-country-picker-modal';
-import { Text } from 'react-native';
+import { ActivityIndicator, Text } from 'react-native';
 import { useRegisterUserMutation } from '../../../reduxApp/services/auth/auth';
-
-const Container = styled.ScrollView`
-    background-color: white;
-`;
-
-export const ViewForm = styled.View`
-    
-    background-color: white;
-    justify-content: center;
-    align-items: center;    
-`;
-
-const Label = styled.Text`
-    color: black;
-    margin: 15px auto -8px 30px;
-    padding: 0 5px;
-    z-index: 5;
-    background-color: white;
-`;
-
-const CountryView = styled.View`
-    width: 70%;
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    align-items: center;    
-`;
-
-const CountryPick = styled.View`
-    border-radius: 4px;
-    border-width: 1px;
-    padding: 3px;
-`;
-
-const Input = styled.TextInput`
-    padding: 10px;
-    background-color: white;
-    height: 40px;
-    border-radius: 4px;
-    border-width: 1px;
-    width: 90%;
-    margin-bottom: 5px;
-`;
-
-const Img = styled.Image`
-    width: 60%;
-    object-fit: contain;
-`;
+import {
+    Container,
+    CountryPick,
+    CountryView,
+    Img,
+    Input,
+    Label,
+    LabelError,
+    Spinner,
+    ViewForm,
+} from './register.styled';
+import { Toast } from 'react-native-toast-message/lib/src/Toast';
+import { colors } from '../../../constants';
 
 interface DataRegister {
     firstName: string;
@@ -73,19 +37,15 @@ const Register = ({ navigation }: Props) => {
     const [register, { isLoading }] = useRegisterUserMutation();
     const [countryCode, setCountryCode] = useState<CountryCode>('AR');
     const [country, setCountry] = useState<Country>({
-        "callingCode": [
-          "54",
-        ],
-        "cca2": "AR",
-        "currency": [
-          "ARS",
-        ],
-        "flag": "flag-ar",
-        "name": "Argentina",
-        "region": "Americas",
-        "subregion": "South America",
-      });
-    const withCountryNameButton = true;    
+        callingCode: ['54'],
+        cca2: 'AR',
+        currency: ['ARS'],
+        flag: 'flag-ar',
+        name: 'Argentina',
+        region: 'Americas',
+        subregion: 'South America',
+    });
+    const withCountryNameButton = true;
 
     const onSelect = (country: Country) => {
         setCountryCode(country.cca2);
@@ -96,7 +56,7 @@ const Register = ({ navigation }: Props) => {
         handleSubmit,
         control,
         watch,
-        formState: { errors },
+        formState: { errors, isDirty, isValid },
     } = useForm({
         defaultValues: {
             firstName: '',
@@ -105,10 +65,11 @@ const Register = ({ navigation }: Props) => {
             password: '',
             password2: '',
         },
+        mode: 'onTouched',
     });
 
     const onSubmit = async (data: DataRegister) => {
-        const countryName = country?.name.toString()
+        const countryName = country?.name.toString();
         console.log(data, countryName);
         const { firstName, lastName, password, email } = data;
         const resp: any = await register({
@@ -116,19 +77,29 @@ const Register = ({ navigation }: Props) => {
             lastName,
             password,
             email,
-            country: countryName
+            country: countryName,
         });
         console.log(resp);
-        if ( !(resp.error)) navigation.navigate('login')
-        console.log(isLoading);
+        if (!resp.error) {
+            Toast.show({
+                type: 'success',
+                text1: 'Cuenta creada con éxito, ya puedes loguearte',
+            });
+            setTimeout(() => {
+                navigation.navigate('login');
+            }, 3000);
+        }
+        if (resp.error?.data.message === 'Email Already Exists') {
+            Toast.show({
+                type: 'error',
+                text1: 'Ya existe una cuenta con este Email!',
+            });
+        }
     };
 
     return (
         <Container>
             <ViewForm>
-                {/* <Img
-                    source={require('../../../../assets/auth/registerImg.png')}
-                /> */}
                 <CountryView>
                     <Text> Elige tu país: </Text>
                     <CountryPick>
@@ -138,7 +109,6 @@ const Register = ({ navigation }: Props) => {
                                 onSelect,
                                 withCountryNameButton,
                             }}
-                            
                         />
                     </CountryPick>
                 </CountryView>
@@ -151,11 +121,15 @@ const Register = ({ navigation }: Props) => {
                             onBlur={onBlur}
                             onChangeText={(value) => onChange(value)}
                             value={value}
+                            errors={errors.firstName?.type === 'required'}
                         />
                     )}
                     name="firstName"
                     rules={{ required: true }}
                 />
+                {errors.firstName?.type === 'required' && (
+                    <LabelError>Nombre requerido</LabelError>
+                )}
                 <Label>Apellido</Label>
                 <Controller
                     control={control}
@@ -165,11 +139,15 @@ const Register = ({ navigation }: Props) => {
                             onBlur={onBlur}
                             onChangeText={(value) => onChange(value)}
                             value={value}
+                            errors={errors.lastName?.type === 'required'}
                         />
                     )}
                     name="lastName"
                     rules={{ required: true }}
                 />
+                {errors.lastName?.type === 'required' && (
+                    <LabelError>Apellido requerido</LabelError>
+                )}
                 <Label>Email</Label>
                 <Controller
                     control={control}
@@ -179,11 +157,24 @@ const Register = ({ navigation }: Props) => {
                             onBlur={onBlur}
                             onChangeText={(value) => onChange(value)}
                             value={value}
+                            errors={
+                                errors.email?.type === 'required' ||
+                                errors.email?.type === 'pattern'
+                            }
                         />
                     )}
                     name="email"
-                    rules={{ required: true }}
+                    rules={{
+                        required: true,
+                        pattern: /^[^\s@]+@[^\s@]+\.[^\s@]+$/i,
+                    }}
                 />
+                {errors.email?.type === 'required' && (
+                    <LabelError>Email requerido</LabelError>
+                )}
+                {errors.email?.type === 'pattern' && (
+                    <LabelError>No es un email válido</LabelError>
+                )}
                 <Label>Contraseña</Label>
                 <Controller
                     control={control}
@@ -193,11 +184,21 @@ const Register = ({ navigation }: Props) => {
                             onBlur={onBlur}
                             onChangeText={(value) => onChange(value)}
                             value={value}
+                            errors={
+                                errors.password?.type === 'required' ||
+                                errors.password?.type === 'minLength'
+                            }
                         />
                     )}
                     name="password"
-                    rules={{ required: true }}
+                    rules={{ required: true, minLength: 8 }}
                 />
+                {errors.password?.type === 'required' && (
+                    <LabelError>Contraseña requerida</LabelError>
+                )}
+                {errors.password?.type === 'minLength' && (
+                    <LabelError>Debe tener al menos 8 caracteres</LabelError>
+                )}
                 <Label>Repetir Contraseña</Label>
                 <Controller
                     control={control}
@@ -207,6 +208,10 @@ const Register = ({ navigation }: Props) => {
                             onBlur={onBlur}
                             onChangeText={(value) => onChange(value)}
                             value={value}
+                            errors={
+                                errors.password2?.type === 'required' ||
+                                errors.password2?.type === 'validate'
+                            }
                         />
                     )}
                     name="password2"
@@ -215,16 +220,27 @@ const Register = ({ navigation }: Props) => {
                         validate: (val: string) => watch('password') === val,
                     }}
                 />
+                {errors.password2?.type === 'required' && (
+                    <LabelError>Contraseña requerida</LabelError>
+                )}
+                {errors.password2?.type === 'validate' && (
+                    <LabelError>Las contraseñas no son iguales</LabelError>
+                )}
 
-                <ButtonPrimary
-                    onPress={handleSubmit(onSubmit)}
-                    title="Registrarse"
-                    disabled= {false}
-                />
-            <Img
+                {isLoading ? (
+                    <Spinner color={colors.primary} />
+                ) : (
+                    <ButtonPrimary
+                        onPress={handleSubmit(onSubmit)}
+                        title="Registrarse"
+                        disabled={!isDirty || !isValid}
+                    />
+                )}
+                <Img
                     source={require('../../../../assets/auth/registerImg.png')}
                 />
             </ViewForm>
+            <Toast />
         </Container>
     );
 };

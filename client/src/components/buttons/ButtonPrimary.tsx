@@ -10,7 +10,7 @@ const Button = styled.TouchableOpacity`
     width: 136px;
     height: 36px;
     border-radius: 20px;
-    background-color: ${colors.primary};
+    background-color: ${(props)=>props.disabled?colors.primaryLight:colors.primary};
 `;
 
 const Text = styled.Text`
