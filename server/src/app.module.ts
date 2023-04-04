@@ -9,6 +9,7 @@ import { UsersModule } from './users/users.module';
 import { ProductCategoriesModule } from './product-categories/product-categories.module';
 import { RolesGuard } from './auth/guards/role-auth.guard';
 import { RolesModule } from './roles/roles.module';
+import { VeterinariesModule } from './veterinaries/veterinaries.module';
 
 @Module({
   imports: [
@@ -18,6 +19,7 @@ import { RolesModule } from './roles/roles.module';
     UsersModule,
     ProductCategoriesModule,
     RolesModule,
+    VeterinariesModule,
   ],
   providers: [
     { provide: APP_GUARD, useClass: JwtAuthGuard },
