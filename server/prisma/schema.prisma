@@ -2,7 +2,8 @@
 // learn more about it in the docs: https://pris.ly/d/prisma-schema
 
 generator client {
-  provider = "prisma-client-js"
+  provider        = "prisma-client-js"
+  previewFeatures = ["extendedWhereUnique"]
 }
 
 datasource db {
@@ -105,7 +106,7 @@ model Review {
   id           String   @id @default(uuid()) @db.Uuid()
   comment      String
   rating       Rating
-  userId       String   @unique @map("user_id") @db.Uuid()
+  userId       String   @map("user_id") @db.Uuid()
   veterinaryId String   @map("veterinary_id") @db.Uuid()
   isActive     Boolean  @default(true) @map("is_active")
   createdAt    DateTime @default(now()) @map("created_at")
@@ -113,6 +114,8 @@ model Review {
 
   user       User       @relation(fields: [userId], references: [id])
   veterinary Veterinary @relation(fields: [veterinaryId], references: [id])
+
+  @@unique([userId, veterinaryId])
 }
 
 model Product {
@@ -208,6 +211,7 @@ model ProductFavorite {
   user    User    @relation(fields: [userId], references: [id])
   product Product @relation(fields: [productId], references: [id])
 
+  @@unique([userId, productId])
   @@map("Product_favorite")
 }
 
@@ -219,5 +223,6 @@ model VeterinaryFavorite {
   user       User       @relation(fields: [userId], references: [id])
   veterinary Veterinary @relation(fields: [veterinaryId], references: [id])
 
+  @@unique([userId, veterinaryId])
   @@map("Veterinary_favorite")
 }
