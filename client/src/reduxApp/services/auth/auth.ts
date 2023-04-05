@@ -20,6 +20,7 @@ export const userApi = createApi({
         // baseUrl rey: http://192.168.0.77:5000
         baseUrl: 'http://192.168.11.128:5000',
         // baseUrl: 'http://192.168.0.77:5000',
+        // baseUrl: 'https://petdidos-ya.wl.r.appspot.com/',
         prepareHeaders: (headers, { getState }) => {
             headers.set('Content-Type', 'application/json');
             return headers;

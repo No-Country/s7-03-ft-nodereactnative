@@ -9,6 +9,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { User } from '../reduxApp/services/auth/types';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { setCredentials } from '../reduxFeature/auth/authSlice';
+import Maps from '../screens/Maps/Maps';
 
 export interface AuthSlice {
     authSlice: {
@@ -21,6 +22,7 @@ const Stack = createStackNavigator();
 
 const LoggedStack = () => {
     return <DrawerNavigation />;
+    // return <Maps />
 };
 
 const NoLoggedStack = () => {
