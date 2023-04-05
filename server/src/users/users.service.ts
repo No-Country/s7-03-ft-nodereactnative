@@ -6,6 +6,7 @@ import {
   NotFoundException,
 } from '@nestjs/common';
 import { UpdateUserDto } from './dto/update-user.dto';
+import { Roles } from 'src/types/roles/roles.types';
 
 @Injectable()
 export class UsersService {
@@ -92,14 +93,25 @@ export class UsersService {
   }
 
   protectUsersAccount(userId: string, userSession: UserSession) {
-    if (userSession.role.name === 'ADMIN') {
+    if (userSession.role.name === Roles.ADIMN) {
       return;
     }
 
     if (userSession.id !== userId) {
-      throw new ForbiddenException('You are not the owner of this account');
+      throw new ForbiddenException('You are not the owner');
     }
 
     return;
+  }
+
+  async changeUserRole(id: string, role: Roles) {
+    await this.userExists(id);
+
+    const updatedUser = await this.prisma.user.update({
+      where: { id },
+      data: { role: { connect: { name: role } } },
+    });
+
+    return updatedUser;
   }
 }

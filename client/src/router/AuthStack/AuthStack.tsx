@@ -1,13 +1,11 @@
 import { createStackNavigator } from '@react-navigation/stack';
-import React from 'react';
 import { Register } from '../../screens/Auth/Register';
 import { Login } from '../../screens/Auth/Login';
+import { Home } from '../../screens/Home';
 
 const Stack = createStackNavigator();
 
 const AuthStack = () => {
-    let test: string = 'Estas en la autenticacion de usuario';
-    console.log(test);
     return (
         <Stack.Navigator
             screenOptions={{
@@ -26,6 +24,7 @@ const AuthStack = () => {
                 component={Register}
                 options={{
                     headerShown: true,
+                    title: 'Registro'
                 }}
             />
         </Stack.Navigator>

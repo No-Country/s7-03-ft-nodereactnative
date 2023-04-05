@@ -8,6 +8,7 @@ import {
 import { AppModule } from './app.module';
 import helmet from 'helmet';
 import * as compression from 'compression';
+import { CORS } from './config';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
@@ -22,7 +23,7 @@ async function bootstrap() {
   app.use(helmet());
   app.use(compression());
 
-  app.enableCors();
+  app.enableCors(CORS);
 
   const config = new DocumentBuilder()
     .addBearerAuth()
