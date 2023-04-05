@@ -11,6 +11,7 @@ import { RolesGuard } from './auth/guards/role-auth.guard';
 import { RolesModule } from './roles/roles.module';
 import { VeterinariesModule } from './veterinaries/veterinaries.module';
 import { ProductsModule } from './products/products.module';
+import { VeterinariesFavoritesModule } from './veterinaries-favorites/veterinaries-favorites.module';
 
 @Module({
   imports: [
@@ -22,6 +23,7 @@ import { ProductsModule } from './products/products.module';
     RolesModule,
     VeterinariesModule,
     ProductsModule,
+    VeterinariesFavoritesModule,
   ],
   providers: [
     { provide: APP_GUARD, useClass: JwtAuthGuard },
