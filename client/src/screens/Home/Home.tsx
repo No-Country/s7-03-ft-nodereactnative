@@ -19,6 +19,7 @@ import {
 import { AuthSlice } from '../../router/Router';
 import { ContainerMenuyUbicacion } from './home.styled';
 import { InputUbicacion } from '../../components/InputUbicacion';
+import { firstLetterMayus } from '../../utils/functions';
 
 export interface HomeProps {}
 
@@ -31,7 +32,9 @@ const Home: React.FC<HomeProps> = () => {
                 <TabBar />
                 <InputUbicacion />
             </ContainerMenuyUbicacion>
-            <SaludoUser>Hola, {infoUser?.user?.firstName}!</SaludoUser>
+            <SaludoUser>
+                Hola, {firstLetterMayus(infoUser?.user?.firstName)}!
+            </SaludoUser>
             <InputBuscador />
             <ContainerCategorias>
                 <ContainerTitleOfertas>
