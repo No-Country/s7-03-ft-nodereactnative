@@ -14,8 +14,7 @@ export interface DrawerContentProps {
 }
 
 const DrawerContent: React.FC<DrawerContentProps> = ({ props }) => {
-
-    const actualRoute = props.state.routeNames[props.state.index]
+    const actualRoute = props.state.routeNames[props.state.index];
     return (
         <DrawerContentScrollView>
             <DrawerContentContainer>
@@ -26,7 +25,7 @@ const DrawerContent: React.FC<DrawerContentProps> = ({ props }) => {
                     <UserName>Cintia jimena Martinez Juarez</UserName>
                 </HeaderContainer>
                 <MenuContainer>
-                    <MenuItem
+                    {/* <MenuItem
                         to={'home_drawer'}
                         label="Inicio"
                         icon={<AntDesign name="home" size={30} color={actualRoute === 'home_drawer' ?"#fff" : "#000"}/>}
@@ -34,15 +33,22 @@ const DrawerContent: React.FC<DrawerContentProps> = ({ props }) => {
                             actualRoute ===
                             'home_drawer'
                         }
-                    />
+                    /> */}
                     <MenuItem
                         to={'misPedidos_drawer'}
                         label="Mis pedidos"
-                        icon={<Feather name="shopping-bag" size={30} color={actualRoute === 'misPedidos_drawer' ?"#fff" : "#000"}/>}
-                        estaActivo={
-                            actualRoute ===
-                            'misPedidos_drawer'
+                        icon={
+                            <Feather
+                                name="shopping-bag"
+                                size={30}
+                                color={
+                                    actualRoute === 'misPedidos_drawer'
+                                        ? '#fff'
+                                        : '#000'
+                                }
+                            />
                         }
+                        estaActivo={actualRoute === 'misPedidos_drawer'}
                     />
                 </MenuContainer>
             </DrawerContentContainer>

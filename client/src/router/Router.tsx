@@ -20,7 +20,18 @@ export interface AuthSlice {
 const Stack = createStackNavigator();
 
 const LoggedStack = () => {
-    return <DrawerNavigation />;
+    return (
+        <Stack.Navigator
+            screenOptions={{
+                headerShown: false,
+            }}
+        >
+            <Stack.Screen
+                name="DrawerNavigation"
+                component={DrawerNavigation}
+            />
+        </Stack.Navigator>
+    );
 };
 
 const NoLoggedStack = () => {
