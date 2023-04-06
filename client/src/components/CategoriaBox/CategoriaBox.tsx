@@ -1,12 +1,21 @@
 import React from 'react';
-import { Categoria, ShadowCategoria } from './categoria.styled';
+import {
+    CategoriaContainer,
+    CategoriaTexto,
+    Imagen,
+    ShadowCategoria,
+} from './categoria.styled';
+import { ImageSourcePropType, ViewProps } from 'react-native';
 export interface CategoriaBoxProps {
     text: string;
+    img: ImageSourcePropType;
+    color: string;
 }
 
-const CategoriaBox: React.FC<CategoriaBoxProps> = ({ text }) => {
+const CategoriaBox: React.FC<CategoriaBoxProps> = ({ text, img, color }) => {
     return (
         <ShadowCategoria
+            color={color}
             style={{
                 shadowColor: '#000',
                 shadowOffset: {
@@ -18,7 +27,10 @@ const CategoriaBox: React.FC<CategoriaBoxProps> = ({ text }) => {
                 elevation: 5,
             }}
         >
-            <Categoria>{text}</Categoria>
+            <CategoriaContainer>
+                <Imagen source={img} />
+                <CategoriaTexto>{text}</CategoriaTexto>
+            </CategoriaContainer>
         </ShadowCategoria>
     );
 };

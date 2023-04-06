@@ -21,7 +21,7 @@ export const MenuIcon = styled.View<MenuIconProps>`
 `;
 
 export const MenuText = styled.Text<MenuTextProps>`
-    font-size: 18px
+    font-size: 18px;
     align-self: center;
     flex: 6;
     color : ${(props) => (props.estaActivo ? '#fff' : '#000')};

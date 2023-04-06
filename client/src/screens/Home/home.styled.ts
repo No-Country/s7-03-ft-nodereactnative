@@ -11,20 +11,36 @@ export const ContainerMenuyUbicacion = styled.View`
     margin: 0 auto;
 `;
 
+export const ContainerSaludoyBuscador = styled.View`
+    padding: 17px;
+`;
+
+
 export const SaludoUser = styled.Text`
-    text-align: center;
-    color: ${colors.primary};
-    font-size: 40px;
+    text-align: left;
+    color: #000;
+    font-size: 35px;
     font-weight: 300;
     margin-top: 30px;
-    margin-bottom: 25px;
+    margin-bottom: 20px;
+`;
+
+export const ContainerBuscadoryFiltro = styled.View`
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 10px;
+`;
+
+export const TouchableIcon = styled.TouchableOpacity`
+  
 `;
 
 export const ContainerCategorias = styled.View`
     margin-top: 35px;
 `;
 export const ContainerTitleOfertas = styled.View`
-    padding-left: 23px;
+    padding-left: 17px;
     padding-bottom: 20px;
 `;
 
@@ -36,7 +52,6 @@ export const Title = styled.Text`
 
 export const FilaCategorias = styled.ScrollView`
     padding: 2px;
-    background-color: ${colors.backgroundLightViolet};
     display: flex;
     flex-direction: row;
 `;
