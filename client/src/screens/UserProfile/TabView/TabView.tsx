@@ -8,8 +8,7 @@ function TabView() {
     return (
         <Tab.Navigator
             screenOptions={{
-                tabBarActiveTintColor: '#0d0414', // establece el color del indicador de la pestaña activa
-                tabBarBounces: true,
+                tabBarActiveTintColor: '#0d0414',
             }}
         >
             <Tab.Screen
