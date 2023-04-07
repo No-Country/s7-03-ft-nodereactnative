@@ -1,12 +1,12 @@
 import styled from 'styled-components/native';
 import { colors } from '../../constants';
-import { ViewProps } from 'react-native';
+import { ViewProps, TouchableOpacityProps } from 'react-native';
 
-interface MainContainerProps extends ViewProps {
+interface MainContainerProps extends TouchableOpacityProps {
     color: string;
 }
 
-export const ShadowCategoria = styled.View<MainContainerProps>`
+export const ShadowCategoria = styled.TouchableOpacity<MainContainerProps>`
     background-color: #fff;
     margin: 10px;
     margin-right: 5px;

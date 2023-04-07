@@ -5,16 +5,26 @@ import {
     Imagen,
     ShadowCategoria,
 } from './categoria.styled';
-import { ImageSourcePropType, ViewProps } from 'react-native';
+import { ImageSourcePropType } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
+import { StackNavigationProp } from '@react-navigation/stack';
+import { RootStackParamList } from '../../constants/types/RootStackParamList ';
+
 export interface CategoriaBoxProps {
     text: string;
     img: ImageSourcePropType;
     color: string;
+    to: keyof RootStackParamList;
 }
 
-const CategoriaBox: React.FC<CategoriaBoxProps> = ({ text, img, color }) => {
+const CategoriaBox: React.FC<CategoriaBoxProps> = ({ text, img, color, to }) => {
+
+    const navigation =
+        useNavigation<StackNavigationProp<RootStackParamList, typeof to>>();
+
     return (
         <ShadowCategoria
+            onPress={() => navigation.navigate(to)}
             color={color}
             style={{
                 shadowColor: '#000',

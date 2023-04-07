@@ -64,21 +64,25 @@ const Home: React.FC<HomeProps> = () => {
                         img={require('../../../assets/categoriasImg/veterinarios.png')}
                         color="#8eb6f8"
                         text="Veterinarias"
+                        to="Cuidadores"
                     />
                     <CategoriaBox
                         img={require('../../../assets/categoriasImg/cuidadores.png')}
                         color="#bb92ff"
                         text="Cuidadores"
+                        to="Cuidadores"
                     />
                     <CategoriaBox
                         img={require('../../../assets/categoriasImg/alimentos.png')}
                         color="#85cb98"
                         text="Alimentos"
+                        to="Cuidadores"
                     />
                     <CategoriaBox
                         img={require('../../../assets/categoriasImg/juguetes.png')}
                         color="#ffda66"
                         text="Juguetes"
+                        to="Cuidadores"
                     />
                 </FilaCategorias>
             </ContainerCategorias>
