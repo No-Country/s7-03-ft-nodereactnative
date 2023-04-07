@@ -1,44 +1,29 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import React, { useState } from 'react';
-import { View, Text } from 'react-native';
+import { View, Text, Image } from 'react-native';
 import { useSelector, useDispatch } from 'react-redux';
 import { useGetUserQuery } from '../../reduxApp/services/users/users';
 import { AuthSlice } from '../../router/Router';
 import { ButtonPrimary } from '../../components/buttons/ButtonPrimary';
-import { logout } from '../../reduxFeature/auth/authSlice';
-import AwesomeAlert from 'react-native-awesome-alerts';
 import Alerts from '../../components/Alerts/Alerts';
+import { safeTopSpace } from '../../constants';
+import TabView from './TabView/TabView';
 
-interface Props {
-    navigation: any;
-}
-
-const UserProfile = ({ navigation }: Props) => {
-    const infoUser = useSelector((state: AuthSlice) => state.authSlice);
-    const [alertShow, setAlertShow] = useState(false);
-    const { data, isFetching } = useGetUserQuery(infoUser.user.id);
-
-    const handleCancel = () => {
-        setAlertShow(false);
-    };
-
+const UserProfile = () => {
     return (
-        <View style={{ marginTop: 50 }}>
-            <Text>User profile</Text>
-            <ButtonPrimary
-                title="Cerrar sesion"
-                onPress={() => setAlertShow(true)}
+        <View
+            style={{
+                marginTop: safeTopSpace,
+                flex: 1,
+            }}
+        >
+            <Image
+                style={{ height: 50, width: 50 }}
+                source={{
+                    uri: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRvIdD74Dj1FwX3sOCRuwFgNlXNW64dknk8VTifSvZC4gsYJGEp7FKRiSO1NYp9BfVvToU&usqp=CAU',
+                }}
             />
-            {alertShow && (
-                <Alerts
-                    title="Probando perfil"
-                    cancelText="Cancelar"
-                    confirmText="Confirmar"
-                    message="Probando"
-                    alertShow={alertShow}
-                    onCancel={handleCancel}
-                />
-            )}
+            <TabView />
         </View>
     );
 };

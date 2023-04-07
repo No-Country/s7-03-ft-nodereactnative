@@ -26,7 +26,6 @@ const Alerts = ({
     const [showAlertModal, setShowAlertModal] = useState(false);
 
     useEffect(() => {
-        console.log('aca entro');
         if (alertShow) {
             setShowAlertModal(true);
         }
