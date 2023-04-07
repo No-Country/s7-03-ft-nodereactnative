@@ -4,7 +4,7 @@ import { colors } from '../../../constants/colors';
 export const ViewMenu = styled.View`
     align-items: center;
     margin-top: 20px;
-    padding: 10px 30px 40px 30px;
+    padding: 10px 20px 40px 30px;
     height: 100%;
     width: 100%;
 `;
@@ -33,5 +33,5 @@ export const Label = styled.Text`
     margin: 15px auto -8px 10px;
     padding: 0 5px;
     z-index: 5;
-    background-color: white;
+    background-color: ${colors.backgroundLightViolet};
 `;
