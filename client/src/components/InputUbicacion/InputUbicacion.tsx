@@ -3,12 +3,13 @@ import {
     FakaPlaceholderText,
     FakePlaceholderContainer,
     FakePlaceholderIcon,
-    Input,
+    GoogleInputContainer,
     InputUbicacionWrapper,
     ShadowBox,
 } from './InputUbicacion.styled';
 import { colors } from '../../constants';
 import { useState } from 'react';
+import { GooglePlacesAutocomplete } from 'react-native-google-places-autocomplete';
 
 export interface InputUbicacionProps {}
 
@@ -20,19 +21,7 @@ const InputUbicacion: React.FC<InputUbicacionProps> = () => {
         () => setFakePlaceholderShow(false);
     };
     return (
-        <ShadowBox
-            style={{
-                backgroundColor: '#fff',
-                shadowColor: '#000',
-                shadowOffset: {
-                    width: 0,
-                    height: 1,
-                },
-                shadowOpacity: 0.22,
-                shadowRadius: 2.22,
-                elevation: 3,
-            }}
-        >
+        <ShadowBox>
             <InputUbicacionWrapper>
                 {!ubicacion && fakePlaceholderShow ? (
                     <FakePlaceholderContainer>
@@ -46,12 +35,39 @@ const InputUbicacion: React.FC<InputUbicacionProps> = () => {
                         <FakaPlaceholderText>Ubicación</FakaPlaceholderText>
                     </FakePlaceholderContainer>
                 ) : null}
-                <Input
-                    placeholderTextColor="#000"
-                    cursorColor={colors.primaryLight}
-                    onChangeText={(e) => handleOnChange(e)}
-                    onBlur={() => setFakePlaceholderShow(true)}
-                />
+                <GoogleInputContainer horizontal={false}>
+                    <GooglePlacesAutocomplete
+                        placeholder=""
+                        onPress={(data, details = null) => {
+                            // 'details' is provided when fetchDetails = true
+                            console.log(data, details);
+                        }}
+                        query={{
+                            key: 'AIzaSyAIWVbZOxUNInO6ceDNWAc1V5yjqLeL6Cw',
+                            language: 'en',
+                        }}
+                        styles={{
+                            textInputContainer: {
+                                shadowColor: '#000',
+                                shadowOffset: {
+                                    width: 0,
+                                    height: 1,
+                                },
+                                shadowOpacity: 0.22,
+                                shadowRadius: 2.22,
+                                elevation: 3,
+                                borderRadius: 100,
+                                margin: 5,
+                                paddingLeft: 10,
+                                paddingTop: 5,
+                                backgroundColor: '#fff',
+                            },
+                            textInput: {
+                                borderRadius: 100,
+                            },
+                        }}
+                    />
+                </GoogleInputContainer>
             </InputUbicacionWrapper>
         </ShadowBox>
     );

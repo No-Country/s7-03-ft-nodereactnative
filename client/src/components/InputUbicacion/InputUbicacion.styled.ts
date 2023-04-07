@@ -1,24 +1,10 @@
 import styled from 'styled-components/native';
 
-export const ShadowBox = styled.View`
-    padding: 10px 20px;
-    border-radius: 100px;
-    overflow: hidden;
-    margin: 0 auto;
+export const ShadowBox = styled.ScrollView`
+
 `;
 
-export const InputUbicacionWrapper = styled.View`
-    border-radius: 100px;
-    display: flex;
-    flex-direction: row;
-    position: relative;
-    width: 100%;
-`;
-
-export const Input = styled.TextInput`
-    position: relative;
-    width: 100%;
-`;
+export const InputUbicacionWrapper = styled.View``;
 
 export const FakePlaceholderContainer = styled.View`
     position: absolute;
@@ -36,4 +22,8 @@ export const FakePlaceholderIcon = styled.View``;
 export const FakaPlaceholderText = styled.Text`
     font-size: 25px;
     font-weight: 300;
+`;
+
+export const GoogleInputContainer = styled.ScrollView`
+
 `;

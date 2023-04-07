@@ -66,3 +66,8 @@ export const ImageOferta = styled.Image`
 `;
 
 export const ListaStore = styled.View``;
+
+
+
+export const Google = styled.View`
+`;

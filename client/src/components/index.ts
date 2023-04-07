@@ -1,5 +1,4 @@
 export * from './CategoriaBox';
-export * from './Drawer';
 export * from './DrawerContent/MenuItem';
 export * from './DrawerContent';
 export * from './InputBuscador';

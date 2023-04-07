@@ -13,6 +13,7 @@ import {
     ContainerSaludoyBuscador,
     ContainerTitleOfertas,
     FilaCategorias,
+    Google,
     ImageOferta,
     ListaStore,
     SaludoUser,
@@ -23,6 +24,8 @@ import { AuthSlice } from '../../router/Router';
 import { ContainerMenuyUbicacion } from './home.styled';
 import { InputUbicacion } from '../../components/InputUbicacion';
 import { FontAwesome5 } from '@expo/vector-icons';
+import { GooglePlacesAutocomplete } from 'react-native-google-places-autocomplete';
+import { SafeAreaView } from 'react-native';
 
 export interface HomeProps {}
 
@@ -30,7 +33,7 @@ const Home: React.FC<HomeProps> = () => {
     const infoUser = useSelector((state: AuthSlice) => state.authSlice);
 
     return (
-        <ContainerHome>
+        <ContainerHome horizontal={false}>
             <ContainerMenuyUbicacion>
                 <TabBar />
                 <InputUbicacion />
@@ -48,6 +51,7 @@ const Home: React.FC<HomeProps> = () => {
                     </TouchableIcon>
                 </ContainerBuscadoryFiltro>
             </ContainerSaludoyBuscador>
+
             <ContainerCategorias>
                 <ContainerTitleOfertas>
                     <Title>Categorías</Title>
