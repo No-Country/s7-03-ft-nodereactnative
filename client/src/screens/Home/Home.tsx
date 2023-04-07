@@ -24,7 +24,6 @@ import { AuthSlice } from '../../router/Router';
 import { ContainerMenuyUbicacion } from './home.styled';
 import { InputUbicacion } from '../../components/InputUbicacion';
 import { FontAwesome5 } from '@expo/vector-icons';
-import { GooglePlacesAutocomplete } from 'react-native-google-places-autocomplete';
 import { SafeAreaView } from 'react-native';
 
 export interface HomeProps {}
@@ -33,9 +32,13 @@ const Home: React.FC<HomeProps> = () => {
     const infoUser = useSelector((state: AuthSlice) => state.authSlice);
 
     return (
-        <ContainerHome horizontal={false}>
+        <ContainerHome keyboardShouldPersistTaps="handled">
             <ContainerMenuyUbicacion>
+                <SafeAreaView>
+
                 <TabBar />
+                </SafeAreaView>
+
                 <InputUbicacion />
             </ContainerMenuyUbicacion>
             <ContainerSaludoyBuscador>
