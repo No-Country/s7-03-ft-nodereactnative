@@ -6,7 +6,7 @@ export const userSeeds = async (roles: {
   normalRole: Role;
   veterinaryRole: Role;
 }) => {
-  await prisma.user.upsert({
+  const adminUser = await prisma.user.upsert({
     where: { email: 'jared@gmail.com' },
     update: {},
     create: {
@@ -35,4 +35,6 @@ export const userSeeds = async (roles: {
       roleId: roles.normalRole.id,
     },
   });
+
+  return { adminUser };
 };
