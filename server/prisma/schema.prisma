@@ -52,8 +52,8 @@ model Veterinary {
   description String
   country     String
   address     String
-  latitude    String
-  longitude   String
+  latitude    Float
+  longitude   Float
   phone       String
   isActive    Boolean  @default(true) @map("is_active")
   createdAt   DateTime @default(now()) @map("created_at")
