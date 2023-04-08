@@ -1,6 +1,6 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 import { ResponseLogin } from './types';
-
+import { API_APP_BASE_URL } from '@env';
 interface UserCredentials {
     email: string;
     password: string;
@@ -14,13 +14,14 @@ interface Data {
     country: string;
 }
 
-export const userApi = createApi({
-    reducerPath: 'user',
+export const authApi = createApi({
+    reducerPath: 'auth',
     baseQuery: fetchBaseQuery({
         // baseUrl rey: http://192.168.0.77:5000
         baseUrl: 'http://192.168.11.128:5000',
         // baseUrl: 'http://192.168.0.77:5000',
         // baseUrl: 'https://petdidos-ya.wl.r.appspot.com/',
+        // baseUrl: `${API_APP_BASE_URL}:5000`,
         prepareHeaders: (headers, { getState }) => {
             headers.set('Content-Type', 'application/json');
             return headers;
@@ -50,4 +51,4 @@ export const userApi = createApi({
     }),
 });
 
-export const { useLoginUserMutation, useRegisterUserMutation } = userApi;
+export const { useLoginUserMutation, useRegisterUserMutation } = authApi;

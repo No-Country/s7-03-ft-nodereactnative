@@ -4,12 +4,10 @@ import {
     CategoriaBox,
     TabBar,
     StoreTab,
-    InputUbicacion,
 } from '../../components';
 import {
     ContainerCategorias,
     ContainerHome,
-    ContainerMenuyUbicacion,
     ContainerOfertas,
     ContainerTitleOfertas,
     FilaCategorias,
@@ -19,19 +17,26 @@ import {
     Title,
 } from './home.styled';
 import { AuthSlice } from '../../router/Router';
+import { ContainerMenuyUbicacion } from './home.styled';
+import { InputUbicacion } from '../../components/InputUbicacion';
+import { ButtonUbication } from '../../components/buttons/buttonUbication/ButtonUbication';
+import { useNavigation, ParamListBase } from '@react-navigation/native';
+import { StackNavigationProp } from '@react-navigation/stack';
 
 export interface HomeProps {}
 
 const Home: React.FC<HomeProps> = () => {
     const infoUser = useSelector((state: AuthSlice) => state.authSlice);
+    const { navigate } = useNavigation<StackNavigationProp<ParamListBase>>();
 
     return (
         <ContainerHome>
             <ContainerMenuyUbicacion>
                 <TabBar />
-                <InputUbicacion />
+                {/* <InputUbicacion /> */}
+                <ButtonUbication onPress={()=>{navigate('Maps')}} />
             </ContainerMenuyUbicacion>
-            <SaludoUser>Hola, Mery!</SaludoUser>
+            <SaludoUser>Hola, {infoUser?.user?.firstName}!</SaludoUser>
             <InputBuscador />
             <ContainerCategorias>
                 <ContainerTitleOfertas>

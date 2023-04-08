@@ -7,5 +7,6 @@ import { UsersModule } from 'src/users/users.module';
   imports: [UsersModule],
   controllers: [VeterinariesController],
   providers: [VeterinariesService],
+  exports: [VeterinariesService],
 })
 export class VeterinariesModule {}

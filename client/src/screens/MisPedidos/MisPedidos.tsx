@@ -1,18 +1,17 @@
 import { Text } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
-import { GoBack, HeaderContainer, MisPedidosContainer } from './MisPedidos.styled';
+import {
+    GoBack,
+    HeaderContainer,
+    MisPedidosContainer,
+} from './MisPedidos.styled';
 
 export interface MisPedidosProps {}
 
 const MisPedidos: React.FC<MisPedidosProps> = () => {
-
-	const navigation = useNavigation()
     return (
         <MisPedidosContainer>
             <HeaderContainer>
-				<GoBack onPress={() => navigation.goBack()}>
-					<Text>Go back</Text>
-				</GoBack>
                 <Text>MisPedidos</Text>
             </HeaderContainer>
         </MisPedidosContainer>

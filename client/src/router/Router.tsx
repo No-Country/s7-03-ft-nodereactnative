@@ -21,8 +21,26 @@ export interface AuthSlice {
 const Stack = createStackNavigator();
 
 const LoggedStack = () => {
-    return <DrawerNavigation />;
-    // return <Maps />
+    return (
+        <Stack.Navigator
+            screenOptions={{
+                headerShown: false,
+            }}
+        >
+            <Stack.Screen
+                name="DrawerNavigation"
+                component={DrawerNavigation}
+            />
+            <Stack.Screen
+                name="Maps"
+                component={Maps}
+                options={{
+                    headerShown: true,
+                    title: 'Mapa'
+                }}
+            />
+        </Stack.Navigator>
+    );
 };
 
 const NoLoggedStack = () => {
