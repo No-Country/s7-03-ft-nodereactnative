@@ -1,5 +1,9 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
-import { CreateVeterinaryDto, UpdateVeterinaryDto } from './dto';
+import {
+  CreateVeterinaryDto,
+  QueryLatitudeLongitude,
+  UpdateVeterinaryDto,
+} from './dto';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { UsersService } from 'src/users/users.service';
 import { UserSession } from 'src/types/users/user.type';
@@ -31,12 +35,33 @@ export class VeterinariesService {
     const veterinaries = await this.prisma.veterinary.findMany({
       take: 100,
       where: { isActive: true },
+      orderBy: [{ latitude: 'desc' }, { longitude: 'desc' }],
       include: {
         user: {
           select: { id: true, firstName: true, lastName: true, country: true },
         },
       },
     });
+    return veterinaries;
+  }
+
+  async findByLocation({ latitude, longitude }: QueryLatitudeLongitude) {
+    const rangeToFind = 0.04;
+    const latitudeMinRange = latitude - rangeToFind;
+    const latitudeMaxRange = latitude + rangeToFind;
+    const longitudeMinRange = longitude - rangeToFind;
+    const longitudeMaxRange = longitude + rangeToFind;
+
+    const veterinaries = await this.prisma.veterinary.findMany({
+      where: {
+        isActive: true,
+        // longitude < longitudeMaxRange && longitude > longitudeMinRange
+        longitude: { lt: longitudeMaxRange, gt: longitudeMinRange },
+        // latitude < latitudeMaxRange && latitude > latitudeMinRange
+        latitude: { lt: latitudeMaxRange, gt: latitudeMinRange },
+      },
+    });
+
     return veterinaries;
   }
 
