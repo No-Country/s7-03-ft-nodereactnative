@@ -11,6 +11,7 @@ interface Props {
     confirmText: string;
     alertShow: boolean;
     onCancel: () => void;
+    action: () => void;
 }
 
 const Alerts = ({
@@ -20,9 +21,8 @@ const Alerts = ({
     confirmText,
     alertShow,
     onCancel,
+    action,
 }: Props) => {
-    const dispatch = useDispatch();
-
     const [showAlertModal, setShowAlertModal] = useState(false);
 
     useEffect(() => {
@@ -57,7 +57,7 @@ const Alerts = ({
             onCancelPressed={handleCancel}
             onConfirmPressed={() => {
                 hideAlert();
-                dispatch(logout());
+                action();
             }}
         />
     );

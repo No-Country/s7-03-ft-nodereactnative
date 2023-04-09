@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Text, View } from 'react-native';
 import { useSelector, useDispatch } from 'react-redux';
 import { Input, Label, ViewContainer, ViewMenu } from './Settings.styled';
@@ -6,10 +6,17 @@ import { AuthSlice } from '../../../router/Router';
 import { Controller, useForm } from 'react-hook-form';
 import { ButtonPrimary } from '../../../components';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
-import { useUpdateUserMutation } from '../../../reduxApp/services/users/users';
+import {
+    useDeleteUserMutation,
+    useUpdateUserMutation,
+} from '../../../reduxApp/services/users/users';
 import { Data } from '../../../reduxApp/services/auth/types';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { setCredentials } from '../../../reduxFeature/auth/authSlice';
+import { alertToast } from '../../../utils/alerts';
+import { Toast } from 'react-native-toast-message/lib/src/Toast';
+import Alerts from '../../../components/Alerts/Alerts';
+import { setDelete } from '../../../reduxFeature/user/userSlice';
 
 interface DataUser {
     firstName: string;
@@ -22,8 +29,15 @@ interface DataUser {
 
 const Settings = () => {
     const infoUser = useSelector((state: AuthSlice) => state.authSlice);
+
     const dispatch = useDispatch();
-    const [editUser, { isLoading, data }] = useUpdateUserMutation();
+
+    const [mode, setMode] = useState('');
+    const [alertShow, setAlertShow] = useState(false);
+    const [dataEdit, setDataEdit] = useState({});
+
+    const [editUser] = useUpdateUserMutation();
+    const [deleteUser] = useDeleteUserMutation();
 
     const { user } = infoUser;
 
@@ -42,27 +56,61 @@ const Settings = () => {
         formState: { errors },
     } = useForm({ defaultValues: preloadedValues });
 
-    const onSubmit = async (data: DataUser) => {
-        const phoneString = data.phone.toString();
-        const objEdit = {
-            firstName: data.firstName,
-            lastName: data.lastName,
-            codePhone: data.codePhone,
-            phone: phoneString,
-            country: data.country,
-        };
+    const confirmEdit = async () => {
         try {
             const response = await editUser({
                 id: infoUser.user.id,
-                data: objEdit,
+                data: dataEdit,
             });
             if ('data' in response && response?.data) {
-                await AsyncStorage.setItem('token', JSON.stringify(data));
-                dispatch(setCredentials(data));
+                alertToast(
+                    'success',
+                    'Perfil actualizado',
+                    'Se edito correctamente el perfil'
+                );
+                await AsyncStorage.setItem(
+                    'token',
+                    JSON.stringify(response.data)
+                );
+                setTimeout(() => {
+                    dispatch(setCredentials(response.data));
+                }, 2000);
             }
         } catch (error) {
             console.log(error);
         }
+    };
+
+    const confirmDelete = async () => {
+        try {
+            deleteUser(infoUser.user.id);
+            dispatch(setDelete());
+            await AsyncStorage.removeItem('token');
+        } catch (error) {
+            console.log(error);
+        }
+    };
+
+    const handleCancel = () => {
+        setAlertShow(false);
+    };
+
+    const onSubmit = (data: DataUser) => {
+        setMode('edit');
+        setAlertShow(true);
+        const objEdit = {
+            firstName: data.firstName,
+            lastName: data.lastName,
+            codePhone: data.codePhone,
+            phone: data.phone.toString(),
+            country: data.country,
+        };
+        setDataEdit(objEdit);
+    };
+
+    const handleDelete = () => {
+        setMode('delete');
+        setAlertShow(true);
     };
 
     return (
@@ -168,8 +216,42 @@ const Settings = () => {
                         onPress={handleSubmit(onSubmit)}
                         title="Editar Campos"
                     />
+                    <ButtonPrimary
+                        onPress={handleDelete}
+                        title="Eliminar perfil"
+                    />
                 </View>
             </KeyboardAwareScrollView>
+            <Toast />
+            {alertShow && (
+                <Alerts
+                    title={
+                        mode === 'edit'
+                            ? 'Editar Perfil'
+                            : mode === 'delete'
+                            ? 'Eliminar Perfil'
+                            : ''
+                    }
+                    cancelText="Cancelar"
+                    confirmText="Confirmar accion"
+                    message={
+                        mode === 'edit'
+                            ? 'Estas a punto de editar tu perfil'
+                            : mode === 'delete'
+                            ? 'Estas a punto de eliminar tu cuenta, esta accion es irreversible!'
+                            : ''
+                    }
+                    alertShow={alertShow}
+                    onCancel={handleCancel}
+                    action={
+                        mode === 'edit'
+                            ? confirmEdit
+                            : mode === 'delete'
+                            ? confirmDelete
+                            : () => {}
+                    }
+                />
+            )}
         </ViewMenu>
     );
 };

@@ -20,11 +20,29 @@ import { AuthSlice } from '../../router/Router';
 import { ContainerMenuyUbicacion } from './home.styled';
 import { InputUbicacion } from '../../components/InputUbicacion';
 import { firstLetterMayus } from '../../utils/functions';
+import { alertToast } from '../../utils/alerts';
+import Toast from 'react-native-toast-message';
+import { View, Text } from 'react-native';
+import { useEffect } from 'react';
 
 export interface HomeProps {}
 
 const Home: React.FC<HomeProps> = () => {
     const infoUser = useSelector((state: AuthSlice) => state.authSlice);
+
+    useEffect(() => {
+        <Text>
+            {infoUser?.token && (
+                <>
+                    {alertToast(
+                        'success',
+                        'Sesion iniciada',
+                        'Se inicio sesion correctamente!'
+                    )}
+                </>
+            )}
+        </Text>;
+    }, []);
 
     return (
         <ContainerHome>
@@ -63,6 +81,7 @@ const Home: React.FC<HomeProps> = () => {
                 <StoreTab />
                 <StoreTab />
             </ListaStore>
+            <Toast />
         </ContainerHome>
     );
 };

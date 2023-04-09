@@ -32,6 +32,8 @@ const MenuItem: React.FC<MenuItemProps> = ({ to, label, icon, estaActivo }) => {
     const navigation =
         useNavigation<DrawerNavigationProp<RootDrawerParamList>>();
 
+    const dispatch = useDispatch();
+
     const [alertShow, setAlertShow] = useState(false);
 
     const handleCancel = () => {
@@ -44,6 +46,10 @@ const MenuItem: React.FC<MenuItemProps> = ({ to, label, icon, estaActivo }) => {
         } else {
             to && navigation.navigate(to);
         }
+    };
+
+    const closeSesion = () => {
+        dispatch(logout());
     };
 
     return (
@@ -60,6 +66,7 @@ const MenuItem: React.FC<MenuItemProps> = ({ to, label, icon, estaActivo }) => {
                     message="Estas a punto de cerrar sesion"
                     alertShow={alertShow}
                     onCancel={handleCancel}
+                    action={closeSesion}
                 />
             )}
         </>

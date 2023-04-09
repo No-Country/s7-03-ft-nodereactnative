@@ -1,11 +1,4 @@
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import React, { useState } from 'react';
 import { View, Text, Image } from 'react-native';
-import { useSelector, useDispatch } from 'react-redux';
-import { useGetUserQuery } from '../../reduxApp/services/users/users';
-import { AuthSlice } from '../../router/Router';
-import { ButtonPrimary } from '../../components/buttons/ButtonPrimary';
-import Alerts from '../../components/Alerts/Alerts';
 import { safeTopSpace } from '../../constants';
 import TabView from './TabView/TabView';
 
