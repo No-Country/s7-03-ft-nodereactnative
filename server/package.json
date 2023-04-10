@@ -22,7 +22,7 @@
     "create-env": "printenv > .env"
   },
   "prisma": {
-    "seed": "ts-node prisma/seeds.ts"
+    "seed": "ts-node ./prisma/seeds.ts"
   },
   "dependencies": {
     "@jridgewell/sourcemap-codec": "^1.4.14",

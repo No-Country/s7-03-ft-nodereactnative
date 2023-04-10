@@ -1,7 +1,12 @@
 import React from 'react';
-import { FontAwesome, FontAwesome5 } from '@expo/vector-icons';
+import { FontAwesome } from '@expo/vector-icons';
 import { colors } from '../../constants';
-import { Input, InputBuscadorWrapper, ShadowBox } from './inputBuscador.styled';
+import {
+    ContenedorIcono,
+    Input,
+    InputBuscadorWrapper,
+    ShadowBox,
+} from './inputBuscador.styled';
 
 export interface InputBuscadorProps {}
 
@@ -27,10 +32,9 @@ const InputBuscador: React.FC<InputBuscadorProps> = () => {
                     placeholderTextColor="#000"
                     cursorColor={colors.primaryLight}
                 />
-
-                <FontAwesome name="search" size={24} color="black" />
-
-                <FontAwesome5 name="sliders-h" size={24} color="black" />
+                <ContenedorIcono>
+                    <FontAwesome name="search" size={24} color="black" />
+                </ContenedorIcono>
             </InputBuscadorWrapper>
         </ShadowBox>
     );

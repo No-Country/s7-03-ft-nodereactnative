@@ -1,14 +1,14 @@
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import React, { useEffect, useState } from 'react';
-import { Home } from '../screens/Home';
 import { AuthStack } from './AuthStack';
-import { TabNavigator } from './TabNavigator';
 import { DrawerNavigation } from './DrawerNavigation';
 import { useDispatch, useSelector } from 'react-redux';
 import { User } from '../reduxApp/services/auth/types';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { setCredentials } from '../reduxFeature/auth/authSlice';
+import { Cuidadores } from '../screens/Cuidadores';
+import { colors } from '../constants';
 
 export interface AuthSlice {
     authSlice: {
@@ -21,14 +21,20 @@ const Stack = createStackNavigator();
 
 const LoggedStack = () => {
     return (
-        <Stack.Navigator
-            screenOptions={{
-                headerShown: false,
-            }}
-        >
+        <Stack.Navigator>
             <Stack.Screen
                 name="DrawerNavigation"
                 component={DrawerNavigation}
+                options={{
+                    headerShown: false
+                }}
+            />
+            <Stack.Screen
+                name="Cuidadores"
+                component={Cuidadores}
+                options={{
+                    headerTintColor: colors.primary,
+                }}
             />
         </Stack.Navigator>
     );
