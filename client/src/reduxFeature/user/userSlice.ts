@@ -13,9 +13,10 @@ const userSlice = createSlice({
             state.user = user;
             state.token = token;
         },
+        setDelete: () => initialState,
     },
 });
 
-export const { setUsers } = userSlice.actions;
+export const { setUsers, setDelete } = userSlice.actions;
 
 export default userSlice.reducer;

@@ -30,6 +30,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
 import { ButtonPrimary, ButtonSecondaryEmpty } from '../../../components';
+import Toast from 'react-native-toast-message';
 
 interface FormValues {
     email: string;
@@ -88,24 +89,13 @@ const Login = ({ navigation }: LoginProps) => {
                 const { error } = response;
                 if (error) {
                     if ('status' in error && error.status === 404) {
-                        alertToast(
-                            'error',
-                            'X',
-                            'Error en el usuario o contraseña!'
-                        );
-                        console.log('Usuario no encontrado');
+                        alertToast('error', 'Usuario no encontrado');
                     }
                     if ('status' in error && error.status === 403) {
-                        alertToast(
-                            'error',
-                            'X',
-                            'Error en el usuario o contraseña!'
-                        );
-                        console.log('Error en el usuario o contraseña!');
+                        alertToast('error', 'Error en el usuario o contraseña');
                     }
                     if ('status' in error && error.status === 400) {
-                        alertToast('error', 'X', 'Error en el servidor');
-                        console.log('Error en la petición!');
+                        alertToast('error', 'Error en el servidor');
                     }
                 }
             }
@@ -121,7 +111,6 @@ const Login = ({ navigation }: LoginProps) => {
                 <TextLogo>PetDidos Ya</TextLogo>
                 <SvgLogo />
             </ViewLogo>
-            {isLoading && <ActivityIndicator size={24} />}
             <Form>
                 <Label>Email</Label>
                 <Controller
@@ -177,9 +166,10 @@ const Login = ({ navigation }: LoginProps) => {
                         top: 137,
                         left: 300,
                     }}
-                >
-                </TouchableOpacity>
+                ></TouchableOpacity>
                 {errors.password && <Text>{errors.password?.message}</Text>}
+
+                {isLoading && <ActivityIndicator size={24} />}
                 <Text style={{ marginVertical: 20 }}>
                     ¿Olvidaste tu contraseña?
                 </Text>
@@ -221,6 +211,7 @@ const Login = ({ navigation }: LoginProps) => {
                     }}
                 />
             </ViewIcons>
+            <Toast />
         </ViewForm>
     );
 };

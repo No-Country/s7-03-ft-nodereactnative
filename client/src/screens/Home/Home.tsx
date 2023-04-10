@@ -6,44 +6,105 @@ import {
     StoreTab,
 } from '../../components';
 import {
+    ContainerBuscadoryFiltro,
     ContainerCategorias,
     ContainerHome,
     ContainerOfertas,
+    ContainerSaludoyBuscador,
     ContainerTitleOfertas,
     FilaCategorias,
+    Google,
     ImageOferta,
     ListaStore,
     SaludoUser,
     Title,
+    TouchableIcon,
 } from './home.styled';
 import { AuthSlice } from '../../router/Router';
 import { ContainerMenuyUbicacion } from './home.styled';
 import { InputUbicacion } from '../../components/InputUbicacion';
+import { firstLetterMayus } from '../../utils/functions';
+import { alertToast } from '../../utils/alerts';
+import Toast from 'react-native-toast-message';
+import { View, Text } from 'react-native';
+import { useEffect } from 'react';
+import { FontAwesome5 } from '@expo/vector-icons';
+import { SafeAreaView } from 'react-native';
 
 export interface HomeProps {}
 
 const Home: React.FC<HomeProps> = () => {
     const infoUser = useSelector((state: AuthSlice) => state.authSlice);
 
+    useEffect(() => {
+        <Text>
+            {infoUser?.token && (
+                <>
+                    {alertToast(
+                        'success',
+                        'Sesion iniciada',
+                        'Se inicio sesion correctamente!'
+                    )}
+                </>
+            )}
+        </Text>;
+    }, []);
+
     return (
-        <ContainerHome>
+        <ContainerHome keyboardShouldPersistTaps="handled">
             <ContainerMenuyUbicacion>
+                <SafeAreaView>
+
                 <TabBar />
+                </SafeAreaView>
+
                 <InputUbicacion />
             </ContainerMenuyUbicacion>
-            <SaludoUser>Hola, {infoUser?.user?.firstName}!</SaludoUser>
-            <InputBuscador />
+            <ContainerSaludoyBuscador>
+                <SaludoUser>
+                Hola, {firstLetterMayus(infoUser?.user?.firstName)}!
+            </SaludoUser>
+                <ContainerBuscadoryFiltro>
+                    <InputBuscador />
+                    <TouchableIcon>
+                        <FontAwesome5
+                            name="sliders-h"
+                            size={20}
+                            color="black"
+                        />
+                    </TouchableIcon>
+                </ContainerBuscadoryFiltro>
+            </ContainerSaludoyBuscador>
+
             <ContainerCategorias>
                 <ContainerTitleOfertas>
                     <Title>Categorías</Title>
                 </ContainerTitleOfertas>
                 <FilaCategorias horizontal>
-                    <CategoriaBox text="Alimentos" />
-                    <CategoriaBox text="Veterinarias" />
-                    <CategoriaBox text="Tiendas cercanas" />
-                    <CategoriaBox text="Juguetes" />
-                    <CategoriaBox text="Cuidadores" />
-                    <CategoriaBox text="Alimentos" />
+                    <CategoriaBox
+                        img={require('../../../assets/categoriasImg/veterinarios.png')}
+                        color="#8eb6f8"
+                        text="Veterinarias"
+                        to="Cuidadores"
+                    />
+                    <CategoriaBox
+                        img={require('../../../assets/categoriasImg/cuidadores.png')}
+                        color="#bb92ff"
+                        text="Cuidadores"
+                        to="Cuidadores"
+                    />
+                    <CategoriaBox
+                        img={require('../../../assets/categoriasImg/alimentos.png')}
+                        color="#85cb98"
+                        text="Alimentos"
+                        to="Cuidadores"
+                    />
+                    <CategoriaBox
+                        img={require('../../../assets/categoriasImg/juguetes.png')}
+                        color="#ffda66"
+                        text="Juguetes"
+                        to="Cuidadores"
+                    />
                 </FilaCategorias>
             </ContainerCategorias>
             <ContainerOfertas>
@@ -60,6 +121,7 @@ const Home: React.FC<HomeProps> = () => {
                 <StoreTab />
                 <StoreTab />
             </ListaStore>
+            <Toast />
         </ContainerHome>
     );
 };

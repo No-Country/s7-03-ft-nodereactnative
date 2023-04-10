@@ -3,6 +3,7 @@ import {
   IsLatitude,
   IsLongitude,
   IsNotEmpty,
+  IsNumber,
   IsString,
   MinLength,
 } from 'class-validator';
@@ -28,11 +29,13 @@ export class CreateVeterinaryDto {
 
   @IsNotEmpty()
   @IsLatitude()
-  latitude: string;
+  @IsNumber()
+  latitude: number;
 
   @IsNotEmpty()
   @IsLongitude()
-  longitude: string;
+  @IsNumber()
+  longitude: number;
 
   @IsNotEmpty()
   @IsString()

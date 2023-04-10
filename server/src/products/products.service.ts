@@ -24,6 +24,20 @@ export class ProductsService {
           veterinaryId: true,
           productCategoryId: true,
           createdAt: true,
+          productCategory: {
+            select: {
+              id: true,
+              name: true,
+              createdAt: true,
+            },
+          },
+          productImage: {
+            select: {
+              id: true,
+              imageUrl: true,
+              createdAt: true,
+            },
+          },
         },
         take: numericSize,
         skip: (numericPage - 1) * numericSize,

@@ -1,5 +1,10 @@
 import { API_APP_BASE_URL } from '@env';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import { fetchBaseQuery, createApi } from '@reduxjs/toolkit/query/react';
+import { useSelector } from 'react-redux';
+import { Response } from '../../../../../server/dist/src/interceptors/transform.interceptor';
+import { AuthSlice } from '../../../router/Router';
+import { RootState } from '../../store';
 
 export interface UserId {
     id: string;
@@ -19,6 +24,10 @@ export const userApi = createApi({
         // baseUrl: 'http://192.168.11.128:5000',
         baseUrl: `${API_APP_BASE_URL}:5000`,
         prepareHeaders: (headers, { getState }) => {
+            const token = (getState() as RootState).authSlice.token;
+            if (token) {
+                headers.set('authorization', `Bearer ${token}`);
+            }
             headers.set('Content-Type', 'application/json');
             return headers;
         },
@@ -30,11 +39,15 @@ export const userApi = createApi({
             }),
         }),
         updateUser: builder.mutation<UserId, { id: string; data: UserUpdate }>({
-            query: ({ id, data }) => ({
-                url: `/api/v1/users/${id}`,
-                method: 'PATCH',
-                body: data,
-            }),
+            query: ({ id, data }) => {
+                console.log('viene de updateUser', data);
+                console.log('viene de updateUser', id);
+                return {
+                    url: `/api/v1/users/${id}`,
+                    method: 'PATCH',
+                    body: JSON.stringify(data),
+                };
+            },
         }),
         deleteUser: builder.mutation<void, string>({
             query: (id) => ({
@@ -45,4 +58,5 @@ export const userApi = createApi({
     }),
 });
 
-export const { useGetUserQuery } = userApi;
+export const { useGetUserQuery, useUpdateUserMutation, useDeleteUserMutation } =
+    userApi;
