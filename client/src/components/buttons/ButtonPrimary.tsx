@@ -10,7 +10,8 @@ const Button = styled.TouchableOpacity`
     width: 136px;
     height: 36px;
     border-radius: 20px;
-    background-color: ${(props)=>props.disabled?colors.primaryLight:colors.primary};
+    background-color: ${(props) =>
+        props.disabled ? colors.primaryLight : colors.primary};
 `;
 
 const Text = styled.Text`
@@ -21,7 +22,7 @@ const Text = styled.Text`
 interface Props {
     onPress: (event: GestureResponderEvent) => void;
     title: string;
-    disabled?: boolean
+    disabled?: boolean;
 }
 
 export const ButtonPrimary = (props: Props) => {

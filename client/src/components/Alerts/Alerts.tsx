@@ -46,19 +46,19 @@ const Alerts = ({
             showProgress={false}
             title={title}
             message={message}
-            closeOnTouchOutside={true}
-            closeOnHardwareBackPress={false}
-            showCancelButton={true}
             showConfirmButton={true}
+            closeOnHardwareBackPress={false}
+            closeOnTouchOutside={true}
+            showCancelButton={true}
             cancelText={cancelText}
             confirmText={confirmText}
-            confirmButtonColor="#db683b"
-            cancelButtonColor="#9590a3"
-            onCancelPressed={handleCancel}
+            cancelButtonColor="#ca0414"
+            confirmButtonColor="#3a00a7"
             onConfirmPressed={() => {
                 hideAlert();
                 action();
             }}
+            onCancelPressed={handleCancel}
         />
     );
 };

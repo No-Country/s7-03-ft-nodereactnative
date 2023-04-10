@@ -1,6 +1,10 @@
 import styled from 'styled-components/native';
 import { colors } from '../../../constants/colors';
 
+interface InputProps {
+    disabled?: boolean;
+}
+
 export const ViewMenu = styled.View`
     align-items: center;
     margin-top: 20px;
@@ -10,28 +14,27 @@ export const ViewMenu = styled.View`
 `;
 
 export const ViewContainer = styled.View`
-    margin-top: 10px;
+    margin-top: -10px;
     flex: 1;
     width: 100%;
     justify-content: space-evenly;
 `;
 
-export const Input = styled.TextInput`
+export const Input = styled.TextInput<InputProps>`
     padding: 10px;
-    background-color: ${colors.backgroundLightViolet};
+    background-color: ${(props) => (props.disabled ? 'gray' : 'white')};
     height: 40px;
-    border-radius: 4px;
+    border-radius: 2px;
     border-width: 1px;
     width: 100%;
     margin-bottom: 5px;
     border: 1px solid;
-    border-color: black;
+    border-color: gray;
 `;
 
-export const Label = styled.Text`
+export const Label = styled.Text<InputProps>`
     color: black;
-    margin: 15px auto -8px 10px;
+    margin: 10px 0px 5px 1px;
     padding: 0 5px;
-    z-index: 5;
-    background-color: ${colors.backgroundLightViolet};
+    background-color: ${(props) => (props.disabled ? 'gray' : 'white')};
 `;
