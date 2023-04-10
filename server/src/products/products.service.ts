@@ -57,19 +57,10 @@ export class ProductsService {
 
   async create(body: CreateProductDto) {
     try {
+      //this doesnt work needs a fix
       const product = await this.prisma.product.create({
         data: {
           ...body,
-        },
-        select: {
-          name: true,
-          description: true,
-          price: true,
-          quantity: true,
-          veterinaryId: true,
-          productCategoryId: true,
-          createdAt: true,
-          updatedAt: true,
         },
       });
       return product;
@@ -79,7 +70,9 @@ export class ProductsService {
   }
 
   async productExist(id: string): Promise<Product> {
-    const product = await this.prisma.product.findFirst({ where: { id } });
+    const product = await this.prisma.product.findFirst({
+      where: { id, isActive: true },
+    });
 
     if (!product) {
       throw new NotFoundException('Product Not Found');
