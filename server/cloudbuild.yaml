@@ -9,6 +9,10 @@ steps:
       - 'NODE_ENV=${_NODE_ENV}'
       - 'DATABASE_URL=${_DATABASE_URL}'
       - 'JWT_SECRET=${_JWT_SECRET}'
+      - 'FB_API_KEY = ${_FB_API_KEY}'
+      - 'FB_AUTH_DOMAIN = ${_FB_AUTH_DOMAIN}'
+      - 'FB_PROJECT_ID = ${_FB_PROJECT_ID}'
+      - 'FB_STORAGE_BUCKET = ${_FB_STORAGE_BUCKET}'
   - name: 'gcr.io/cloud-builders/gcloud'
     args: ['app', 'deploy']
 timeout: '1600s'
