@@ -7,6 +7,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { User } from '../reduxApp/services/auth/types';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { setCredentials } from '../reduxFeature/auth/authSlice';
+import Maps from '../screens/Maps/Maps';
 import { Cuidadores } from '../screens/Cuidadores';
 import { colors } from '../constants';
 
@@ -34,6 +35,14 @@ const LoggedStack = () => {
                 component={Cuidadores}
                 options={{
                     headerTintColor: colors.primary,
+                }}
+            />
+            <Stack.Screen
+                name="Maps"
+                component={Maps}
+                options={{
+                    headerShown: true,
+                    title: 'Mapa'
                 }}
             />
         </Stack.Navigator>

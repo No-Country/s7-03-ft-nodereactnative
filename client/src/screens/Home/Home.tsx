@@ -23,6 +23,9 @@ import {
 import { AuthSlice } from '../../router/Router';
 import { ContainerMenuyUbicacion } from './home.styled';
 import { InputUbicacion } from '../../components/InputUbicacion';
+import { ButtonUbication } from '../../components/buttons/buttonUbication/ButtonUbication';
+import { useNavigation, ParamListBase } from '@react-navigation/native';
+import { StackNavigationProp } from '@react-navigation/stack';
 import { firstLetterMayus } from '../../utils/functions';
 import { alertToast } from '../../utils/alerts';
 import Toast from 'react-native-toast-message';
@@ -35,6 +38,7 @@ export interface HomeProps {}
 
 const Home: React.FC<HomeProps> = () => {
     const infoUser = useSelector((state: AuthSlice) => state.authSlice);
+    const { navigate } = useNavigation<StackNavigationProp<ParamListBase>>();
 
     useEffect(() => {
         <Text>
@@ -56,9 +60,9 @@ const Home: React.FC<HomeProps> = () => {
                 <SafeAreaView>
 
                 <TabBar />
+                {/* <InputUbicacion /> */}
+                <ButtonUbication onPress={()=>{navigate('Maps')}} />
                 </SafeAreaView>
-
-                <InputUbicacion />
             </ContainerMenuyUbicacion>
             <ContainerSaludoyBuscador>
                 <SaludoUser>
