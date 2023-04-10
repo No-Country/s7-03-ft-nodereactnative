@@ -1,6 +1,7 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { CreateProductDto } from './dtos/create-product';
+import { Product } from '@prisma/client';
 
 @Injectable()
 export class ProductsService {
@@ -75,5 +76,15 @@ export class ProductsService {
     } catch (error) {
       console.log(error);
     }
+  }
+
+  async productExist(id: string): Promise<Product> {
+    const product = await this.prisma.product.findFirst({ where: { id } });
+
+    if (!product) {
+      throw new NotFoundException('Product Not Found');
+    }
+
+    return product;
   }
 }
