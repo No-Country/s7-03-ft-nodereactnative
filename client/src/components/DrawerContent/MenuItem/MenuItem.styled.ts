@@ -24,5 +24,5 @@ export const MenuText = styled.Text<MenuTextProps>`
     font-size: 18px;
     align-self: center;
     flex: 6;
-    color : ${(props) => (props.estaActivo ? '#fff' : '#000')};
+    color: ${(props) => (props.estaActivo ? '#fff' : '#000')};
 `;

@@ -7,9 +7,11 @@ import {
     UserPicture,
 } from './drawerContent.styled';
 import { MenuItem } from './MenuItem';
-import { Feather } from '@expo/vector-icons';
+import { AntDesign, Feather } from '@expo/vector-icons';
 import { useSelector } from 'react-redux';
 import { AuthSlice } from '../../router/Router';
+import { firstLetterMayus } from '../../utils/functions';
+import { View } from 'react-native';
 
 export interface DrawerContentProps {
     props: any;
@@ -18,7 +20,7 @@ export interface DrawerContentProps {
 const DrawerContent: React.FC<DrawerContentProps> = ({ props }) => {
     const infoUser = useSelector((state: AuthSlice) => state.authSlice);
 
-    const fullName = `${infoUser?.user?.firstName} ${infoUser?.user?.lastName}`
+    const fullName = `${infoUser?.user?.firstName} ${infoUser?.user?.lastName}`;
     const actualRoute = props.state.routeNames[props.state.index];
     return (
         <DrawerContentScrollView>
@@ -27,7 +29,9 @@ const DrawerContent: React.FC<DrawerContentProps> = ({ props }) => {
                     <UserPicture
                         source={require('../../../assets/DefaultUserPic.png')}
                     />
-                    <UserName>{fullName}</UserName>
+                    <UserName>
+                        {firstLetterMayus(infoUser?.user?.firstName)}
+                    </UserName>
                 </HeaderContainer>
                 <MenuContainer>
                     <MenuItem
@@ -45,6 +49,11 @@ const DrawerContent: React.FC<DrawerContentProps> = ({ props }) => {
                             />
                         }
                         estaActivo={actualRoute === 'misPedidos_drawer'}
+                    />
+                    <MenuItem
+                        label="Cerrar Sesion"
+                        icon={<Feather name="log-out" size={30} />}
+                        estaActivo={false}
                     />
                 </MenuContainer>
             </DrawerContentContainer>
