@@ -1,3 +1,4 @@
+import { UsersService } from './../users/users.service';
 import { Product, ProductFavorite, Prisma } from '@prisma/client';
 import { CreateProductsFavoriteDto } from './dto';
 import {
@@ -14,6 +15,7 @@ export class ProductsFavoritesService {
   constructor(
     private readonly prisma: PrismaService,
     private readonly productService: ProductsService,
+    private readonly usersService: UsersService,
   ) {}
 
   async create(
@@ -54,8 +56,13 @@ export class ProductsFavoritesService {
     return productsFavorites;
   }
 
-  async remove(id: string): Promise<void> {
+  async remove(id: string, userSession: UserSession): Promise<void> {
     const productFavorite = await this.productFavoriteExists(id);
+
+    await this.usersService.protectUsersAccount(
+      productFavorite.userId,
+      userSession,
+    );
 
     await this.prisma.productFavorite.delete({
       where: { id: productFavorite.id },

@@ -68,7 +68,10 @@ export class ProductsFavoritesController {
   })
   @HttpCode(204)
   @Delete(':id')
-  async remove(@Param() params: ParamsProductsFavoriteDto) {
-    return this.productsFavoritesService.remove(params.id);
+  async remove(
+    @Param() params: ParamsProductsFavoriteDto,
+    @Req() req: Request,
+  ) {
+    return this.productsFavoritesService.remove(params.id, req.user);
   }
 }

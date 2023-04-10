@@ -8,12 +8,14 @@ import { PrismaService } from 'src/prisma/prisma.service';
 import { UserSession } from 'src/types/users/user.type';
 import { VeterinariesService } from 'src/veterinaries/veterinaries.service';
 import { Prisma } from '@prisma/client';
+import { UsersService } from 'src/users/users.service';
 
 @Injectable()
 export class VeterinariesFavoritesService {
   constructor(
     private readonly prisma: PrismaService,
     private readonly veterinariesService: VeterinariesService,
+    private readonly usersService: UsersService,
   ) {}
 
   async create(
@@ -56,8 +58,13 @@ export class VeterinariesFavoritesService {
     return veterinariesFavorite;
   }
 
-  async remove(id: string) {
+  async remove(id: string, userSession: UserSession) {
     const veterinaryFavorite = await this.veterinaryFavoriteExists(id);
+
+    await this.usersService.protectUsersAccount(
+      veterinaryFavorite.userId,
+      userSession,
+    );
 
     await this.prisma.veterinaryFavorite.delete({
       where: { id: veterinaryFavorite.id },
