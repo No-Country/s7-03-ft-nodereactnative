@@ -9,11 +9,13 @@ import {
   Delete,
   Req,
   HttpCode,
+  Query,
 } from '@nestjs/common';
 import { VeterinariesService } from './veterinaries.service';
 import {
   CreateVeterinaryDto,
   ParamsVeterinaryDto,
+  QueryLatitudeLongitude,
   UpdateVeterinaryDto,
 } from './dto';
 import {
@@ -38,6 +40,18 @@ export class VeterinariesController {
   @Get()
   async findAll() {
     const veterinaries = await this.veterinariesService.findAll();
+
+    return { veterinaries };
+  }
+
+  @ApiOkResponse({
+    description:
+      'Returns all veterinaries around the given latitude and longitude',
+  })
+  @SkipAuth()
+  @Get('location')
+  async findByLocation(@Query() query: QueryLatitudeLongitude) {
+    const veterinaries = await this.veterinariesService.findByLocation(query);
 
     return { veterinaries };
   }
