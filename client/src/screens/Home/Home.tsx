@@ -23,6 +23,11 @@ import {
 import { AuthSlice } from '../../router/Router';
 import { ContainerMenuyUbicacion } from './home.styled';
 import { InputUbicacion } from '../../components/InputUbicacion';
+import { firstLetterMayus } from '../../utils/functions';
+import { alertToast } from '../../utils/alerts';
+import Toast from 'react-native-toast-message';
+import { View, Text } from 'react-native';
+import { useEffect } from 'react';
 import { FontAwesome5 } from '@expo/vector-icons';
 import { SafeAreaView } from 'react-native';
 
@@ -30,6 +35,20 @@ export interface HomeProps {}
 
 const Home: React.FC<HomeProps> = () => {
     const infoUser = useSelector((state: AuthSlice) => state.authSlice);
+
+    useEffect(() => {
+        <Text>
+            {infoUser?.token && (
+                <>
+                    {alertToast(
+                        'success',
+                        'Sesion iniciada',
+                        'Se inicio sesion correctamente!'
+                    )}
+                </>
+            )}
+        </Text>;
+    }, []);
 
     return (
         <ContainerHome keyboardShouldPersistTaps="handled">
@@ -42,7 +61,9 @@ const Home: React.FC<HomeProps> = () => {
                 <InputUbicacion />
             </ContainerMenuyUbicacion>
             <ContainerSaludoyBuscador>
-                <SaludoUser>Hola, {infoUser?.user?.firstName}!</SaludoUser>
+                <SaludoUser>
+                Hola, {firstLetterMayus(infoUser?.user?.firstName)}!
+            </SaludoUser>
                 <ContainerBuscadoryFiltro>
                     <InputBuscador />
                     <TouchableIcon>
@@ -100,6 +121,7 @@ const Home: React.FC<HomeProps> = () => {
                 <StoreTab />
                 <StoreTab />
             </ListaStore>
+            <Toast />
         </ContainerHome>
     );
 };

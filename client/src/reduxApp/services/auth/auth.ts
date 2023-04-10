@@ -17,8 +17,8 @@ interface Data {
 export const authApi = createApi({
     reducerPath: 'auth',
     baseQuery: fetchBaseQuery({
-        baseUrl: 'http://192.168.100.2:5000',
-        // baseUrl: `${API_APP_BASE_URL}:5000`,
+        // baseUrl: 'http://192.168.100.2:5000',
+        baseUrl: `${API_APP_BASE_URL}:5000`,
         prepareHeaders: (headers, { getState }) => {
             headers.set('Content-Type', 'application/json');
             return headers;

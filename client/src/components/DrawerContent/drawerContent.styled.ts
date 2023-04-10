@@ -17,13 +17,12 @@ export const UserPicture = styled.Image`
     object-fit: cover;
     border-radius: 400px;
     margin-bottom: 10px;
- `;
+`;
 
 export const UserName = styled.Text`
     font-size: 25px
     text-align: center;
     font-weight: 500;
-    
 `;
 
 export const MenuContainer = styled.View``;
