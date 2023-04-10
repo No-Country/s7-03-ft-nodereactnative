@@ -1,15 +1,11 @@
-import React, { useEffect, useState } from 'react';
 import {
     ViewForm,
     Form,
     Label,
     Input,
-    Button,
-    ButtonText,
     TextLogo,
     ViewLogo,
     ViewButton,
-    TextSesion,
     ViewIcons,
 } from './login.styled';
 import {
@@ -19,91 +15,26 @@ import {
     TouchableOpacity,
     View,
 } from 'react-native';
-import { useForm, Controller } from 'react-hook-form';
+import { Controller } from 'react-hook-form';
 import { Ionicons } from '@expo/vector-icons';
 import SvgLogo from './SvgLogo';
-import { useLoginUserMutation } from '../../../reduxApp/services/auth/auth';
-import { useDispatch } from 'react-redux';
-import { setCredentials } from '../../../reduxFeature/auth/authSlice';
-import { alertToast } from '../../../utils/alerts';
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import { yupResolver } from '@hookform/resolvers/yup';
-import * as yup from 'yup';
 import { ButtonPrimary, ButtonSecondaryEmpty } from '../../../components';
 import Toast from 'react-native-toast-message';
-
-interface FormValues {
-    email: string;
-    password: string;
-    onSubmit: (data: FormValues) => void;
-}
-
+import useLogin from '../../../hooks/useLogin';
 interface LoginProps {
     navigation: any;
 }
 
-const schema = yup
-    .object({
-        email: yup
-            .string()
-            .email('Ingresa un correo válido')
-            .required('Ingresa tu correo'),
-        password: yup
-            .string()
-            .min(6, 'La contraseña debe ser de al menos 6 caracteres')
-            .required('Ingresa tu contraseña'),
-    })
-    .required();
-
 const Login = ({ navigation }: LoginProps) => {
-    const [showPassword, setShowPassword] = useState(false);
-    const dispatch = useDispatch();
-
     const {
         control,
+        errors,
+        showPassword,
+        setShowPassword,
+        isLoading,
         handleSubmit,
-        reset,
-        formState: { errors },
-    } = useForm<FormValues>({ resolver: yupResolver(schema) });
-
-    const [loginUser, { isLoading }] = useLoginUserMutation();
-
-    const onSubmit = async (values: FormValues) => {
-        try {
-            const response = await loginUser(values);
-            if ('data' in response && response?.data?.results?.token) {
-                const { data } = response;
-                console.log(response);
-                await AsyncStorage.setItem(
-                    'token',
-                    JSON.stringify(data.results)
-                );
-                dispatch(setCredentials(data?.results));
-                alertToast(
-                    'success',
-                    'Sesion iniciada',
-                    'Se inicio sesion correctamente!'
-                );
-            }
-            if ('error' in response) {
-                const { error } = response;
-                if (error) {
-                    if ('status' in error && error.status === 404) {
-                        alertToast('error', 'Usuario no encontrado');
-                    }
-                    if ('status' in error && error.status === 403) {
-                        alertToast('error', 'Error en el usuario o contraseña');
-                    }
-                    if ('status' in error && error.status === 400) {
-                        alertToast('error', 'Error en el servidor');
-                    }
-                }
-            }
-        } catch (error) {
-            console.log(error);
-        }
-        reset();
-    };
+        onSubmit,
+    } = useLogin();
 
     return (
         <ViewForm>
@@ -169,7 +100,12 @@ const Login = ({ navigation }: LoginProps) => {
                 ></TouchableOpacity>
                 {errors.password && <Text>{errors.password?.message}</Text>}
 
-                {isLoading && <ActivityIndicator size={24} />}
+                {isLoading && (
+                    <ActivityIndicator
+                        style={{ paddingVertical: 10 }}
+                        size={30}
+                    />
+                )}
                 <Text style={{ marginVertical: 20 }}>
                     ¿Olvidaste tu contraseña?
                 </Text>

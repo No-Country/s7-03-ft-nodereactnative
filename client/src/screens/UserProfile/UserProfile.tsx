@@ -11,7 +11,12 @@ const UserProfile = () => {
             }}
         >
             <Image
-                style={{ height: 50, width: 50 }}
+                style={{
+                    height: 100,
+                    width: 100,
+                    borderRadius: 100,
+                    marginLeft: 30,
+                }}
                 source={{
                     uri: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRvIdD74Dj1FwX3sOCRuwFgNlXNW64dknk8VTifSvZC4gsYJGEp7FKRiSO1NYp9BfVvToU&usqp=CAU',
                 }}
