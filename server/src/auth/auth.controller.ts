@@ -11,7 +11,12 @@ import { AuthService } from './auth.service';
 import { SkipAuth } from './decorators/skip-auth.decorator';
 import { LoginDto, SignUpDto } from './dto/auth.dto';
 import { Request } from 'express';
-import { ApiCreatedResponse, ApiOkResponse, ApiTags } from '@nestjs/swagger';
+import {
+  ApiConflictResponse,
+  ApiCreatedResponse,
+  ApiOkResponse,
+  ApiTags,
+} from '@nestjs/swagger';
 
 @ApiTags('Auth')
 @Controller('api/v1/auth')
@@ -19,6 +24,9 @@ export class AuthController {
   constructor(private readonly authService: AuthService) {}
 
   @ApiCreatedResponse({ description: 'Creates an user in the database' })
+  @ApiConflictResponse({
+    description: 'Cannot create user, email already exists',
+  })
   @SkipAuth()
   @Post('/signup')
   async signUp(@Body() body: SignUpDto) {

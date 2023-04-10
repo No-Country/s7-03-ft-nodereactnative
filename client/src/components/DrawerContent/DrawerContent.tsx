@@ -7,13 +7,18 @@ import {
     UserPicture,
 } from './drawerContent.styled';
 import { MenuItem } from './MenuItem';
-import { AntDesign, Feather } from '@expo/vector-icons';
+import { Feather } from '@expo/vector-icons';
+import { useSelector } from 'react-redux';
+import { AuthSlice } from '../../router/Router';
 
 export interface DrawerContentProps {
     props: any;
 }
 
 const DrawerContent: React.FC<DrawerContentProps> = ({ props }) => {
+    const infoUser = useSelector((state: AuthSlice) => state.authSlice);
+
+    const fullName = `${infoUser?.user?.firstName} ${infoUser?.user?.lastName}`
     const actualRoute = props.state.routeNames[props.state.index];
     return (
         <DrawerContentScrollView>
@@ -22,18 +27,9 @@ const DrawerContent: React.FC<DrawerContentProps> = ({ props }) => {
                     <UserPicture
                         source={require('../../../assets/DefaultUserPic.png')}
                     />
-                    <UserName>Cintia jimena Martinez Juarez</UserName>
+                    <UserName>{fullName}</UserName>
                 </HeaderContainer>
                 <MenuContainer>
-                    {/* <MenuItem
-                        to={'home_drawer'}
-                        label="Inicio"
-                        icon={<AntDesign name="home" size={30} color={actualRoute === 'home_drawer' ?"#fff" : "#000"}/>}
-                        estaActivo={
-                            actualRoute ===
-                            'home_drawer'
-                        }
-                    /> */}
                     <MenuItem
                         to={'misPedidos_drawer'}
                         label="Mis pedidos"

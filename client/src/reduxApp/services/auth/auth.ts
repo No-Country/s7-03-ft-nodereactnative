@@ -21,6 +21,7 @@ export const authApi = createApi({
         baseUrl: 'http://192.168.11.128:5000',
         // baseUrl: 'http://192.168.0.77:5000',
         // baseUrl: 'https://petdidos-ya.wl.r.appspot.com/',
+        // baseUrl: 'http://192.168.100.2:5000',
         // baseUrl: `${API_APP_BASE_URL}:5000`,
         prepareHeaders: (headers, { getState }) => {
             headers.set('Content-Type', 'application/json');

@@ -5,10 +5,11 @@
   "author": "",
   "private": true,
   "license": "UNLICENSED",
+  "main": "dist/src/main.js",
   "scripts": {
     "build": "nest build",
     "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
-    "start": "nest start",
+    "start": "node dist/src/main.js",
     "start:dev": "nest start --watch",
     "start:debug": "nest start --debug --watch",
     "start:prod": "node dist/main",
@@ -17,10 +18,11 @@
     "test:watch": "jest --watch",
     "test:cov": "jest --coverage",
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
-    "test:e2e": "jest --config ./test/jest-e2e.json"
+    "test:e2e": "jest --config ./test/jest-e2e.json",
+    "create-env": "printenv > .env"
   },
   "prisma": {
-    "seed": "ts-node prisma/seeds.ts"
+    "seed": "ts-node ./prisma/seeds.ts"
   },
   "dependencies": {
     "@jridgewell/sourcemap-codec": "^1.4.14",
