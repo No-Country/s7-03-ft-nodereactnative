@@ -9,3 +9,4 @@ export * from './TabBar';
 export * from './buttons/ButtonPrimary';
 export * from './buttons/ButtonSecondary';
 export * from './buttons/ButtonSecondaryEmpty';
+export * from './Veterinaries';
