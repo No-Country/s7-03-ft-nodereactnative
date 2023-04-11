@@ -1,6 +1,7 @@
 import React from 'react';
 import { FlatList } from 'react-native';
 import { useSelector } from 'react-redux';
+import { useGetVeterinariesIdQuery } from '../../reduxApp/services/veterinaries/vetServices';
 import RenderItem from './RenderItem';
 
 const Veterinaries = () => {
@@ -9,17 +10,16 @@ const Veterinaries = () => {
     return (
         <FlatList
             style={{
-                backgroundColor: '#fff',
-                shadowColor: '#000',
+                backgroundColor: '#ffffff',
+                shadowColor: '#000000',
                 shadowOffset: {
                     width: 0,
                     height: 1,
                 },
                 shadowOpacity: 0.22,
                 shadowRadius: 2.22,
-
                 elevation: 3,
-                marginBottom: 15,
+                marginBottom: 5,
             }}
             data={infoVeterinaries?.veterinaries?.veterinaries}
             renderItem={RenderItem}

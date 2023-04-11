@@ -2,6 +2,7 @@ import { createSlice } from '@reduxjs/toolkit';
 
 const initialState = {
     veterinaries: [],
+    idVeterinarie: null,
 };
 
 const veterinariesSlice = createSlice({
