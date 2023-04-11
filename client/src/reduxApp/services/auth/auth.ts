@@ -26,7 +26,7 @@ export const authApi = createApi({
     endpoints: (builder) => ({
         loginUser: builder.mutation<ResponseLogin, UserCredentials>({
             query: (credentials) => ({
-                url: '/api/v1/auth/login',
+                url: '/v1/auth/login',
                 method: 'POST',
                 body: JSON.stringify(credentials),
             }),
@@ -39,7 +39,7 @@ export const authApi = createApi({
                 email,
                 country,
             }: Data) => ({
-                url: '/api/v1/auth/signup',
+                url: '/v1/auth/signup',
                 method: 'POST',
                 body: { firstName, lastName, password, email, country },
             }),

@@ -2,18 +2,21 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 import {
   CreateVeterinaryDto,
   QueryLatitudeLongitude,
+  QueryPaginationVeterinary,
   UpdateVeterinaryDto,
 } from './dto';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { UsersService } from 'src/users/users.service';
 import { UserSession } from 'src/types/users/user.type';
 import { Roles } from 'src/types/roles/roles.types';
+import { ConfigService } from '@nestjs/config';
 
 @Injectable()
 export class VeterinariesService {
   constructor(
     private readonly prisma: PrismaService,
     private readonly userService: UsersService,
+    private readonly config: ConfigService,
   ) {}
 
   async create(
@@ -31,18 +34,61 @@ export class VeterinariesService {
     return veterinary;
   }
 
-  async findAll() {
-    const veterinaries = await this.prisma.veterinary.findMany({
-      take: 100,
-      where: { isActive: true },
-      orderBy: [{ latitude: 'desc' }, { longitude: 'desc' }],
-      include: {
-        user: {
-          select: { id: true, firstName: true, lastName: true, country: true },
+  async findAll(query: QueryPaginationVeterinary) {
+    const { page: currentPage } = query;
+
+    const limit = query.limit || 0;
+    const skip = currentPage ? (currentPage - 1) * limit : 0;
+
+    const [veterinaries, count] = await Promise.all([
+      this.prisma.veterinary.findMany({
+        take: limit || undefined,
+        skip: skip,
+        where: { isActive: true },
+        orderBy: [{ latitude: 'desc' }, { longitude: 'desc' }],
+        include: {
+          user: {
+            select: {
+              id: true,
+              firstName: true,
+              lastName: true,
+              country: true,
+            },
+          },
         },
-      },
-    });
-    return veterinaries;
+      }),
+      this.prisma.veterinary.count({ where: { isActive: true } }),
+    ]);
+
+    const lastPage = Math.ceil(count / limit);
+
+    const paginationResponse =
+      currentPage && limit
+        ? {
+            totalPages: lastPage,
+            nextPage:
+              currentPage < lastPage
+                ? `${this.config.get<string>(
+                    'BASE_URL',
+                  )}/veterinaries?limit=${limit}&page=${currentPage + 1}`
+                : null,
+            previousPage:
+              currentPage > 1
+                ? `${this.config.get<string>(
+                    'BASE_URL',
+                  )}/veterinaries?limit=${limit}&page=${
+                    // If current Page exceeded the last page, previous page becomes the last page
+                    currentPage > lastPage ? lastPage : currentPage - 1
+                  }`
+                : null,
+          }
+        : undefined;
+
+    return {
+      ...paginationResponse,
+      count,
+      veterinaries,
+    };
   }
 
   async findByLocation({ latitude, longitude }: QueryLatitudeLongitude) {
@@ -56,9 +102,9 @@ export class VeterinariesService {
       where: {
         isActive: true,
         // longitude < longitudeMaxRange && longitude > longitudeMinRange
-        longitude: { lt: longitudeMaxRange, gt: longitudeMinRange },
+        longitude: { lte: longitudeMaxRange, gte: longitudeMinRange },
         // latitude < latitudeMaxRange && latitude > latitudeMinRange
-        latitude: { lt: latitudeMaxRange, gt: latitudeMinRange },
+        latitude: { lte: latitudeMaxRange, gte: latitudeMinRange },
       },
     });
 
@@ -66,7 +112,26 @@ export class VeterinariesService {
   }
 
   async findOne(id: string) {
-    const veterinary = await this.veterinaryExists(id);
+    const veterinary = await this.prisma.veterinary.findFirst({
+      where: { id, isActive: true },
+      include: {
+        product: { include: { productImage: true } },
+        user: {
+          select: {
+            id: true,
+            firstName: true,
+            lastName: true,
+            country: true,
+            phone: true,
+            codePhone: true,
+          },
+        },
+      },
+    });
+
+    if (!veterinary) {
+      throw new NotFoundException('Veterinary Not Found');
+    }
 
     return veterinary;
   }

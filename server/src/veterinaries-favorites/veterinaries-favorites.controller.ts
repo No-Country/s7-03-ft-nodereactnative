@@ -71,7 +71,10 @@ export class VeterinariesFavoritesController {
   })
   @HttpCode(204)
   @Delete(':id')
-  async remove(@Param() params: ParamsVeterinariesFavoriteDto) {
-    return this.veterinariesFavoritesService.remove(params.id);
+  async remove(
+    @Param() params: ParamsVeterinariesFavoriteDto,
+    @Req() req: Request,
+  ) {
+    return this.veterinariesFavoritesService.remove(params.id, req.user);
   }
 }
