@@ -10,6 +10,7 @@ import { setCredentials } from '../reduxFeature/auth/authSlice';
 import Maps from '../screens/Maps/Maps';
 import { Cuidadores } from '../screens/Cuidadores';
 import { colors } from '../constants';
+import { Veterinarias } from '../screens/Veterinarias';
 import PetShop from '../screens/PetShop/PetShop';
 
 export interface AuthSlice {
@@ -51,6 +52,13 @@ const LoggedStack = () => {
                 options={{
                     headerShown: true,
                     title: 'Mapa',
+                }}
+            />
+            <Stack.Screen
+                name="Veterinarias"
+                component={Veterinarias}
+                options={{
+                    headerTintColor: colors.primary,
                 }}
             />
         </Stack.Navigator>
