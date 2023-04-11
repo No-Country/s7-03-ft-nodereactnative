@@ -13,16 +13,13 @@ import {
     ContainerSaludoyBuscador,
     ContainerTitleOfertas,
     FilaCategorias,
-    Google,
     ImageOferta,
-    ListaStore,
     SaludoUser,
     Title,
     TouchableIcon,
 } from './home.styled';
 import { AuthSlice } from '../../router/Router';
 import { ContainerMenuyUbicacion } from './home.styled';
-import { InputUbicacion } from '../../components/InputUbicacion';
 import { ButtonUbication } from '../../components/buttons/buttonUbication/ButtonUbication';
 import { useNavigation, ParamListBase } from '@react-navigation/native';
 import { StackNavigationProp } from '@react-navigation/stack';
@@ -59,7 +56,6 @@ const Home: React.FC<HomeProps> = () => {
             <ContainerMenuyUbicacion>
                 <SafeAreaView>
                     <TabBar />
-                    {/* <InputUbicacion /> */}
                     <ButtonUbication
                         onPress={() => {
                             navigate('Maps');
@@ -120,14 +116,6 @@ const Home: React.FC<HomeProps> = () => {
                     source={require('../../../assets/ImgOfertas/Oferta.webp')}
                 />
             </ContainerOfertas>
-            <ListaStore>
-                <StoreTab />
-                <StoreTab />
-                <StoreTab />
-                <StoreTab />
-                <StoreTab />
-                <StoreTab />
-            </ListaStore>
             <Toast />
         </ContainerHome>
     );
