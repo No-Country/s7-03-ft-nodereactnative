@@ -58,16 +58,19 @@ const Home: React.FC<HomeProps> = () => {
         <ContainerHome keyboardShouldPersistTaps="handled">
             <ContainerMenuyUbicacion>
                 <SafeAreaView>
-
-                <TabBar />
-                {/* <InputUbicacion /> */}
-                <ButtonUbication onPress={()=>{navigate('Maps')}} />
+                    <TabBar />
+                    {/* <InputUbicacion /> */}
+                    <ButtonUbication
+                        onPress={() => {
+                            navigate('Maps');
+                        }}
+                    />
                 </SafeAreaView>
             </ContainerMenuyUbicacion>
             <ContainerSaludoyBuscador>
                 <SaludoUser>
-                Hola, {firstLetterMayus(infoUser?.user?.firstName)}!
-            </SaludoUser>
+                    Hola, {firstLetterMayus(infoUser?.user?.firstName)}!
+                </SaludoUser>
                 <ContainerBuscadoryFiltro>
                     <InputBuscador />
                     <TouchableIcon>
@@ -106,8 +109,8 @@ const Home: React.FC<HomeProps> = () => {
                     <CategoriaBox
                         img={require('../../../assets/categoriasImg/juguetes.png')}
                         color="#ffda66"
-                        text="Juguetes"
-                        to="Cuidadores"
+                        text="Pet Shop"
+                        to="PetShop"
                     />
                 </FilaCategorias>
             </ContainerCategorias>
