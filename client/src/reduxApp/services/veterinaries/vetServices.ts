@@ -18,7 +18,7 @@ export const vetApi = createApi({
     }),
     endpoints: (builder) => ({
         getVeterinaries: builder.query({
-            query: () => '/v1/veterinaries',
+            query: () => 'api/v1/veterinaries',
         }),
         getVeterinariesId: builder.query({
             query: (id) => `/v1/veterinaries/${id}`,

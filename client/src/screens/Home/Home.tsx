@@ -13,7 +13,6 @@ import {
     ContainerSaludoyBuscador,
     ContainerTitleOfertas,
     FilaCategorias,
-    Google,
     ImageOferta,
     ListaStore,
     SaludoUser,
@@ -22,14 +21,13 @@ import {
 } from './home.styled';
 import { AuthSlice } from '../../router/Router';
 import { ContainerMenuyUbicacion } from './home.styled';
-import { InputUbicacion } from '../../components/InputUbicacion';
 import { ButtonUbication } from '../../components/buttons/buttonUbication/ButtonUbication';
 import { useNavigation, ParamListBase } from '@react-navigation/native';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { firstLetterMayus } from '../../utils/functions';
 import { alertToast } from '../../utils/alerts';
 import Toast from 'react-native-toast-message';
-import { View, Text } from 'react-native';
+import { Text } from 'react-native';
 import { useEffect } from 'react';
 import { FontAwesome5 } from '@expo/vector-icons';
 import { SafeAreaView } from 'react-native';
@@ -92,7 +90,7 @@ const Home: React.FC<HomeProps> = () => {
                         img={require('../../../assets/categoriasImg/veterinarios.png')}
                         color="#8eb6f8"
                         text="Veterinarias"
-                        to="Cuidadores"
+                        to="Veterinarias"
                     />
                     <CategoriaBox
                         img={require('../../../assets/categoriasImg/cuidadores.png')}
