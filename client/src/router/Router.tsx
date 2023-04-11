@@ -12,6 +12,7 @@ import { Cuidadores } from '../screens/Cuidadores';
 import { colors } from '../constants';
 import { Veterinarias } from '../screens/Veterinarias';
 import PetShop from '../screens/PetShop/PetShop';
+import AddNewVeterinarie from '../screens/PetShop/AddNewVeterinarie/AddNewVeterinarie';
 
 export interface AuthSlice {
     authSlice: {
@@ -35,6 +36,13 @@ const LoggedStack = () => {
             <Stack.Screen
                 name="Cuidadores"
                 component={Cuidadores}
+                options={{
+                    headerTintColor: colors.primary,
+                }}
+            />
+            <Stack.Screen
+                name="NewVeterinarie"
+                component={AddNewVeterinarie}
                 options={{
                     headerTintColor: colors.primary,
                 }}

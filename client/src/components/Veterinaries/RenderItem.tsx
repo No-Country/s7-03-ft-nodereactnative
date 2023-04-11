@@ -1,25 +1,18 @@
 import React from 'react';
-import { View, Text, Image } from 'react-native';
+import { View, Text, Image, TouchableOpacity } from 'react-native';
 import { Entypo } from '@expo/vector-icons';
-import { ContainerVeterinaries } from './Veterinaries.styled';
+import { useGetVeterinariesIdQuery } from '../../reduxApp/services/veterinaries/vetServices';
+import { useState } from 'react';
 
 const RenderItem = ({ item }: any) => {
-    return (
-        <ContainerVeterinaries
-            style={{
-                backgroundColor: '#fff',
-                shadowColor: '#000',
-                shadowOffset: {
-                    width: 0,
-                    height: 1,
-                },
-                shadowOpacity: 0.22,
-                shadowRadius: 2.22,
+    // const [idRequest, setIdRequest] = useState('');
 
-                elevation: 3,
-                marginBottom: 15,
-            }}
-        >
+    // const { data } = useGetVeterinariesIdQuery(idRequest);
+
+    // console.log('data de la peticion', data);
+
+    return (
+        <View>
             <View
                 style={{
                     flexDirection: 'row',
@@ -57,7 +50,7 @@ const RenderItem = ({ item }: any) => {
                     <Entypo name="heart-outlined" size={24} color="black" />
                 </View>
             </View>
-        </ContainerVeterinaries>
+        </View>
     );
 };
 
