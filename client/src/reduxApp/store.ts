@@ -1,5 +1,4 @@
 import { configureStore } from '@reduxjs/toolkit';
-import { baseSlice } from '../reduxFeature';
 // Slices
 import authSlice from '../reduxFeature/auth/authSlice';
 import userSlice from '../reduxFeature/user/userSlice';
@@ -10,7 +9,6 @@ import { vetApi } from './services/veterinaries/vetServices';
 
 export const store = configureStore({
     reducer: {
-        counter: baseSlice,
         [authApi.reducerPath]: authApi.reducer,
         [userApi.reducerPath]: userApi.reducer,
         [vetApi.reducerPath]: vetApi.reducer,

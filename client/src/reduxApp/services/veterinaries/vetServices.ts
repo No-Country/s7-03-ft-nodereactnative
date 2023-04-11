@@ -2,11 +2,6 @@ import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 import { API_APP_BASE_URL } from '@env';
 import { VetInterface } from '../../../interfaces/vetInterfaces';
 
-interface UserCredentials {
-    email: string;
-    password: string;
-}
-
 export const vetApi = createApi({
     reducerPath: 'vets',
     baseQuery: fetchBaseQuery({
