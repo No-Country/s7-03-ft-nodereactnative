@@ -5,11 +5,11 @@ import { useGetVeterinariesIdQuery } from '../../reduxApp/services/veterinaries/
 import { useState } from 'react';
 
 const RenderItem = ({ item }: any) => {
-    const [idRequest, setIdRequest] = useState('');
+    // const [idRequest, setIdRequest] = useState('');
 
-    const { data } = useGetVeterinariesIdQuery(idRequest);
+    // const { data } = useGetVeterinariesIdQuery(idRequest);
 
-    console.log('data de la peticion', data);
+    // console.log('data de la peticion', data);
 
     return (
         <View>
@@ -48,9 +48,6 @@ const RenderItem = ({ item }: any) => {
                 >
                     <Entypo name="heart-outlined" size={24} color="black" />
                     <Entypo name="heart-outlined" size={24} color="black" />
-                    <TouchableOpacity onPress={() => setIdRequest(item.id)}>
-                        <Text style={{ color: 'cyan' }}>Ir a la tienda</Text>
-                    </TouchableOpacity>
                 </View>
             </View>
         </View>
