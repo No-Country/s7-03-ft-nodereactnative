@@ -1,4 +1,4 @@
-import { Text } from 'react-native';
+import { ActivityIndicator  } from 'react-native';
 import { VeterinariasBar } from '../../components/VeterinariasBar';
 import { useGetVeterinariesQuery } from '../../reduxApp/services/veterinaries/vetServices';
 import {
@@ -12,6 +12,7 @@ const Veterinarias: React.FC<VeterinariasProps> = () => {
     const { data, isLoading } = useGetVeterinariesQuery('');
 
     const listaVets = data?.results?.veterinaries;
+   
 
     interface Vet {
         id: string;
@@ -36,7 +37,7 @@ const Veterinarias: React.FC<VeterinariasProps> = () => {
             source={require('../../../assets/fondoHuellitas.png')}
         >
             <ScrollViewContainer>
-                { isLoading ? <Text>Cargando...</Text> : listaVets?.map((vet: Vet) => {
+                { isLoading ? <ActivityIndicator size="large" /> : listaVets?.map((vet: Vet) => {
                     return <VeterinariasBar key={vet.id} {...vet} />;
                 })}
             </ScrollViewContainer>

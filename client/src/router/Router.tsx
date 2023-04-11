@@ -11,6 +11,7 @@ import Maps from '../screens/Maps/Maps';
 import { Cuidadores } from '../screens/Cuidadores';
 import { colors } from '../constants';
 import { Veterinarias } from '../screens/Veterinarias';
+import PetShop from '../screens/PetShop/PetShop';
 
 export interface AuthSlice {
     authSlice: {
@@ -28,7 +29,7 @@ const LoggedStack = () => {
                 name="DrawerNavigation"
                 component={DrawerNavigation}
                 options={{
-                    headerShown: false
+                    headerShown: false,
                 }}
             />
             <Stack.Screen
@@ -39,11 +40,18 @@ const LoggedStack = () => {
                 }}
             />
             <Stack.Screen
+                name="PetShop"
+                component={PetShop}
+                options={{
+                    headerTintColor: colors.primary,
+                }}
+            />
+            <Stack.Screen
                 name="Maps"
                 component={Maps}
                 options={{
                     headerShown: true,
-                    title: 'Mapa'
+                    title: 'Mapa',
                 }}
             />
             <Stack.Screen

@@ -2,6 +2,7 @@ import { configureStore } from '@reduxjs/toolkit';
 // Slices
 import authSlice from '../reduxFeature/auth/authSlice';
 import userSlice from '../reduxFeature/user/userSlice';
+import veterinariesSlice from '../reduxFeature/veterinaries/veterinariesSlice';
 // Api
 import { authApi } from './services/auth/auth';
 import { userApi } from './services/users/users';
@@ -14,6 +15,7 @@ export const store = configureStore({
         [vetApi.reducerPath]: vetApi.reducer,
         authSlice,
         userSlice,
+        veterinariesSlice,
     },
     middleware: (getDefaultMiddleware) =>
         getDefaultMiddleware().concat(

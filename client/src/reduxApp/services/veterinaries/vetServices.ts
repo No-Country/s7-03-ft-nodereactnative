@@ -5,7 +5,7 @@ import { VetInterface } from '../../../interfaces/vetInterfaces';
 export const vetApi = createApi({
     reducerPath: 'vets',
     baseQuery: fetchBaseQuery({
-        baseUrl: API_APP_BASE_URL,
+        baseUrl: `${API_APP_BASE_URL}`,
         prepareHeaders: (headers, { getState }) => {
             headers.set('Content-Type', 'application/json');
             return headers;
@@ -13,9 +13,8 @@ export const vetApi = createApi({
     }),
     endpoints: (builder) => ({
         getVeterinaries: builder.query({
-            query: ()=>'/api/v1/veterinaries'
+            query: () => 'api/v1/veterinaries',
         }),
-        
     }),
 });
 

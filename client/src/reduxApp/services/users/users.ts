@@ -34,7 +34,7 @@ export const userApi = createApi({
     endpoints: (builder) => ({
         getUser: builder.query<UserId, string>({
             query: (id) => ({
-                url: `/api/v1/users/${id}`,
+                url: `/v1/users/${id}`,
             }),
         }),
         updateUser: builder.mutation<UserId, { id: string; data: UserUpdate }>({
@@ -42,7 +42,7 @@ export const userApi = createApi({
                 console.log('viene de updateUser', data);
                 console.log('viene de updateUser', id);
                 return {
-                    url: `/api/v1/users/${id}`,
+                    url: `/v1/users/${id}`,
                     method: 'PATCH',
                     body: JSON.stringify(data),
                 };
@@ -50,7 +50,7 @@ export const userApi = createApi({
         }),
         deleteUser: builder.mutation<void, string>({
             query: (id) => ({
-                url: `/api/v1/users/${id}`,
+                url: `/v1/users/${id}`,
                 method: 'DELETE',
             }),
         }),

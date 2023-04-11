@@ -14,6 +14,7 @@ import { ProductsModule } from './products/products.module';
 import { VeterinariesFavoritesModule } from './veterinaries-favorites/veterinaries-favorites.module';
 import { MulterModule } from '@nestjs/platform-express';
 import { ProductImagesModule } from './product-images/product-images.module';
+import { ProductsFavoritesModule } from './products-favorites/products-favorites.module';
 import * as multer from 'multer';
 
 @Module({
@@ -31,6 +32,7 @@ import * as multer from 'multer';
       storage: multer.memoryStorage(),
     }),
     ProductImagesModule,
+    ProductsFavoritesModule,
   ],
   providers: [
     { provide: APP_GUARD, useClass: JwtAuthGuard },
