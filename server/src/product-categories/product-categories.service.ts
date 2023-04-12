@@ -7,17 +7,33 @@ import { UpdateProductCategoryDTO } from './dtos/update-product-category.dto';
 export class ProductCategoriesService {
   constructor(private readonly prisma: PrismaService) {}
 
-  async findAndCount() {
-    const productCategories = await this.prisma.productCategory.findMany({
-      where: { isActive: true },
-      select: {
-        id: true,
-        name: true,
-        createdAt: true,
-      },
-      take: 100,
-    });
-    return productCategories;
+  async findAndCount(query: any) {
+    const { id, size = 10, page = 1 } = query;
+    const numericSize = parseInt(size, 10);
+    const numericPage = parseInt(page, 10);
+    const where = id ? { isActive: true, id } : { isActive: true };
+
+    const [productCategories, count] = await Promise.all([
+      this.prisma.productCategory.findMany({
+        where: { isActive: true },
+        select: {
+          id: true,
+          name: true,
+          createdAt: true,
+        },
+        take: numericSize,
+        skip: (numericPage - 1) * numericSize,
+      }),
+      this.prisma.productCategory.count({ where }),
+    ]);
+    const totalPages = numericSize === 0 ? 1 : Math.ceil(count / numericSize);
+
+    return {
+      count,
+      totalPages,
+      currentPage: page,
+      results: productCategories,
+    };
   }
 
   async create(body: CreateProductCategoryDTO) {
