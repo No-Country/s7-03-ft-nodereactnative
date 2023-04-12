@@ -94,18 +94,10 @@ model PetPreference {
   @@map("Pet_preference")
 }
 
-enum Rating {
-  Unacceptable        @map("1")
-  NeedsImprovement    @map("2")
-  MeetsExpectations   @map("3")
-  ExceedsExpectations @map("4")
-  Outstanding         @map("5")
-}
-
 model Review {
   id           String   @id @default(uuid()) @db.Uuid()
   comment      String
-  rating       Rating
+  rating       Int
   userId       String   @map("user_id") @db.Uuid()
   veterinaryId String   @map("veterinary_id") @db.Uuid()
   isActive     Boolean  @default(true) @map("is_active")

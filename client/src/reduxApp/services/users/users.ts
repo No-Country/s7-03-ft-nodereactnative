@@ -21,7 +21,6 @@ interface UserUpdate {
 export const userApi = createApi({
     reducerPath: 'user',
     baseQuery: fetchBaseQuery({
-        // baseUrl: 'http://192.168.11.128:5000',
         baseUrl: `${API_APP_BASE_URL}`,
         prepareHeaders: (headers, { getState }) => {
             const token = (getState() as RootState).authSlice.token;
@@ -40,8 +39,6 @@ export const userApi = createApi({
         }),
         updateUser: builder.mutation<UserId, { id: string; data: UserUpdate }>({
             query: ({ id, data }) => {
-                console.log('viene de updateUser', data);
-                console.log('viene de updateUser', id);
                 return {
                     url: `/v1/users/${id}`,
                     method: 'PATCH',
