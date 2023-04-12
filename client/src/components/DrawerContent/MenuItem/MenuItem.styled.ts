@@ -1,28 +1,27 @@
 import styled from 'styled-components/native';
-import { MenuIconProps, MenuItemWrapperProps, MenuTextProps } from './MenuItem';
+import { MenuItemWrapperProps, MenuTextProps } from './MenuItem';
 import { colors } from '../../../constants';
 
 export const MenuItemWrapper = styled.TouchableOpacity<MenuItemWrapperProps>`
     display: flex;
     flex-direction: row;
-    align-items: center;
+    align-items: space-between;
     justify-content: center;
+    flex: 1;
     margin-bottom: 20px;
     padding: 10px;
-    border-radius: 5px;
-    background-color: ${(props) =>
-        props.estaActivo ? colors.primaryLight : '#fff'};
+    border-bottom-style: solid;
+    border-bottom-color: #EBEBEB;
+    border-bottom-width: 1px;
+   
 `;
 
-export const MenuIcon = styled.View<MenuIconProps>`
-    margin-right: 30px;
-    align-self: flex-end;
-    flex: 1;
-`;
 
 export const MenuText = styled.Text<MenuTextProps>`
     font-size: 18px;
     align-self: center;
     flex: 6;
-    color: ${(props) => (props.estaActivo ? '#fff' : '#000')};
+    color: ${colors.primary};
+    font-weight: ${(props) => (props.estaActivo ? '700' : '400')};
+
 `;
