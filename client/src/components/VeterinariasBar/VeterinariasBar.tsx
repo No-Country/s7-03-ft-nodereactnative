@@ -38,7 +38,6 @@ export interface VetBarProps {
 }
 
 const VeterinariasBar: React.FC<VetBarProps> = (vet) => {
-
     const shortDesc = vet?.description.slice(0, 40) + '...';
 
     const navigation =
