@@ -1,5 +1,4 @@
 import { DrawerContentScrollView } from '@react-navigation/drawer';
-import { View } from 'react-native';
 import {
     DrawerContentContainer,
     HeaderContainer,
@@ -20,10 +19,9 @@ export interface DrawerContentProps {
 const DrawerContent: React.FC<DrawerContentProps> = ({ props }) => {
     const infoUser = useSelector((state: AuthSlice) => state.authSlice);
 
-    const fullName = `${infoUser?.user?.firstName} ${infoUser?.user?.lastName}`;
     const actualRoute = props.state.routeNames[props.state.index];
     return (
-        <DrawerContentScrollView style={{height: 700}}>
+        <DrawerContentScrollView style={{ height: 700 }}>
             <MainDrawerContainer>
                 <DrawerContentContainer>
                     <HeaderContainer>
@@ -36,6 +34,11 @@ const DrawerContent: React.FC<DrawerContentProps> = ({ props }) => {
                             to={'misPedidos_drawer'}
                             label="Mis pedidos"
                             estaActivo={actualRoute === 'misPedidos_drawer'}
+                        />
+                        <MenuItem
+                            to={'add_veterinarie'}
+                            label="Registra tu veterinaria"
+                            estaActivo={actualRoute === 'add_veterinarie'}
                         />
                         <MenuItem label="Cerrar Sesion" estaActivo={false} />
                     </MenuContainer>

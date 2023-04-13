@@ -1,6 +1,6 @@
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
-import React, { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { AuthStack } from './AuthStack';
 import { DrawerNavigation } from './DrawerNavigation';
 import { useDispatch, useSelector } from 'react-redux';
@@ -10,9 +10,10 @@ import { setCredentials } from '../reduxFeature/auth/authSlice';
 import Maps from '../screens/Maps/Maps';
 import { Cuidadores } from '../screens/Cuidadores';
 import { colors } from '../constants';
-import { Veterinarias } from '../screens/Veterinarias';
 import PetShop from '../screens/PetShop/PetShop';
 import AddNewVeterinarie from '../screens/PetShop/AddNewVeterinarie/AddNewVeterinarie';
+import { VetRoute } from './VetRoute';
+import { PetShopList } from '../screens';
 
 export interface AuthSlice {
     authSlice: {
@@ -49,8 +50,9 @@ const LoggedStack = () => {
             />
             <Stack.Screen
                 name="PetShop"
-                component={PetShop}
+                component={PetShopList}
                 options={{
+                    title: 'PetShops',
                     headerTintColor: colors.primary,
                 }}
             />
@@ -64,8 +66,9 @@ const LoggedStack = () => {
             />
             <Stack.Screen
                 name="Veterinarias"
-                component={Veterinarias}
+                component={VetRoute}
                 options={{
+                    headerShown: false,
                     headerTintColor: colors.primary,
                 }}
             />
