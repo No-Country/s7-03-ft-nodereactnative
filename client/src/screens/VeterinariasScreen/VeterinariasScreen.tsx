@@ -13,8 +13,12 @@ import {
     WrapperItems,
     WrapperPropietaria,
 } from './VeterinariasScreen.styled';
-import { Ionicons, MaterialCommunityIcons, FontAwesome5  } from '@expo/vector-icons';
-import { View, Linking  } from 'react-native';
+import {
+    Ionicons,
+    MaterialCommunityIcons,
+    FontAwesome5,
+} from '@expo/vector-icons';
+import { View, Linking } from 'react-native';
 import { colors } from '../../constants';
 
 export interface VeterinariasScreenProps {
@@ -68,7 +72,11 @@ const VeterinariasScreen: React.FC<VeterinariasScreenProps> = () => {
                     </View>
                 </WrapperPropietaria>
                 <WrapperItems>
-                    <IconAndText onPress={() => Linking.openURL(`tel:${params?.vet?.phone}`)}>
+                    <IconAndText
+                        onPress={() =>
+                            Linking.openURL(`tel:${params?.vet?.phone}`)
+                        }
+                    >
                         <Icon>
                             <MaterialCommunityIcons
                                 name="phone-ring"
@@ -81,7 +89,7 @@ const VeterinariasScreen: React.FC<VeterinariasScreenProps> = () => {
 
                     <IconAndText>
                         <Icon>
-                        <FontAwesome5 name="store" size={24} color="#fff" />
+                            <FontAwesome5 name="store" size={24} color="#fff" />
                         </Icon>
                         <TextItem>{params?.vet?.address}</TextItem>
                     </IconAndText>
