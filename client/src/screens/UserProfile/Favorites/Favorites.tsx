@@ -1,10 +1,13 @@
 import React from 'react';
-import { Text, View } from 'react-native';
+import { View } from 'react-native';
+import ProductsFavorites from './ProductsFavorites';
+import VeterinariesFavorites from './VeterinariesFavorites';
 
 const Favorites = () => {
     return (
-        <View>
-            <Text>Produtos y tiendas favoritas</Text>
+        <View style={{ marginTop: 20 }}>
+            <VeterinariesFavorites />
+            <ProductsFavorites />
         </View>
     );
 };
