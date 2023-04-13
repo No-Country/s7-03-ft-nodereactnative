@@ -1,0 +1,1 @@
+export { default as Veterinarias } from './VeterinariasLists';

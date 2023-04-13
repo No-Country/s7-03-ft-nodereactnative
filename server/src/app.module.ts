@@ -41,6 +41,5 @@ import * as multer from 'multer';
     { provide: APP_INTERCEPTOR, useClass: TransformInterceptor },
     { provide: APP_GUARD, useClass: RolesGuard },
   ],
-  controllers: [],
 })
 export class AppModule {}

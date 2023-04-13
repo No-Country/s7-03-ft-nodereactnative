@@ -16,6 +16,10 @@ import { PosState } from '../../reduxFeature/user/userPositionSlice';
 import { VetPosState } from '../../reduxFeature/veterinaries/vetPositionSlice';
 import { ButtonPrimary } from '../../components';
 import { FontAwesome } from '@expo/vector-icons';
+import { useNavigation } from '@react-navigation/native';
+import { StackNavigationProp } from '@react-navigation/stack';
+import { RootStackParamList } from '../../constants/types';
+import { VetBarProps } from '../../components/VeterinariasBar/VeterinariasBar';
 
 const Map = styled(MapView)`
     height: 100%;
@@ -25,15 +29,15 @@ const Map = styled(MapView)`
 const RowView = styled.View`
     flex-direction: row;
     margin: 5px;
-    `;
+`;
 
 const ContainView = styled.View`
     padding: 0 20px;
-    `;
+`;
 
 const TextView = styled.Text`
     margin-left: 10px;
-    `;
+`;
 
 const TextTitle = styled.Text`
     margin-left: 10px;
@@ -42,6 +46,8 @@ const TextTitle = styled.Text`
 `;
 
 const Maps = () => {
+    const navigation = useNavigation<StackNavigationProp<any, 'Veterinarias'>>();
+
     const positionSelector = useSelector(
         (state: PosState) => state.userPositionSlice
     );
@@ -54,14 +60,14 @@ const Maps = () => {
         longitude: 0,
     });
     const [mapOk, setMapOk] = useState(false);
-    const [veterinaries, setVeterinaries] = useState<VetInterface[]>([]);
-    const [veterinary, setVeterinary] = useState<VetInterface>();
+    const [veterinaries, setVeterinaries] = useState<VetBarProps[]>([]);
+    const [vet, setVeterinary] = useState<VetBarProps>();
 
     const bottomSheetRef = useRef<BottomSheet>(null);
     const snapPoints = useMemo(() => ['25%', '50%', '75%'], []);
     const handleSheetChanges = useCallback((index: number) => {
         bottomSheetRef.current?.snapToIndex(index);
-        console.log('handleSheetChanges', index);
+        // console.log('handleSheetChanges', index);
     }, []);
 
     const { data } = useGetVeterinariesQuery('');
@@ -126,7 +132,7 @@ const Maps = () => {
                 onChange={handleSheetChanges}
             >
                 <ContainView>
-                    {veterinary && (
+                    {vet && (
                         <>
                             <RowView>
                                 <Image
@@ -134,14 +140,34 @@ const Maps = () => {
                                     style={{ width: 70, height: 70 }}
                                 />
                                 <View>
-                                <TextTitle>{veterinary.name}</TextTitle>
-                                <RowView>
-                                <FontAwesome name="star" size={15} color="black" />
-                                <FontAwesome name="star" size={15} color="black" />
-                                <FontAwesome name="star" size={15} color="black" />
-                                <FontAwesome name="star-half-empty" size={15} color="black" />
-                                <FontAwesome name="star-o" size={15} color="black" />
-                                </RowView>
+                                    <TextTitle>{vet.name}</TextTitle>
+                                    <RowView>
+                                        <FontAwesome
+                                            name="star"
+                                            size={15}
+                                            color="black"
+                                        />
+                                        <FontAwesome
+                                            name="star"
+                                            size={15}
+                                            color="black"
+                                        />
+                                        <FontAwesome
+                                            name="star"
+                                            size={15}
+                                            color="black"
+                                        />
+                                        <FontAwesome
+                                            name="star-half-empty"
+                                            size={15}
+                                            color="black"
+                                        />
+                                        <FontAwesome
+                                            name="star-o"
+                                            size={15}
+                                            color="black"
+                                        />
+                                    </RowView>
                                 </View>
                             </RowView>
                             <RowView>
@@ -150,7 +176,7 @@ const Maps = () => {
                                     size={24}
                                     color="black"
                                 />
-                                <TextView>{veterinary.address}</TextView>
+                                <TextView>{vet.address}</TextView>
                             </RowView>
                             <RowView>
                                 <FontAwesome
@@ -168,12 +194,17 @@ const Maps = () => {
                                     size={24}
                                     color="black"
                                 />
-                                <TextView>{veterinary.phone}</TextView>
+                                <TextView>{vet.phone}</TextView>
                             </RowView>
-                            <TextView>{veterinary.description}</TextView>
+                            <TextView>{vet.description}</TextView>
                             <TextView></TextView>
                             <ButtonPrimary
-                                onPress={() => console.log('')}
+                                onPress={() =>
+                                    navigation.navigate('Veterinarias', {
+                                        screen: 'VetDetail',
+                                        params: {vet},
+                                    })
+                                }
                                 title="Ir a la tienda"
                             />
                         </>
