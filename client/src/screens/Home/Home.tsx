@@ -38,6 +38,7 @@ const Home: React.FC<HomeProps> = () => {
     const infoUser = useSelector((state: AuthSlice) => state.authSlice);
     const { navigate } = useNavigation<StackNavigationProp<ParamListBase>>();
 
+
     useEffect(() => {
         <Text>
             {infoUser?.token && (
@@ -58,7 +59,8 @@ const Home: React.FC<HomeProps> = () => {
                 <SafeAreaView>
                     <TabBar />
                     {/* <InputUbicacion /> */}
-                    <ButtonUbication
+                    <Text>Ver veterinarias cercanas</Text>
+                    <ButtonUbication                    
                         onPress={() => {
                             navigate('Maps');
                         }}

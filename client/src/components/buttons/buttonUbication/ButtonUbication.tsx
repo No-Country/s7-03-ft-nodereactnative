@@ -1,7 +1,10 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { GestureResponderEvent } from 'react-native';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import styled from 'styled-components/native';
+import { useSelector } from 'react-redux';
+import { PosState } from '../../../reduxFeature/user/userPositionSlice';
+import usePosition from '../../../hooks/usePosition';
 
 const Button = styled.TouchableOpacity`
     flex-direction: row;
@@ -27,6 +30,16 @@ interface Props {
 export const ButtonUbication = (props: Props) => {
     const { onPress } = props;
 
+    const positionSelector = useSelector((state:PosState)=> state.userPositionSlice)
+    console.log(positionSelector);
+    
+    
+    const {getLocationPermission} = usePosition()
+
+    useEffect(() => {
+        getLocationPermission()
+    }, []);
+
     return (
         <Button onPress={onPress} 
         style={{
@@ -45,7 +58,7 @@ export const ButtonUbication = (props: Props) => {
                 size={24}
                 color="black"
             />
-            <Text> Ubicación</Text>
+            <Text> {positionSelector?.city ? positionSelector.city : 'Mi ubicación'} </Text>
         </Button>
     );
 };
