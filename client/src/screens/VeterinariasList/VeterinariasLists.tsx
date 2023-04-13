@@ -4,7 +4,7 @@ import { useGetVeterinariesQuery } from '../../reduxApp/services/veterinaries/ve
 import {
     ContainerVeterinario,
     ScrollViewContainer,
-} from './veterinarias.style';
+} from './veterinariasLists.style';
 
 export interface VeterinariasProps {}
 

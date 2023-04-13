@@ -8,12 +8,15 @@ import {
     ShortDescription,
     VetTabContainer,
 } from './VeterinariasBar.styled';
-import { FontAwesome } from '@expo/vector-icons';
 import { useDispatch } from 'react-redux';
 import { ParamListBase, useNavigation } from '@react-navigation/native';
-import { setVetDeletePosition, setVetPosition } from '../../reduxFeature/veterinaries/vetPositionSlice';
+import {
+    setVetDeletePosition,
+    setVetPosition,
+} from '../../reduxFeature/veterinaries/vetPositionSlice';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { RootStackParamList } from '../../constants/types/RootStackParamList ';
+import { StarRating } from '../StarRating';
 
 export interface VetBarProps {
     id: string;
@@ -34,45 +37,12 @@ export interface VetBarProps {
     };
 }
 
-const VeterinariasBar: React.FC<VetBarProps> = ( vet ) => {
-    const fullStars = Math.floor(3.4);
-
-    const halfStars = Math.ceil(3.4 - fullStars);
-
-    const emptyStars = 5 - fullStars - halfStars;
-
-    const stars = [];
-
-    for (let i = 0; i < fullStars; i++) {
-        stars.push(<FontAwesome key={i} name="star" size={15} color="black" />);
-    }
-
-    for (let i = 0; i < halfStars; i++) {
-        stars.push(
-            <FontAwesome
-                key={fullStars + i}
-                name="star-half-empty"
-                size={15}
-                color="black"
-            />
-        );
-    }
-
-    for (let i = 0; i < emptyStars; i++) {
-        stars.push(
-            <FontAwesome
-                key={fullStars + halfStars + i}
-                name="star-o"
-                size={15}
-                color="black"
-            />
-        );
-    }
+const VeterinariasBar: React.FC<VetBarProps> = (vet) => {
 
     const shortDesc = vet?.description.slice(0, 40) + '...';
 
-    const navigation = useNavigation<StackNavigationProp<RootStackParamList, 'VetDetail'>>();
-
+    const navigation =
+        useNavigation<StackNavigationProp<RootStackParamList, 'VetDetail'>>();
 
     // const dispatch = useDispatch()
     // const navigate = useNavigation<StackNavigationProp<ParamListBase>>()
@@ -88,20 +58,19 @@ const VeterinariasBar: React.FC<VetBarProps> = ( vet ) => {
     //     }, 2000);
     // }
 
-
     // const dispatch = useDispatch()
     // const navigate = useNavigation<StackNavigationProp<ParamListBase>>()
-    const handleOnPress = ()=>{
-        const vetPos = {
-            latitude: vet.latitude,
-            longitude: vet.longitude
-        }
-        dispatch(setVetPosition(vetPos))
-        navigate.navigate('Maps')
-        setTimeout(() => {
-            dispatch(setVetDeletePosition())
-        }, 2000);
-    }
+    // const handleOnPress = ()=>{
+    //     const vetPos = {
+    //         latitude: vet.latitude,
+    //         longitude: vet.longitude
+    //     }
+    //     dispatch(setVetPosition(vetPos))
+    //     navigate.navigate('Maps')
+    //     setTimeout(() => {
+    //         dispatch(setVetDeletePosition())
+    //     }, 2000);
+    // }
 
     return (
         <TouchableOpacity
@@ -119,7 +88,7 @@ const VeterinariasBar: React.FC<VetBarProps> = ( vet ) => {
                 marginBottom: 15,
                 margin: 5,
             }}
-            onPress={() => navigation.navigate('VetDetail', {vet})}
+            onPress={() => navigation.navigate('VetDetail', { vet })}
             // onPress={handleOnPress}
         >
             <VetTabContainer>
@@ -131,7 +100,9 @@ const VeterinariasBar: React.FC<VetBarProps> = ( vet ) => {
                 <DataVetContainer>
                     <NombreVeterinaria>{vet?.name}</NombreVeterinaria>
                     <ShortDescription>{shortDesc}</ShortDescription>
-                    <Rating>{stars.map((star) => star)}</Rating>
+                    <Rating>
+                        <StarRating rating={4} />
+                    </Rating>
                 </DataVetContainer>
             </VetTabContainer>
         </TouchableOpacity>
