@@ -87,7 +87,7 @@ const Register = ({ navigation }: Props) => {
             });
             setTimeout(() => {
                 navigation.navigate('login');
-            }, 3000);
+            }, 2000);
         }
         if (resp.error?.data.message === 'Email Already Exists') {
             Toast.show({
