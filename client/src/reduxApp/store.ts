@@ -2,7 +2,9 @@ import { configureStore } from '@reduxjs/toolkit';
 // Slices
 import authSlice from '../reduxFeature/auth/authSlice';
 import userSlice from '../reduxFeature/user/userSlice';
+import userPositionSlice from '../reduxFeature/user/userPositionSlice';
 import veterinariesSlice from '../reduxFeature/veterinaries/veterinariesSlice';
+import vetPositionSlice from '../reduxFeature/veterinaries/vetPositionSlice';
 import productSlice from '../reduxFeature/products/productsSlice';
 // Api
 import { authApi } from './services/auth/auth';
@@ -22,7 +24,9 @@ export const store = configureStore({
         authSlice,
         userSlice,
         veterinariesSlice,
+        userPositionSlice,
         productSlice,
+        vetPositionSlice
     },
     middleware: (getDefaultMiddleware) =>
         getDefaultMiddleware().concat(

@@ -1,6 +1,10 @@
 import { TouchableOpacity } from 'react-native';
 import { ContainerFotoVet, DataVetContainer, FotoVet, NombreVeterinaria, Rating, ShortDescription, VetTabContainer } from './VeterinariasBar.styled';
 import { FontAwesome } from '@expo/vector-icons';
+import { useDispatch } from 'react-redux';
+import { ParamListBase, useNavigation } from '@react-navigation/native';
+import { setVetDeletePosition, setVetPosition } from '../../reduxFeature/veterinaries/vetPositionSlice';
+import { StackNavigationProp } from '@react-navigation/stack';
 
 export interface StoreTabProps {
     id: string;
@@ -58,6 +62,21 @@ const VeterinariasBar: React.FC<StoreTabProps> = ({...vet}) => {
 
     const shortDesc = vet?.description.slice(0, 40) + '...';
 
+
+    const dispatch = useDispatch()
+    const navigate = useNavigation<StackNavigationProp<ParamListBase>>()
+    const handleOnPress = ()=>{
+        const vetPos = {
+            latitude: vet.latitude,
+            longitude: vet.longitude
+        }
+        dispatch(setVetPosition(vetPos))
+        navigate.navigate('Maps')
+        setTimeout(() => {
+            dispatch(setVetDeletePosition())
+        }, 2000);
+    }
+
     return (
         <TouchableOpacity
             style={{
@@ -74,6 +93,7 @@ const VeterinariasBar: React.FC<StoreTabProps> = ({...vet}) => {
                 marginBottom: 15,
                 margin: 5,
             }}
+            onPress={handleOnPress}
         >
             <VetTabContainer>
                 <ContainerFotoVet>
