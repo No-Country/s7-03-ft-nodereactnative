@@ -9,14 +9,14 @@ import {
   UploadedFile,
   UseInterceptors,
 } from '@nestjs/common';
-import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiBody, ApiConsumes, ApiTags } from '@nestjs/swagger';
 import { ProductsService } from './products.service';
 import { SkipAuth } from 'src/auth/decorators/skip-auth.decorator';
 import { CreateProductDto } from './dtos/create-product';
 import { FileInterceptor } from '@nestjs/platform-express';
-import { uploadProductImages } from 'src/utils/firebase';
+import { uploadProductImage } from 'src/utils/firebase';
 import { ProductImagesService } from 'src/product-images/product-images.service';
-import { CreateProductImageDto } from 'src/product-images/dto/create-product-image.dto';
+import { CreateProductImagesDto } from 'src/product-images/dto/create-product-image.dto';
 
 @ApiTags('Products')
 @Controller('api/v1/products')
@@ -36,6 +36,39 @@ export class ProductsController {
   @Post()
   @ApiBearerAuth()
   @UseInterceptors(FileInterceptor('product-image'))
+  @ApiConsumes('multipart/form-data')
+  @ApiBody({
+    description:
+      'Fields required to create a product, only admins and vet type users can create products',
+    schema: {
+      type: 'object',
+      properties: {
+        name: {
+          type: 'string',
+        },
+        description: {
+          type: 'string',
+        },
+        price: {
+          type: 'integer',
+        },
+        quantity: {
+          type: 'integer',
+        },
+        productCategoryId: {
+          type: 'string',
+        },
+        veterinaryId: {
+          type: 'string',
+        },
+        'product-image': {
+          type: 'string',
+          format: 'binary',
+        },
+      },
+    },
+    required: true,
+  })
   async createProduct(
     @Body() body: CreateProductDto,
     @Request() req: any,
@@ -45,13 +78,13 @@ export class ProductsController {
     console.log(user);
 
     const product = await this.productsServices.create(body);
-    const uploadImageDto: CreateProductImageDto = {
-      imageUrl: '',
+    const uploadImageDto: CreateProductImagesDto = {
+      imageUrl: [],
       productId: product.id,
     };
 
-    const imageUrl = await uploadProductImages(file);
-    uploadImageDto.imageUrl = imageUrl;
+    const imageUrl = await uploadProductImage(file);
+    uploadImageDto.imageUrl.push(imageUrl);
 
     const createProductImage = await this.productImagesServices.uploadImage(
       uploadImageDto,

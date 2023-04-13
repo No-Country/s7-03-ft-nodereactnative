@@ -11,7 +11,7 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const storage = getStorage(app);
 
-export const uploadProductImages = async (file: Express.Multer.File) => {
+export const uploadProductImage = async (file: Express.Multer.File) => {
   const ext = file.originalname.split('.').pop();
   const timestamp = Date.now();
   const fileName = `product-${timestamp}.${ext}`;

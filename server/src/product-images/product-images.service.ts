@@ -1,25 +1,30 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from 'src/prisma/prisma.service';
-import { CreateProductImageDto } from './dto/create-product-image.dto';
+import { CreateProductImagesDto } from './dto/create-product-image.dto';
 
 @Injectable()
 export class ProductImagesService {
   constructor(private readonly prisma: PrismaService) {}
 
-  async uploadImage(body: CreateProductImageDto) {
+  async uploadImage(body: CreateProductImagesDto) {
     try {
-      const productImage = await this.prisma.productImage.create({
-        data: {
-          ...body,
-        },
-        select: {
-          imageUrl: true,
-          productId: true,
-          createdAt: true,
-          updatedAt: true,
-        },
-      });
-      return productImage;
+      const productImages = [];
+      for (const imageUrl of body.imageUrl) {
+        const productImage = await this.prisma.productImage.create({
+          data: {
+            productId: body.productId,
+            imageUrl,
+          },
+          select: {
+            imageUrl: true,
+            productId: true,
+            createdAt: true,
+            updatedAt: true,
+          },
+        });
+        productImages.push(productImage);
+      }
+      return productImages;
     } catch (error) {
       console.log(error);
     }

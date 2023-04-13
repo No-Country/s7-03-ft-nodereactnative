@@ -1,4 +1,4 @@
-import { IsNotEmpty, IsOptional, IsUUID } from 'class-validator';
+import { IsArray, IsNotEmpty, IsOptional, IsUUID } from 'class-validator';
 
 export class CreateProductImageDto {
   @IsNotEmpty()
@@ -7,4 +7,14 @@ export class CreateProductImageDto {
 
   @IsOptional()
   imageUrl: string;
+}
+
+export class CreateProductImagesDto {
+  @IsNotEmpty()
+  @IsUUID()
+  productId: string;
+
+  @IsOptional()
+  @IsArray()
+  imageUrl: string[];
 }
