@@ -1,11 +1,11 @@
-import { MisPedidos, AddNewVeterinarie } from '../../screens';
+import { MisPedidos, Home } from '../../screens';
 
 export type RootDrawerParamList = {
-    add_veterinarie: undefined;
+    home_drawer: undefined;
     misPedidos_drawer: undefined;
 };
 
 export const screens = {
-    add_veterinarie: AddNewVeterinarie,
+    home_drawer: Home,
     misPedidos_drawer: MisPedidos,
 };

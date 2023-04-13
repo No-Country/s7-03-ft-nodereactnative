@@ -52,7 +52,7 @@ const useLogin = () => {
                 );
                 setTimeout(() => {
                     dispatch(setCredentials(data?.results));
-                }, 500);
+                }, 2000);
                 await AsyncStorage.setItem(
                     'token',
                     JSON.stringify(data.results)
