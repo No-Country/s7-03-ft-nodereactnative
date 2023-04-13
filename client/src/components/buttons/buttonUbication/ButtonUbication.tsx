@@ -30,35 +30,43 @@ interface Props {
 export const ButtonUbication = (props: Props) => {
     const { onPress } = props;
 
-    const positionSelector = useSelector((state:PosState)=> state.userPositionSlice)
-    console.log(positionSelector);
-    
-    
-    const {getLocationPermission} = usePosition()
+    const positionSelector = useSelector(
+        (state: PosState) => state.userPositionSlice
+    );
+    // console.log(positionSelector);
+
+    const { getLocationPermission } = usePosition();
 
     useEffect(() => {
-        getLocationPermission()
+        getLocationPermission();
     }, []);
 
     return (
-        <Button onPress={onPress} 
-        style={{
-            shadowColor: '#000',
-            shadowOffset: {
-                width: 0,
-                height: 1,
-            },
-            shadowOpacity: 0.22,
-            shadowRadius: 2.22,
+        <Button
+            onPress={onPress}
+            style={{
+                shadowColor: '#000',
+                shadowOffset: {
+                    width: 0,
+                    height: 1,
+                },
+                shadowOpacity: 0.22,
+                shadowRadius: 2.22,
 
-            elevation: 3,
-        }}>
+                elevation: 3,
+            }}
+        >
             <MaterialCommunityIcons
                 name="map-marker-outline"
                 size={24}
                 color="black"
             />
-            <Text> {positionSelector?.city ? positionSelector.city : 'Mi ubicación'} </Text>
+            <Text>
+                {' '}
+                {positionSelector?.city
+                    ? positionSelector.city
+                    : 'Mi ubicación'}{' '}
+            </Text>
         </Button>
     );
 };

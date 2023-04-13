@@ -1,7 +1,7 @@
 import { createStackNavigator } from '@react-navigation/stack';
 
 import { Text } from 'react-native';
-import { Veterinarias } from '../../screens/Veterinarias';
+import { Veterinarias } from '../../screens/VeterinariasList';
 import { VeterinariasScreen } from '../../screens/VeterinariasScreen';
 
 export interface VetRouteProps {}
