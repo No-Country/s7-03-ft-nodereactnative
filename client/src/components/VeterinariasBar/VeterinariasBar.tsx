@@ -1,8 +1,19 @@
 import { TouchableOpacity } from 'react-native';
-import { ContainerFotoVet, DataVetContainer, FotoVet, NombreVeterinaria, Rating, ShortDescription, VetTabContainer } from './VeterinariasBar.styled';
+import {
+    ContainerFotoVet,
+    DataVetContainer,
+    FotoVet,
+    NombreVeterinaria,
+    Rating,
+    ShortDescription,
+    VetTabContainer,
+} from './VeterinariasBar.styled';
 import { FontAwesome } from '@expo/vector-icons';
+import { useNavigation } from '@react-navigation/native';
+import { StackNavigationProp } from '@react-navigation/stack';
+import { RootStackParamList } from '../../constants/types/RootStackParamList ';
 
-export interface StoreTabProps {
+export interface VetBarProps {
     id: string;
     userId: string;
     name: string;
@@ -21,7 +32,7 @@ export interface StoreTabProps {
     };
 }
 
-const VeterinariasBar: React.FC<StoreTabProps> = ({...vet}) => {
+const VeterinariasBar: React.FC<VetBarProps> = ( vet ) => {
     const fullStars = Math.floor(3.4);
 
     const halfStars = Math.ceil(3.4 - fullStars);
@@ -58,6 +69,8 @@ const VeterinariasBar: React.FC<StoreTabProps> = ({...vet}) => {
 
     const shortDesc = vet?.description.slice(0, 40) + '...';
 
+    const navigation = useNavigation<StackNavigationProp<RootStackParamList, 'VetDetail'>>();
+
     return (
         <TouchableOpacity
             style={{
@@ -74,17 +87,18 @@ const VeterinariasBar: React.FC<StoreTabProps> = ({...vet}) => {
                 marginBottom: 15,
                 margin: 5,
             }}
-        >
+            onPress={() => navigation.navigate('VetDetail', {vet})}
+            >
             <VetTabContainer>
                 <ContainerFotoVet>
-                    <FotoVet source={require('../../../assets/DefaultUserPic.png')}/>
+                    <FotoVet
+                        source={require('../../../assets/DefaultUserPic.png')}
+                    />
                 </ContainerFotoVet>
                 <DataVetContainer>
-                       <NombreVeterinaria>{vet?.name}</NombreVeterinaria> 
-                       <ShortDescription>{shortDesc}</ShortDescription>
-                       <Rating>
-                       {stars.map((star) => star)}
-                       </Rating>
+                    <NombreVeterinaria>{vet?.name}</NombreVeterinaria>
+                    <ShortDescription>{shortDesc}</ShortDescription>
+                    <Rating>{stars.map((star) => star)}</Rating>
                 </DataVetContainer>
             </VetTabContainer>
         </TouchableOpacity>

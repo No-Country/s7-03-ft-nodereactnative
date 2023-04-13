@@ -1,6 +1,6 @@
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
-import React, { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { AuthStack } from './AuthStack';
 import { DrawerNavigation } from './DrawerNavigation';
 import { useDispatch, useSelector } from 'react-redux';
@@ -13,6 +13,8 @@ import { colors } from '../constants';
 import { Veterinarias } from '../screens/Veterinarias';
 import PetShop from '../screens/PetShop/PetShop';
 import AddNewVeterinarie from '../screens/PetShop/AddNewVeterinarie/AddNewVeterinarie';
+import { VeterinariasScreen } from '../screens/VeterinariasScreen';
+import { VetRoute } from './VetRoute';
 
 export interface AuthSlice {
     authSlice: {
@@ -64,8 +66,9 @@ const LoggedStack = () => {
             />
             <Stack.Screen
                 name="Veterinarias"
-                component={Veterinarias}
+                component={VetRoute}
                 options={{
+                    headerShown: false,
                     headerTintColor: colors.primary,
                 }}
             />
