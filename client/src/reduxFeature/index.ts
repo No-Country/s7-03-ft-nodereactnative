@@ -1,2 +1,1 @@
-export { default as authSlice } from './auth/authSlice';
-export { default as userSlice } from './user/userSlice';
+export { default as baseSlice } from './base/baseSlice';

@@ -1,11 +1,4 @@
-import {
-  IsLatitude,
-  IsLongitude,
-  IsNotEmpty,
-  IsNumber,
-  IsOptional,
-  Min,
-} from 'class-validator';
+import { IsLatitude, IsLongitude, IsNotEmpty, IsNumber } from 'class-validator';
 
 export class QueryLatitudeLongitude {
   @IsNumber()
@@ -17,16 +10,4 @@ export class QueryLatitudeLongitude {
   @IsLongitude()
   @IsNotEmpty()
   longitude: number;
-}
-
-export class QueryPaginationVeterinary {
-  @IsNumber()
-  @IsOptional()
-  @Min(1)
-  limit?: number;
-
-  @IsNumber()
-  @IsOptional()
-  @Min(1)
-  page?: number;
 }

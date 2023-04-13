@@ -7,7 +7,6 @@ steps:
     args: ['run', 'create-env']
     env:
       - 'NODE_ENV=${_NODE_ENV}'
-      - 'BASE_URL=${_BASE_URL}'
       - 'DATABASE_URL=${_DATABASE_URL}'
       - 'JWT_SECRET=${_JWT_SECRET}'
       - 'FB_API_KEY = ${_FB_API_KEY}'

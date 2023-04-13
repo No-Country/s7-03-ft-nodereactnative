@@ -17,7 +17,7 @@ interface Data {
 export const authApi = createApi({
     reducerPath: 'auth',
     baseQuery: fetchBaseQuery({
-        baseUrl: `${API_APP_BASE_URL}`,
+        baseUrl: API_APP_BASE_URL,
         prepareHeaders: (headers, { getState }) => {
             headers.set('Content-Type', 'application/json');
             return headers;
@@ -26,7 +26,7 @@ export const authApi = createApi({
     endpoints: (builder) => ({
         loginUser: builder.mutation<ResponseLogin, UserCredentials>({
             query: (credentials) => ({
-                url: '/v1/auth/login',
+                url: '/api/v1/auth/login',
                 method: 'POST',
                 body: JSON.stringify(credentials),
             }),
@@ -39,7 +39,7 @@ export const authApi = createApi({
                 email,
                 country,
             }: Data) => ({
-                url: '/v1/auth/signup',
+                url: '/api/v1/auth/signup',
                 method: 'POST',
                 body: { firstName, lastName, password, email, country },
             }),

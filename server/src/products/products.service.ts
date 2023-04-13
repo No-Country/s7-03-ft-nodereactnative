@@ -55,39 +55,29 @@ export class ProductsService {
     };
   }
 
-  async productExist(id: string): Promise<Product> {
-    const product = await this.prisma.product.findFirst({
-      where: { id, isActive: true },
-    });
-    if (!product) {
-      throw new NotFoundException('Product Not Found');
-    }
-    return product;
-  }
-
-  async create(body: CreateProductDto): Promise<Product> {
+  async create(body: CreateProductDto) {
     try {
+      //this doesnt work needs a fix
       const product = await this.prisma.product.create({
         data: {
           ...body,
-        },
-        select: {
-          id: true,
-          name: true,
-          description: true,
-          price: true,
-          quantity: true,
-          veterinaryId: true,
-          productCategoryId: true,
-          isActive: true,
-          createdAt: true,
-          updatedAt: true,
         },
       });
       return product;
     } catch (error) {
       console.log(error);
-      return error;
     }
+  }
+
+  async productExist(id: string): Promise<Product> {
+    const product = await this.prisma.product.findFirst({
+      where: { id, isActive: true },
+    });
+
+    if (!product) {
+      throw new NotFoundException('Product Not Found');
+    }
+
+    return product;
   }
 }

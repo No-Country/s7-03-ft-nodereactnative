@@ -1,6 +1,6 @@
 import { createDrawerNavigator } from '@react-navigation/drawer';
 import { DrawerContent } from '../../components';
-import { AddNewVeterinarie, MisPedidos } from '../../screens';
+import { Home, MisPedidos } from '../../screens';
 import { colors } from '../../constants';
 import { TabNavigator } from '../TabNavigator';
 import { Ionicons } from '@expo/vector-icons';
@@ -21,6 +21,7 @@ const DrawerNavigation: React.FC<DrawerNavigationProps> = () => {
             drawerContent={(props) => <DrawerContent props={props} />}
         >
             <Drawer.Screen name="TabNavigator" component={TabNavigator} />
+            {/* <Drawer.Screen name="home_drawer" component={Home} /> */}
             <Drawer.Screen
                 options={{
                     headerShown: true,
@@ -36,22 +37,6 @@ const DrawerNavigation: React.FC<DrawerNavigationProps> = () => {
                 }}
                 name="misPedidos_drawer"
                 component={MisPedidos}
-            />
-            <Drawer.Screen
-                options={{
-                    headerShown: true,
-                    title: 'Registra tu veterinaria',
-                    headerLeft: () => (
-                        <Ionicons
-                            name="arrow-back"
-                            size={24}
-                            onPress={() => navigation.goBack()}
-                            style={{ marginLeft: 10 }}
-                        />
-                    ),
-                }}
-                name="add_veterinarie"
-                component={AddNewVeterinarie}
             />
         </Drawer.Navigator>
     );

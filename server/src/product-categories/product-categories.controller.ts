@@ -7,9 +7,8 @@ import {
   Param,
   Patch,
   Post,
-  Query,
 } from '@nestjs/common';
-import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
+import { ApiTags } from '@nestjs/swagger';
 import { ProductCategoriesService } from './product-categories.service';
 import { SkipAuth } from 'src/auth/decorators/skip-auth.decorator';
 import { CreateProductCategoryDTO } from './dtos/create-product-category.dto';
@@ -26,12 +25,13 @@ export class ProductCategoriesController {
   @SkipAuth()
   @HttpCode(200)
   @Get()
-  async findAndCount(@Query() query: any) {
-    return this.productCategoriesServices.findAndCount(query);
+  async findAndCount() {
+    const productCategories =
+      await this.productCategoriesServices.findAndCount();
+    return { productCategories };
   }
 
   @HttpCode(201)
-  @ApiBearerAuth()
   @Post()
   async createProductCategory(@Body() body: CreateProductCategoryDTO) {
     const productCategory = await this.productCategoriesServices.create(body);
@@ -49,7 +49,6 @@ export class ProductCategoriesController {
   }
 
   @HttpCode(200)
-  @ApiBearerAuth()
   @Patch(':id')
   async updateProductCategory(
     @Param() params: SearchProductCategoryById,
@@ -63,7 +62,6 @@ export class ProductCategoriesController {
   }
 
   @HttpCode(200)
-  @ApiBearerAuth()
   @Delete(':id')
   async removeProductCategory(@Param() params: SearchProductCategoryById) {
     const productCategory = await this.productCategoriesServices.remove(

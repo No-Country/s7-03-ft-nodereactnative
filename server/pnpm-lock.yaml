@@ -75,9 +75,6 @@ dependencies:
     version: 5.76.2
 
 devDependencies:
-  '@faker-js/faker':
-    specifier: ^7.6.0
-    version: 7.6.0
   '@nestjs/cli':
     specifier: ^9.0.0
     version: 9.3.0
@@ -627,11 +624,6 @@ packages:
   /@eslint/js@8.36.0:
     resolution: {integrity: sha512-lxJ9R5ygVm8ZWgYdUweoq5ownDlJ4upvoWmO4eLxBYHdMo+vZ/Rx0EN6MbKWDJOSUGrqJy2Gt+Dyv/VKml0fjg==}
     engines: {node: ^12.22.0 || ^14.17.0 || >=16.0.0}
-    dev: true
-
-  /@faker-js/faker@7.6.0:
-    resolution: {integrity: sha512-XK6BTq1NDMo9Xqw/YkYyGjSsg44fbNwYRx7QK2CuoQgyy+f1rrTDHoExVM5PsyXCtfl2vs2vVJ0MN0yN6LppRw==}
-    engines: {node: '>=14.0.0', npm: '>=6.0.0'}
     dev: true
 
   /@firebase/analytics-compat@0.2.5(@firebase/app-compat@0.2.7)(@firebase/app@0.9.7):

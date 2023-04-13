@@ -16,7 +16,6 @@ import {
   CreateVeterinaryDto,
   ParamsVeterinaryDto,
   QueryLatitudeLongitude,
-  QueryPaginationVeterinary,
   UpdateVeterinaryDto,
 } from './dto';
 import {
@@ -39,10 +38,10 @@ export class VeterinariesController {
   @ApiOkResponse({ description: 'Returns all veterinaries' })
   @SkipAuth()
   @Get()
-  async findAll(@Query() query: QueryPaginationVeterinary) {
-    const veterinaries = await this.veterinariesService.findAll(query);
+  async findAll() {
+    const veterinaries = await this.veterinariesService.findAll();
 
-    return veterinaries;
+    return { veterinaries };
   }
 
   @ApiOkResponse({

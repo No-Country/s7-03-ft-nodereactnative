@@ -64,3 +64,10 @@ export const ImageOferta = styled.Image`
     width: 100%;
     object-fit: contain;
 `;
+
+export const ListaStore = styled.View``;
+
+
+
+export const Google = styled.View`
+`;

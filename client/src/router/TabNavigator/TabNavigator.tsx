@@ -1,6 +1,6 @@
 import React from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import { Home, UserProfile, Cart } from '../../screens';
+import { Home, UserProfile, Cart, Messages } from '../../screens';
 import { Ionicons } from '@expo/vector-icons';
 
 const Tab = createBottomTabNavigator();
@@ -20,6 +20,23 @@ const TabNavigator = () => {
                 }}
                 name="Inicio"
                 component={Home}
+            />
+            <Tab.Screen
+                options={{
+                    tabBarIcon: ({ focused }) => (
+                        <Ionicons
+                            name={
+                                focused
+                                    ? 'chatbubble-ellipses'
+                                    : 'chatbubble-ellipses-outline'
+                            }
+                            size={24}
+                            color={focused ? '#551391' : '#b2b2b2'}
+                        />
+                    ),
+                }}
+                name="Mensajes"
+                component={Messages}
             />
             <Tab.Screen
                 options={{

@@ -1,7 +1,6 @@
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
 import Settings from '../Settings/Settings';
 import MisPedidos from '../../MisPedidos/MisPedidos';
-import Favorites from '../Favorites/Favorites';
 
 const Tab = createMaterialTopTabNavigator();
 
@@ -18,9 +17,9 @@ function TabView() {
                 component={Settings}
             />
             <Tab.Screen
-                options={{ tabBarLabel: 'Favoritos' }}
-                name="Favorites"
-                component={Favorites}
+                options={{ tabBarLabel: 'Mis Pedidos' }}
+                name="MisPedidos"
+                component={MisPedidos}
             />
         </Tab.Navigator>
     );
