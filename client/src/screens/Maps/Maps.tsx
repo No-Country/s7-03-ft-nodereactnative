@@ -21,8 +21,12 @@ const Map = styled(MapView)`
 `;
 
 const Maps = () => {
-    const positionSelector = useSelector((state:PosState)=> state.userPositionSlice)
-    const initialSelector = useSelector((state:VetPosState)=> state.vetPositionSlice)
+    const positionSelector = useSelector(
+        (state: PosState) => state.userPositionSlice
+    );
+    const initialSelector = useSelector(
+        (state: VetPosState) => state.vetPositionSlice
+    );
 
     const [origin, setOrigin] = useState({
         latitude: 0,
@@ -36,35 +40,36 @@ const Maps = () => {
     const snapPoints = useMemo(() => ['25%', '50%', '75%'], []);
     const handleSheetChanges = useCallback((index: number) => {
         bottomSheetRef.current?.snapToIndex(index);
-        console.log('handleSheetChanges', index);
+        // console.log('handleSheetChanges', index);
     }, []);
 
     const { data } = useGetVeterinariesQuery('');
 
-    
     useEffect(() => {
-        if (data) setVeterinaries(data.results.veterinaries);      
-    }, [data])
+        if (data) setVeterinaries(data.results.veterinaries);
+    }, [data]);
 
     useEffect(() => {
-        if (positionSelector.latitude && positionSelector.longitude){
+        if (positionSelector.latitude && positionSelector.longitude) {
             setOrigin({
                 latitude: positionSelector.latitude,
                 longitude: positionSelector.longitude,
-            })
-            setMapOk(true)
+            });
+            setMapOk(true);
         }
-    }, [])
-    
-    
+    }, []);
 
     return (
         <BottomSheetModalProvider>
             {mapOk && (
                 <Map
                     initialRegion={{
-                        latitude: initialSelector.latitude ? initialSelector.latitude : origin.latitude,
-                        longitude: initialSelector.longitude ? initialSelector.longitude : origin.longitude,
+                        latitude: initialSelector.latitude
+                            ? initialSelector.latitude
+                            : origin.latitude,
+                        longitude: initialSelector.longitude
+                            ? initialSelector.longitude
+                            : origin.longitude,
                         latitudeDelta: 0.1,
                         longitudeDelta: 0.1,
                     }}
@@ -77,8 +82,10 @@ const Maps = () => {
                                 latitude: vets.latitude,
                                 longitude: vets.longitude,
                             }}
-                            onPress={() => {handleSheetChanges(0)
-                            setVeterinary(vets)}}
+                            onPress={() => {
+                                handleSheetChanges(0);
+                                setVeterinary(vets);
+                            }}
                         >
                             <Image
                                 source={require('../../../assets/veterinaryLoc.webp')}
@@ -98,13 +105,15 @@ const Maps = () => {
                 onChange={handleSheetChanges}
             >
                 <View>
-                    {veterinary && <>
-                    <Text>Nombre: {veterinary.name}</Text>
-                    <Text>Teléfono: {veterinary.phone}</Text>
-                    <Text>Dirección: {veterinary.address}</Text>
-                    <Text>{veterinary.description}</Text>
-                    <Button title='Ir a la tienda' />
-                    </>}
+                    {veterinary && (
+                        <>
+                            <Text>Nombre: {veterinary.name}</Text>
+                            <Text>Teléfono: {veterinary.phone}</Text>
+                            <Text>Dirección: {veterinary.address}</Text>
+                            <Text>{veterinary.description}</Text>
+                            <Button title="Ir a la tienda" />
+                        </>
+                    )}
                 </View>
             </BottomSheet>
         </BottomSheetModalProvider>
