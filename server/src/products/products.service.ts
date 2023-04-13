@@ -1,4 +1,4 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { CreateProductDto } from './dtos/create-product';
 import { Product } from '@prisma/client';
@@ -55,29 +55,29 @@ export class ProductsService {
     };
   }
 
-  async create(body: CreateProductDto) {
+  async create(body: CreateProductDto): Promise<Product> {
     try {
-      //this doesnt work needs a fix
       const product = await this.prisma.product.create({
         data: {
           ...body,
+        },
+        select: {
+          id: true,
+          name: true,
+          description: true,
+          price: true,
+          quantity: true,
+          veterinaryId: true,
+          productCategoryId: true,
+          isActive: true,
+          createdAt: true,
+          updatedAt: true,
         },
       });
       return product;
     } catch (error) {
       console.log(error);
+      return error;
     }
-  }
-
-  async productExist(id: string): Promise<Product> {
-    const product = await this.prisma.product.findFirst({
-      where: { id, isActive: true },
-    });
-
-    if (!product) {
-      throw new NotFoundException('Product Not Found');
-    }
-
-    return product;
   }
 }

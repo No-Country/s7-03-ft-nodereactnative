@@ -13,9 +13,13 @@ const veterinariesSlice = createSlice({
             state.veterinaries = payload;
         },
         setDelete: () => initialState,
+        setFavVeterinarie: (state, { payload }) => {
+            state.idVeterinarie = payload;
+        },
     },
 });
 
-export const { SetVeterinaries, setDelete } = veterinariesSlice.actions;
+export const { SetVeterinaries, setDelete, setFavVeterinarie } =
+    veterinariesSlice.actions;
 
 export default veterinariesSlice.reducer;

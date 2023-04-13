@@ -14,7 +14,6 @@ import {
     ContainerTitleOfertas,
     FilaCategorias,
     ImageOferta,
-    ListaStore,
     SaludoUser,
     Title,
     TouchableIcon,
@@ -120,14 +119,6 @@ const Home: React.FC<HomeProps> = () => {
                     source={require('../../../assets/ImgOfertas/Oferta.webp')}
                 />
             </ContainerOfertas>
-            <ListaStore>
-                <StoreTab />
-                <StoreTab />
-                <StoreTab />
-                <StoreTab />
-                <StoreTab />
-                <StoreTab />
-            </ListaStore>
             <Toast />
         </ContainerHome>
     );

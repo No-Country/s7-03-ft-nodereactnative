@@ -1,10 +1,3 @@
-import {
-    requestForegroundPermissionsAsync,
-    getCurrentPositionAsync,
-    Accuracy,
-    geocodeAsync,
-    reverseGeocodeAsync
-} from 'expo-location';
 import React, {
     useCallback,
     useEffect,
@@ -20,6 +13,7 @@ import { VetInterface } from '../../interfaces/vetInterfaces';
 import BottomSheet, { BottomSheetModalProvider } from '@gorhom/bottom-sheet';
 import { useSelector } from 'react-redux';
 import { PosState } from '../../reduxFeature/user/userPositionSlice';
+import { VetPosState } from '../../reduxFeature/veterinaries/vetPositionSlice';
 
 const Map = styled(MapView)`
     height: 100%;
@@ -28,6 +22,7 @@ const Map = styled(MapView)`
 
 const Maps = () => {
     const positionSelector = useSelector((state:PosState)=> state.userPositionSlice)
+    const initialSelector = useSelector((state:VetPosState)=> state.vetPositionSlice)
 
     const [origin, setOrigin] = useState({
         latitude: 0,
@@ -37,7 +32,6 @@ const Maps = () => {
     const [veterinaries, setVeterinaries] = useState<VetInterface[]>([]);
     const [veterinary, setVeterinary] = useState<VetInterface>();
 
-    const [isOpen, setIsOpen] = useState(true);
     const bottomSheetRef = useRef<BottomSheet>(null);
     const snapPoints = useMemo(() => ['25%', '50%', '75%'], []);
     const handleSheetChanges = useCallback((index: number) => {
@@ -69,8 +63,8 @@ const Maps = () => {
             {mapOk && (
                 <Map
                     initialRegion={{
-                        latitude: origin.latitude,
-                        longitude: origin.longitude,
+                        latitude: initialSelector.latitude ? initialSelector.latitude : origin.latitude,
+                        longitude: initialSelector.longitude ? initialSelector.longitude : origin.longitude,
                         latitudeDelta: 0.1,
                         longitudeDelta: 0.1,
                     }}
