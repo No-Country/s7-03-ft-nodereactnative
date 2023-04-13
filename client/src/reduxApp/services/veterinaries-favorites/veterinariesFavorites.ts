@@ -28,10 +28,19 @@ export const veterinariesFavoritesApi = createApi({
                 };
             },
         }),
+        deleteFavVeterinarie: builder.mutation({
+            query: (id) => {
+                return {
+                    url: `/v1/veterinaries-favorites/${id}`,
+                    method: 'DELETE',
+                };
+            },
+        }),
     }),
 });
 
 export const {
     useGetVeterinariesFavoritesQuery,
     useCreateFavVeterinarieMutation,
+    useDeleteFavVeterinarieMutation,
 } = veterinariesFavoritesApi;

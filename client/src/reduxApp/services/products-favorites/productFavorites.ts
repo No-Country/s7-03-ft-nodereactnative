@@ -28,8 +28,19 @@ export const productFavoritesApi = createApi({
                 };
             },
         }),
+        deleteFavProduct: builder.mutation({
+            query: (id) => {
+                return {
+                    url: `/v1/products-favorites/${id}`,
+                    method: 'DELETE',
+                };
+            },
+        }),
     }),
 });
 
-export const { useGetProductsFavoritesQuery, useCreateFavProductMutation } =
-    productFavoritesApi;
+export const {
+    useGetProductsFavoritesQuery,
+    useCreateFavProductMutation,
+    useDeleteFavProductMutation,
+} = productFavoritesApi;

@@ -12,6 +12,7 @@ import { userApi } from './services/users/users';
 import { vetApi } from './services/veterinaries/vetServices';
 import { productFavoritesApi } from './services/products-favorites/productFavorites';
 import { veterinariesFavoritesApi } from './services/veterinaries-favorites/veterinariesFavorites';
+import { productsApi } from './services/products/products';
 
 export const store = configureStore({
     reducer: {
@@ -19,6 +20,7 @@ export const store = configureStore({
         [userApi.reducerPath]: userApi.reducer,
         [vetApi.reducerPath]: vetApi.reducer,
         [productFavoritesApi.reducerPath]: productFavoritesApi.reducer,
+        [productsApi.reducerPath]: productsApi.reducer,
         [veterinariesFavoritesApi.reducerPath]:
             veterinariesFavoritesApi.reducer,
         authSlice,
@@ -26,7 +28,7 @@ export const store = configureStore({
         veterinariesSlice,
         userPositionSlice,
         productSlice,
-        vetPositionSlice
+        vetPositionSlice,
     },
     middleware: (getDefaultMiddleware) =>
         getDefaultMiddleware().concat(
@@ -34,7 +36,8 @@ export const store = configureStore({
             userApi.middleware,
             vetApi.middleware,
             productFavoritesApi.middleware,
-            veterinariesFavoritesApi.middleware
+            veterinariesFavoritesApi.middleware,
+            productsApi.middleware
         ),
 });
 
