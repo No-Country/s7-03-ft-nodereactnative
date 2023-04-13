@@ -1,12 +1,24 @@
 import { TouchableOpacity } from 'react-native';
-import { ContainerFotoVet, DataVetContainer, FotoVet, NombreVeterinaria, Rating, ShortDescription, VetTabContainer } from './VeterinariasBar.styled';
-import { FontAwesome } from '@expo/vector-icons';
+import {
+    ContainerFotoVet,
+    DataVetContainer,
+    FotoVet,
+    NombreVeterinaria,
+    Rating,
+    ShortDescription,
+    VetTabContainer,
+} from './VeterinariasBar.styled';
 import { useDispatch } from 'react-redux';
 import { ParamListBase, useNavigation } from '@react-navigation/native';
-import { setVetDeletePosition, setVetPosition } from '../../reduxFeature/veterinaries/vetPositionSlice';
+import {
+    setVetDeletePosition,
+    setVetPosition,
+} from '../../reduxFeature/veterinaries/vetPositionSlice';
 import { StackNavigationProp } from '@react-navigation/stack';
+import { RootStackParamList } from '../../constants/types/RootStackParamList ';
+import { StarRating } from '../StarRating';
 
-export interface StoreTabProps {
+export interface VetBarProps {
     id: string;
     userId: string;
     name: string;
@@ -25,57 +37,40 @@ export interface StoreTabProps {
     };
 }
 
-const VeterinariasBar: React.FC<StoreTabProps> = ({...vet}) => {
-    const fullStars = Math.floor(3.4);
-
-    const halfStars = Math.ceil(3.4 - fullStars);
-
-    const emptyStars = 5 - fullStars - halfStars;
-
-    const stars = [];
-
-    for (let i = 0; i < fullStars; i++) {
-        stars.push(<FontAwesome key={i} name="star" size={15} color="black" />);
-    }
-
-    for (let i = 0; i < halfStars; i++) {
-        stars.push(
-            <FontAwesome
-                key={fullStars + i}
-                name="star-half-empty"
-                size={15}
-                color="black"
-            />
-        );
-    }
-
-    for (let i = 0; i < emptyStars; i++) {
-        stars.push(
-            <FontAwesome
-                key={fullStars + halfStars + i}
-                name="star-o"
-                size={15}
-                color="black"
-            />
-        );
-    }
+const VeterinariasBar: React.FC<VetBarProps> = (vet) => {
 
     const shortDesc = vet?.description.slice(0, 40) + '...';
 
+    const navigation =
+        useNavigation<StackNavigationProp<RootStackParamList, 'VetDetail'>>();
 
-    const dispatch = useDispatch()
-    const navigate = useNavigation<StackNavigationProp<ParamListBase>>()
-    const handleOnPress = ()=>{
-        const vetPos = {
-            latitude: vet.latitude,
-            longitude: vet.longitude
-        }
-        dispatch(setVetPosition(vetPos))
-        navigate.navigate('Maps')
-        setTimeout(() => {
-            dispatch(setVetDeletePosition())
-        }, 2000);
-    }
+    // const dispatch = useDispatch()
+    // const navigate = useNavigation<StackNavigationProp<ParamListBase>>()
+    // const handleOnPress = ()=>{
+    //     const vetPos = {
+    //         latitude: vet.latitude,
+    //         longitude: vet.longitude
+    //     }
+    //     dispatch(setVetPosition(vetPos))
+    //     navigate.navigate('Maps')
+    //     setTimeout(() => {
+    //         dispatch(setVetDeletePosition())
+    //     }, 2000);
+    // }
+
+    // const dispatch = useDispatch()
+    // const navigate = useNavigation<StackNavigationProp<ParamListBase>>()
+    // const handleOnPress = ()=>{
+    //     const vetPos = {
+    //         latitude: vet.latitude,
+    //         longitude: vet.longitude
+    //     }
+    //     dispatch(setVetPosition(vetPos))
+    //     navigate.navigate('Maps')
+    //     setTimeout(() => {
+    //         dispatch(setVetDeletePosition())
+    //     }, 2000);
+    // }
 
     return (
         <TouchableOpacity
@@ -93,18 +88,21 @@ const VeterinariasBar: React.FC<StoreTabProps> = ({...vet}) => {
                 marginBottom: 15,
                 margin: 5,
             }}
-            onPress={handleOnPress}
+            onPress={() => navigation.navigate('VetDetail', { vet })}
+            // onPress={handleOnPress}
         >
             <VetTabContainer>
                 <ContainerFotoVet>
-                    <FotoVet source={require('../../../assets/DefaultUserPic.png')}/>
+                    <FotoVet
+                        source={require('../../../assets/DefaultUserPic.png')}
+                    />
                 </ContainerFotoVet>
                 <DataVetContainer>
-                       <NombreVeterinaria>{vet?.name}</NombreVeterinaria> 
-                       <ShortDescription>{shortDesc}</ShortDescription>
-                       <Rating>
-                       {stars.map((star) => star)}
-                       </Rating>
+                    <NombreVeterinaria>{vet?.name}</NombreVeterinaria>
+                    <ShortDescription>{shortDesc}</ShortDescription>
+                    <Rating>
+                        <StarRating rating={4} />
+                    </Rating>
                 </DataVetContainer>
             </VetTabContainer>
         </TouchableOpacity>

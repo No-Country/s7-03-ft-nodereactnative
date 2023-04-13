@@ -1,6 +1,4 @@
-import React, { useState } from 'react';
 import { ActivityIndicator, View } from 'react-native';
-import { Veterinaries } from '../../components';
 import { useGetVeterinariesQuery } from '../../reduxApp/services/veterinaries/vetServices';
 import { PetShopContainer } from './PetShop.styled';
 import { useEffect } from 'react';
@@ -26,7 +24,6 @@ const PetShop = ({ navigation }: any) => {
     return (
         <PetShopContainer>
             {isLoading && <ActivityIndicator size={30} color={'green'} />}
-            <Veterinaries />
             <View style={{ alignItems: 'center', justifyContent: 'center' }}>
                 <Ionicons
                     color={colors.primary}
