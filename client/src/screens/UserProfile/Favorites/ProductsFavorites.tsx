@@ -31,19 +31,24 @@ const ProductsFavorites = () => {
     );
 
     return (
-        <View>
-            <Text>Estos son tus productos favoritos:</Text>
-            {data?.results?.productsFavorites?.length >= 1 ? (
-                data?.results?.productsFavorites.map((product: ProductFav) => {
-                    return (
-                        <ScrollView key={product?.productId} horizontal>
-                            <RenderFav product={product} />
-                        </ScrollView>
-                    );
-                })
-            ) : (
-                <Text>No tenes ningun producto favorito</Text>
-            )}
+        <View style={{ backgroundColor: 'white' }}>
+            <ScrollView>
+                <Text style={{ textAlign: 'center' }}>Productos favoritos</Text>
+                {data?.results?.productsFavorites?.length >= 1 ? (
+                    data?.results?.productsFavorites.map(
+                        (product: ProductFav) => {
+                            return (
+                                <RenderFav
+                                    product={product}
+                                    key={product?.productId}
+                                />
+                            );
+                        }
+                    )
+                ) : (
+                    <Text>No tenes ningun producto favorito</Text>
+                )}
+            </ScrollView>
         </View>
     );
 };

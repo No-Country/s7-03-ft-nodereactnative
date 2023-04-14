@@ -36,19 +36,21 @@ const VeterinariesFavorites = () => {
     const { data } = useGetVeterinariesFavoritesQuery('');
 
     return (
-        <View>
-            <Text>Estas son tus veterinarias favoritas:</Text>
-            {data?.results?.veterinariesFavorites?.length >= 1 ? (
-                data?.results?.veterinariesFavorites.map((vet: VetFav) => {
-                    return (
-                        <ScrollView key={vet?.veterinaryId} horizontal>
-                            <RenderVetFav vet={vet} />
-                        </ScrollView>
-                    );
-                })
-            ) : (
-                <Text>No tenes ninguna veterinaria favorita</Text>
-            )}
+        <View style={{ backgroundColor: 'white' }}>
+            <ScrollView>
+                <Text style={{ textAlign: 'center' }}>
+                    Veterinarias favoritas{' '}
+                </Text>
+                {data?.results?.veterinariesFavorites?.length >= 1 ? (
+                    data?.results?.veterinariesFavorites.map((vet: VetFav) => {
+                        return (
+                            <RenderVetFav key={vet?.veterinaryId} vet={vet} />
+                        );
+                    })
+                ) : (
+                    <Text>No tenes ninguna veterinaria favorita</Text>
+                )}
+            </ScrollView>
         </View>
     );
 };
