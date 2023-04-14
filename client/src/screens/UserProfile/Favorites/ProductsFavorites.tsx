@@ -1,5 +1,5 @@
 import React from 'react';
-import { ScrollView, Text, View } from 'react-native';
+import { ActivityIndicator, ScrollView, Text, View } from 'react-native';
 import { useGetProductsFavoritesQuery } from '../../../reduxApp/services/products-favorites/productFavorites';
 import RenderFav from './RenderFav';
 
@@ -24,17 +24,15 @@ export interface Product {
 }
 
 const ProductsFavorites = () => {
-    const { data } = useGetProductsFavoritesQuery('');
-    console.log(
-        'estas son tus productos favoritos:',
-        data?.results?.productsFavorites
-    );
+    const { data, isLoading } = useGetProductsFavoritesQuery('');
 
     return (
         <View style={{ backgroundColor: 'white' }}>
             <ScrollView>
                 <Text style={{ textAlign: 'center' }}>Productos favoritos</Text>
-                {data?.results?.productsFavorites?.length >= 1 ? (
+                {isLoading ? (
+                    <ActivityIndicator size={30} />
+                ) : data?.results?.productsFavorites?.length >= 1 ? (
                     data?.results?.productsFavorites.map(
                         (product: ProductFav) => {
                             return (
@@ -46,7 +44,9 @@ const ProductsFavorites = () => {
                         }
                     )
                 ) : (
-                    <Text>No tenes ningun producto favorito</Text>
+                    <Text style={{ marginTop: 10 }}>
+                        No tenes ningun {'\n'}producto favorito
+                    </Text>
                 )}
             </ScrollView>
         </View>

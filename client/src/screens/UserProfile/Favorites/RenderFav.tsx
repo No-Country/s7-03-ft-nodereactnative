@@ -1,8 +1,12 @@
 import React from 'react';
-import { ScrollView, Text, View, TouchableOpacity } from 'react-native';
+import { Text, View, TouchableOpacity } from 'react-native';
 import { ProductFav } from './ProductsFavorites';
 import { VetFav } from './VeterinariesFavorites';
 import { Ionicons } from '@expo/vector-icons';
+import { useDeleteFavProductMutation } from '../../../reduxApp/services/products-favorites/productFavorites';
+import { useDeleteFavVeterinarieMutation } from '../../../reduxApp/services/veterinaries-favorites/veterinariesFavorites';
+import Alerts from '../../../components/Alerts/Alerts';
+import { useState } from 'react';
 
 interface Props {
     vet?: VetFav | undefined;
@@ -10,6 +14,28 @@ interface Props {
 }
 
 const RenderFav = ({ vet, product }: Props) => {
+    const [deleteFavVet] = useDeleteFavVeterinarieMutation();
+    const [deleteFavProduct] = useDeleteFavProductMutation();
+
+    const [alertShow, setAlertShow] = useState(false);
+    const [modeType, setModeType] = useState('');
+
+    const handleCancel = () => {
+        setAlertShow(false);
+    };
+
+    const deleteFav = () => {
+        if (modeType === 'vet') {
+            deleteFavVet(vet?.id);
+        }
+        if (modeType === 'product') {
+            deleteFavProduct(product?.id);
+        }
+    };
+
+    // Actualizar cuando se borra algun favorito.
+    // Redireccion cuando apretas ir a la tienda/producto
+
     return (
         <>
             {vet && (
@@ -36,7 +62,7 @@ const RenderFav = ({ vet, product }: Props) => {
                     >
                         <TouchableOpacity
                             onPress={() => {
-                                console.log('elimiar vet', vet.id);
+                                setAlertShow(true), setModeType('vet');
                             }}
                             style={{
                                 borderWidth: 1,
@@ -57,9 +83,7 @@ const RenderFav = ({ vet, product }: Props) => {
                             </Text>
                         </TouchableOpacity>
                         <TouchableOpacity
-                            onPress={() => {
-                                console.log('detalle de la vet', vet.id);
-                            }}
+                            // onPress={{}}
                             style={{
                                 borderWidth: 1,
                                 padding: 2,
@@ -81,10 +105,8 @@ const RenderFav = ({ vet, product }: Props) => {
                 </View>
             )}
             {product && (
-                <TouchableOpacity
-                    onPress={() => {
-                        console.log('detalle de la vet', product.id);
-                    }}
+                <View
+                    // onPress={}
                     style={{
                         marginTop: 5,
                         maxWidth: 180,
@@ -108,7 +130,7 @@ const RenderFav = ({ vet, product }: Props) => {
                     >
                         <TouchableOpacity
                             onPress={() => {
-                                console.log('elimiar vet', product.id);
+                                setAlertShow(true), setModeType('product');
                             }}
                             style={{
                                 borderWidth: 1,
@@ -129,9 +151,7 @@ const RenderFav = ({ vet, product }: Props) => {
                             </Text>
                         </TouchableOpacity>
                         <TouchableOpacity
-                            onPress={() => {
-                                console.log('detalle de la vet', product.id);
-                            }}
+                            // onPress={{}}
                             style={{
                                 borderWidth: 1,
                                 padding: 2,
@@ -150,7 +170,18 @@ const RenderFav = ({ vet, product }: Props) => {
                             </Text>
                         </TouchableOpacity>
                     </View>
-                </TouchableOpacity>
+                </View>
+            )}
+            {alertShow && (
+                <Alerts
+                    title="Eliminar favorito"
+                    cancelText="Cancelar accion"
+                    confirmText="Confirmar accion"
+                    message="Se eliminara de favoritos"
+                    alertShow={alertShow}
+                    onCancel={handleCancel}
+                    action={deleteFav}
+                />
             )}
         </>
     );
