@@ -5,7 +5,16 @@ import VeterinariesFavorites from './VeterinariesFavorites';
 
 const Favorites = () => {
     return (
-        <View style={{ marginTop: 20 }}>
+        <View
+            style={{
+                paddingTop: 10,
+                flexDirection: 'row',
+                flex: 1,
+                justifyContent: 'center',
+                gap: 20,
+                backgroundColor: 'white',
+            }}
+        >
             <VeterinariesFavorites />
             <ProductsFavorites />
         </View>

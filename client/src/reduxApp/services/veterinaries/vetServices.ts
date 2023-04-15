@@ -16,12 +16,15 @@ export const vetApi = createApi({
             return headers;
         },
     }),
+    tagTypes: ['NewVet'],
     endpoints: (builder) => ({
         getVeterinaries: builder.query({
             query: () => '/v1/veterinaries',
+            providesTags: ['NewVet'],
         }),
         getVeterinariesId: builder.query({
             query: (id) => `/v1/veterinaries/${id}`,
+            providesTags: ['NewVet'],
         }),
         createVeterinarie: builder.mutation({
             query: (credentials) => {
@@ -31,6 +34,7 @@ export const vetApi = createApi({
                     body: JSON.stringify(credentials),
                 };
             },
+            invalidatesTags: ['NewVet'],
         }),
     }),
 });

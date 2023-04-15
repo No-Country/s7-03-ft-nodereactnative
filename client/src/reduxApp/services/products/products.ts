@@ -15,9 +15,11 @@ export const productsApi = createApi({
             return headers;
         },
     }),
+    tagTypes: ['Product'],
     endpoints: (builder) => ({
         getProducts: builder.query({
             query: () => '/v1/products',
+            providesTags: ['Product'],
         }),
         createProduct: builder.mutation({
             query: (product) => {
@@ -27,6 +29,7 @@ export const productsApi = createApi({
                     body: JSON.stringify(product),
                 };
             },
+            invalidatesTags: ['Product'],
         }),
     }),
 });
