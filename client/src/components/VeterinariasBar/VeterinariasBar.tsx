@@ -39,7 +39,6 @@ export interface VetBarProps {
 
 const VeterinariasBar: React.FC<VetBarProps> = (vet) => {
 
-    const shortDesc = vet?.description.slice(0, 40) + '...';
 
     const navigation =
         useNavigation<StackNavigationProp<RootStackParamList, 'VetDetail'>>();
@@ -77,6 +76,12 @@ const VeterinariasBar: React.FC<VetBarProps> = (vet) => {
         shortName = vet?.name.slice(0, 20) + '...'
     }
 
+
+    let shortDesc
+    if (vet?.description.length > 40) {
+        const shortDesc = vet?.description.slice(0, 40) + '...';
+        
+    }
     return (
         <TouchableOpacity
             style={{
@@ -104,7 +109,7 @@ const VeterinariasBar: React.FC<VetBarProps> = (vet) => {
                 </ContainerFotoVet>
                 <DataVetContainer>
                     <NombreVeterinaria>{shortName || vet?.name}</NombreVeterinaria>
-                    <ShortDescription>{shortDesc}</ShortDescription>
+                    <ShortDescription>{shortDesc || vet?.description}</ShortDescription>
                     <Rating>
                         <StarRating rating={4} />
                     </Rating>
