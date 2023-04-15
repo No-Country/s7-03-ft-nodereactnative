@@ -2,6 +2,8 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { CreateProductDto } from './dtos/create-product';
 import { Product } from '@prisma/client';
+import { UpdateProductDto } from './dtos/update-product.dto';
+import { deleteProductImage } from 'src/utils/firebase';
 
 @Injectable()
 export class ProductsService {
@@ -58,6 +60,32 @@ export class ProductsService {
   async productExist(id: string): Promise<Product> {
     const product = await this.prisma.product.findFirst({
       where: { id, isActive: true },
+      select: {
+        id: true,
+        name: true,
+        description: true,
+        price: true,
+        quantity: true,
+        veterinaryId: true,
+        isActive: true,
+        productCategoryId: true,
+        createdAt: true,
+        updatedAt: true,
+        productCategory: {
+          select: {
+            id: true,
+            name: true,
+            createdAt: true,
+          },
+        },
+        productImage: {
+          select: {
+            id: true,
+            imageUrl: true,
+            createdAt: true,
+          },
+        },
+      },
     });
     if (!product) {
       throw new NotFoundException('Product Not Found');
@@ -89,5 +117,43 @@ export class ProductsService {
       console.log(error);
       return error;
     }
+  }
+
+  async update(id: string, data: UpdateProductDto): Promise<Product> {
+    const product = await this.prisma.product.findUnique({
+      where: { id },
+      select: {
+        id: true,
+        name: true,
+        description: true,
+        price: true,
+        quantity: true,
+        veterinaryId: true,
+        productCategoryId: true,
+        createdAt: true,
+        updatedAt: true,
+      },
+    });
+    if (!product) throw new Error(`Product with id ${id} not found`);
+    return await this.prisma.product.update({ where: { id }, data: data });
+  }
+
+  async delete(id: string): Promise<void> {
+    const product = await this.prisma.product.findUnique({
+      where: { id },
+      include: {
+        productImage: true,
+      },
+    });
+    if (!product) throw new Error(`Product with id ${id} not found`);
+    for (const image of product.productImage) {
+      await deleteProductImage(image.imageUrl);
+    }
+    await this.prisma.productImage.deleteMany({
+      where: { productId: id },
+    });
+    await this.prisma.product.delete({
+      where: { id },
+    });
   }
 }

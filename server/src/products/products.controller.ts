@@ -1,8 +1,11 @@
 import {
   Body,
   Controller,
+  Delete,
   Get,
   HttpCode,
+  Param,
+  Patch,
   Post,
   Query,
   Request,
@@ -17,6 +20,7 @@ import { FileInterceptor } from '@nestjs/platform-express';
 import { uploadProductImage } from 'src/utils/firebase';
 import { ProductImagesService } from 'src/product-images/product-images.service';
 import { CreateProductImagesDto } from 'src/product-images/dto/create-product-image.dto';
+import { UpdateProductDto } from './dtos/update-product.dto';
 
 @ApiTags('Products')
 @Controller('api/v1/products')
@@ -31,6 +35,13 @@ export class ProductsController {
   @Get()
   async findAndCount(@Query() query: any) {
     return this.productsServices.findAndCount(query);
+  }
+
+  @Get(':id')
+  @SkipAuth()
+  @HttpCode(200)
+  async getProductById(@Param('id') id: string) {
+    return this.productsServices.productExist(id);
   }
 
   @Post()
@@ -93,6 +104,21 @@ export class ProductsController {
       message: 'Product created successfully',
       product,
       createProductImage,
+    };
+  }
+
+  @Patch(':id')
+  @ApiBearerAuth()
+  async updateProduct(@Param('id') id: string, @Body() body: UpdateProductDto) {
+    return this.productsServices.update(id, body);
+  }
+
+  @Delete(':id')
+  @ApiBearerAuth()
+  async deleteProduct(@Param('id') id: string) {
+    this.productsServices.delete(id);
+    return {
+      message: 'Product is removed',
     };
   }
 }
