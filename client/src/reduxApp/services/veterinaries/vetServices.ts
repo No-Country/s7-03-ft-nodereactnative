@@ -18,15 +18,15 @@ export const vetApi = createApi({
     }),
     endpoints: (builder) => ({
         getVeterinaries: builder.query({
-            query: () => '/v1/veterinaries',
+            query: () => 'v1/veterinaries',
         }),
         getVeterinariesId: builder.query({
-            query: (id) => `/v1/veterinaries/${id}`,
+            query: (id) => `v1/veterinaries/${id}`,
         }),
         createVeterinarie: builder.mutation({
             query: (credentials) => {
                 return {
-                    url: '/v1/veterinaries',
+                    url: 'v1/veterinaries',
                     method: 'POST',
                     body: JSON.stringify(credentials),
                 };

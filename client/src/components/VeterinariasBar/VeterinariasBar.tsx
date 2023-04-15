@@ -71,6 +71,11 @@ const VeterinariasBar: React.FC<VetBarProps> = (vet) => {
     //         dispatch(setVetDeletePosition())
     //     }, 2000);
     // }
+    let shortName
+
+    if (vet?.name.length > 20) {
+        shortName = vet?.name.slice(0, 20) + '...'
+    }
 
     return (
         <TouchableOpacity
@@ -98,7 +103,7 @@ const VeterinariasBar: React.FC<VetBarProps> = (vet) => {
                     />
                 </ContainerFotoVet>
                 <DataVetContainer>
-                    <NombreVeterinaria>{vet?.name}</NombreVeterinaria>
+                    <NombreVeterinaria>{shortName || vet?.name}</NombreVeterinaria>
                     <ShortDescription>{shortDesc}</ShortDescription>
                     <Rating>
                         <StarRating rating={4} />
