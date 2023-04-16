@@ -8,13 +8,13 @@ export const prisma = new PrismaClient();
 async function main() {
   const { adminRole, normalRole, veterinaryRole } = await roleSeed();
 
-  const { adminUser } = await userSeeds({
+  await userSeeds({
     adminRole,
     normalRole,
     veterinaryRole,
   });
 
-  await veterinarySeed({ adminUser });
+  await veterinarySeed();
 }
 
 main()

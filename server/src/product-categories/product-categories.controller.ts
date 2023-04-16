@@ -7,8 +7,18 @@ import {
   Param,
   Patch,
   Post,
+  Query,
 } from '@nestjs/common';
-import { ApiTags } from '@nestjs/swagger';
+import {
+  ApiBearerAuth,
+  ApiBody,
+  ApiConsumes,
+  ApiCreatedResponse,
+  ApiOkResponse,
+  ApiOperation,
+  ApiTags,
+  ApiUnauthorizedResponse,
+} from '@nestjs/swagger';
 import { ProductCategoriesService } from './product-categories.service';
 import { SkipAuth } from 'src/auth/decorators/skip-auth.decorator';
 import { CreateProductCategoryDTO } from './dtos/create-product-category.dto';
@@ -25,13 +35,82 @@ export class ProductCategoriesController {
   @SkipAuth()
   @HttpCode(200)
   @Get()
-  async findAndCount() {
-    const productCategories =
-      await this.productCategoriesServices.findAndCount();
-    return { productCategories };
+  @ApiOperation({ summary: 'returns all available product categories' })
+  @ApiOkResponse({
+    description: 'Returns all available product categories',
+    content: {
+      'application/json': {
+        schema: {
+          type: 'object',
+          properties: {
+            results: {
+              type: 'object',
+              properties: {
+                count: {
+                  type: 'integer',
+                  example: '1',
+                },
+                totalPages: {
+                  type: 'integer',
+                  example: '1',
+                },
+                currentPage: {
+                  type: 'integer',
+                  example: '1',
+                },
+                results: {
+                  type: 'array',
+                  example: '[]',
+                },
+              },
+            },
+          },
+        },
+      },
+    },
+  })
+  async findAndCount(@Query() query: any) {
+    return this.productCategoriesServices.findAndCount(query);
   }
 
   @HttpCode(201)
+  @ApiBearerAuth()
+  @ApiConsumes('application/x-www-form-urlencoded')
+  @ApiBody({
+    description: 'fields needed to create a new product category',
+    schema: {
+      type: 'object',
+      properties: {
+        name: {
+          type: 'string',
+        },
+      },
+    },
+    required: true,
+  })
+  @ApiCreatedResponse({
+    description: 'Product category created successfully',
+  })
+  @ApiUnauthorizedResponse({
+    description: 'Unauthorized',
+    content: {
+      'application/json': {
+        schema: {
+          type: 'object',
+          properties: {
+            statusCode: {
+              type: 'integer',
+              example: 401,
+            },
+            message: {
+              type: 'string',
+              example: 'Unauthorized',
+            },
+          },
+        },
+      },
+    },
+  })
   @Post()
   async createProductCategory(@Body() body: CreateProductCategoryDTO) {
     const productCategory = await this.productCategoriesServices.create(body);
@@ -49,6 +128,7 @@ export class ProductCategoriesController {
   }
 
   @HttpCode(200)
+  @ApiBearerAuth()
   @Patch(':id')
   async updateProductCategory(
     @Param() params: SearchProductCategoryById,
@@ -62,6 +142,7 @@ export class ProductCategoriesController {
   }
 
   @HttpCode(200)
+  @ApiBearerAuth()
   @Delete(':id')
   async removeProductCategory(@Param() params: SearchProductCategoryById) {
     const productCategory = await this.productCategoriesServices.remove(

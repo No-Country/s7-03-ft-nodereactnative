@@ -13,26 +13,24 @@ import {
     ContainerSaludoyBuscador,
     ContainerTitleOfertas,
     FilaCategorias,
-    Google,
     ImageOferta,
-    ListaStore,
     SaludoUser,
     Title,
     TouchableIcon,
 } from './home.styled';
 import { AuthSlice } from '../../router/Router';
 import { ContainerMenuyUbicacion } from './home.styled';
-import { InputUbicacion } from '../../components/InputUbicacion';
 import { ButtonUbication } from '../../components/buttons/buttonUbication/ButtonUbication';
 import { useNavigation, ParamListBase } from '@react-navigation/native';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { firstLetterMayus } from '../../utils/functions';
 import { alertToast } from '../../utils/alerts';
 import Toast from 'react-native-toast-message';
-import { View, Text } from 'react-native';
+import { StatusBar, Text } from 'react-native';
 import { useEffect } from 'react';
 import { FontAwesome5 } from '@expo/vector-icons';
 import { SafeAreaView } from 'react-native';
+import { colors } from '../../constants';
 
 export interface HomeProps {}
 
@@ -56,18 +54,23 @@ const Home: React.FC<HomeProps> = () => {
 
     return (
         <ContainerHome keyboardShouldPersistTaps="handled">
+            <StatusBar backgroundColor={colors.primaryLight} />
             <ContainerMenuyUbicacion>
                 <SafeAreaView>
-
-                <TabBar />
-                {/* <InputUbicacion /> */}
-                <ButtonUbication onPress={()=>{navigate('Maps')}} />
+                    <TabBar />
+                    {/* <InputUbicacion /> */}
+                    <Text>Ver veterinarias cercanas</Text>
+                    <ButtonUbication
+                        onPress={() => {
+                            navigate('Maps');
+                        }}
+                    />
                 </SafeAreaView>
             </ContainerMenuyUbicacion>
             <ContainerSaludoyBuscador>
                 <SaludoUser>
-                Hola, {firstLetterMayus(infoUser?.user?.firstName)}!
-            </SaludoUser>
+                    Hola, {firstLetterMayus(infoUser?.user?.firstName)}!
+                </SaludoUser>
                 <ContainerBuscadoryFiltro>
                     <InputBuscador />
                     <TouchableIcon>
@@ -89,7 +92,7 @@ const Home: React.FC<HomeProps> = () => {
                         img={require('../../../assets/categoriasImg/veterinarios.png')}
                         color="#8eb6f8"
                         text="Veterinarias"
-                        to="Cuidadores"
+                        to="Veterinarias"
                     />
                     <CategoriaBox
                         img={require('../../../assets/categoriasImg/cuidadores.png')}
@@ -106,8 +109,8 @@ const Home: React.FC<HomeProps> = () => {
                     <CategoriaBox
                         img={require('../../../assets/categoriasImg/juguetes.png')}
                         color="#ffda66"
-                        text="Juguetes"
-                        to="Cuidadores"
+                        text="Pet Shop"
+                        to="PetShop"
                     />
                 </FilaCategorias>
             </ContainerCategorias>
@@ -117,14 +120,6 @@ const Home: React.FC<HomeProps> = () => {
                     source={require('../../../assets/ImgOfertas/Oferta.webp')}
                 />
             </ContainerOfertas>
-            <ListaStore>
-                <StoreTab />
-                <StoreTab />
-                <StoreTab />
-                <StoreTab />
-                <StoreTab />
-                <StoreTab />
-            </ListaStore>
             <Toast />
         </ContainerHome>
     );
