@@ -2,7 +2,13 @@ import React from 'react';
 import { Text, TouchableOpacity, View } from 'react-native';
 import { useCreateVeterinarieMutation } from '../../../reduxApp/services/veterinaries/vetServices';
 import { Input, Label } from '../../UserProfile/Settings/Settings.styled';
+import { GooglePlacesAutocomplete } from 'react-native-google-places-autocomplete';
+
 import { Controller, useForm } from 'react-hook-form';
+import { ContenedorInputDireccion, MainWrapperFormVet } from './addNewVeterinarie.styled';
+import { FlatList } from 'react-native';
+import { API_KEY_GOOGLEPLACESAUTOCOMPLETE } from '@env';
+import { CommonInput } from '../../../components';
 
 const AddNewVeterinarie = () => {
     const [newVet] = useCreateVeterinarieMutation();
@@ -22,65 +28,46 @@ const AddNewVeterinarie = () => {
             country: 'ARG',
         };
         console.log('esto es objdata', objData);
-        const response = await newVet(objData);
-        console.log(response);
+        // const response = await newVet(objData);
+        // console.log(response);
     };
 
     return (
-        <View>
-            <Text>Add new veterinarie</Text>
-            <Label>name</Label>
-            <Controller
-                control={control}
-                name="name"
-                render={({ field: { onChange, onBlur, value } }) => (
-                    <Input
-                        onBlur={onBlur}
-                        onChangeText={onChange}
-                        value={value}
+        <FlatList
+            data={[{ key: 'dummy' }]}
+            renderItem={() => (
+                <MainWrapperFormVet>
+                    <CommonInput control={control} name='name' label='Nombre de la clínica veterinaria' />
+                    <CommonInput control={control} name='description' label='Descripción' />
+                    <CommonInput control={control} name='phone' label='Teléfono' />
+                    <CommonInput control={control} name='address' label='Dirección' />
+                    <Controller
+                        control={control}
+                        name="address"
+                        render={({ field: { onChange, onBlur, value } }) => (
+                            <ContenedorInputDireccion>
+                                <View>
+                                    <GooglePlacesAutocomplete
+                                        placeholder="Search"
+                                        onPress={(data, details = null) => {
+                                            // 'details' is provided when fetchDetails = true
+                                            console.log(data, details);
+                                        }}
+                                        query={{
+                                            key: {API_KEY_GOOGLEPLACESAUTOCOMPLETE},
+                                            language: 'en',
+                                        }}
+                                    />
+                                </View>
+                            </ContenedorInputDireccion>
+                        )}
                     />
-                )}
-            />
-            <Label>description</Label>
-            <Controller
-                control={control}
-                name="description"
-                render={({ field: { onChange, onBlur, value } }) => (
-                    <Input
-                        onBlur={onBlur}
-                        onChangeText={onChange}
-                        value={value}
-                    />
-                )}
-            />
-            <Label>address</Label>
-            <Controller
-                control={control}
-                name="address"
-                render={({ field: { onChange, onBlur, value } }) => (
-                    <Input
-                        onBlur={onBlur}
-                        onChangeText={onChange}
-                        value={value}
-                    />
-                )}
-            />
-            <Label>phone</Label>
-            <Controller
-                control={control}
-                name="phone"
-                render={({ field: { onChange, onBlur, value } }) => (
-                    <Input
-                        onBlur={onBlur}
-                        onChangeText={onChange}
-                        value={value}
-                    />
-                )}
-            />
-            <TouchableOpacity onPress={handleSubmit(onSubmit)}>
-                <Text>Crear tienda</Text>
-            </TouchableOpacity>
-        </View>
+                    <TouchableOpacity onPress={handleSubmit(onSubmit)}>
+                        <Text>Crear tienda</Text>
+                    </TouchableOpacity>
+                </MainWrapperFormVet>
+            )}
+        />
     );
 };
 

@@ -1,5 +1,6 @@
 import { FontAwesome } from '@expo/vector-icons';
 import { View } from 'react-native'
+import { colors } from '../../constants';
 
 export interface StarRatingProps {
 	rating: number
@@ -15,7 +16,7 @@ const StarRating : React.FC<StarRatingProps> = ({rating}) => {
     const stars = [];
 
     for (let i = 0; i < fullStars; i++) {
-        stars.push(<FontAwesome key={i} name="star" size={15} color="black" />);
+        stars.push(<FontAwesome key={i} name="star" size={15} color={colors.primary} />);
     }
 
     for (let i = 0; i < halfStars; i++) {
@@ -24,7 +25,7 @@ const StarRating : React.FC<StarRatingProps> = ({rating}) => {
                 key={fullStars + i}
                 name="star-half-empty"
                 size={15}
-                color="black"
+                color={colors.primary}
             />
         );
     }
@@ -35,7 +36,7 @@ const StarRating : React.FC<StarRatingProps> = ({rating}) => {
                 key={fullStars + halfStars + i}
                 name="star-o"
                 size={15}
-                color="black"
+                color={colors.grey}
             />
         );
     }

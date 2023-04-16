@@ -17,6 +17,7 @@ import {
 import { StackNavigationProp } from '@react-navigation/stack';
 import { RootStackParamList } from '../../constants/types/RootStackParamList ';
 import { StarRating } from '../StarRating';
+import { shortText } from '../../utils/functions';
 
 export interface VetBarProps {
     id: string;
@@ -38,8 +39,6 @@ export interface VetBarProps {
 }
 
 const VeterinariasBar: React.FC<VetBarProps> = (vet) => {
-    const shortDesc = vet?.description.slice(0, 40) + '...';
-
     const navigation =
         useNavigation<StackNavigationProp<RootStackParamList, 'VetDetail'>>();
 
@@ -97,8 +96,12 @@ const VeterinariasBar: React.FC<VetBarProps> = (vet) => {
                     />
                 </ContainerFotoVet>
                 <DataVetContainer>
-                    <NombreVeterinaria>{vet?.name}</NombreVeterinaria>
-                    <ShortDescription>{shortDesc}</ShortDescription>
+                    <NombreVeterinaria>
+                        {shortText(vet?.name, 20)}
+                    </NombreVeterinaria>
+                    <ShortDescription>
+                        {shortText(vet?.description, 40)}
+                    </ShortDescription>
                     <Rating>
                         <StarRating rating={4} />
                     </Rating>
