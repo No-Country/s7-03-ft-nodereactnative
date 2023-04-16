@@ -1,10 +1,9 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 import { API_APP_BASE_URL } from '@env';
-import { VetInterface } from '../../../interfaces/vetInterfaces';
 import { RootState } from '../../store';
 
-export const vetApi = createApi({
-    reducerPath: 'vets',
+export const productsApi = createApi({
+    reducerPath: 'products',
     baseQuery: fetchBaseQuery({
         baseUrl: `${API_APP_BASE_URL}`,
         prepareHeaders: (headers, { getState }) => {
@@ -16,30 +15,23 @@ export const vetApi = createApi({
             return headers;
         },
     }),
-    tagTypes: ['NewVet'],
+    tagTypes: ['Product'],
     endpoints: (builder) => ({
-        getVeterinaries: builder.query({
-            query: () => 'v1/veterinaries',
+        getProducts: builder.query({
+            query: () => '/v1/products',
+            providesTags: ['Product'],
         }),
-        getVeterinariesId: builder.query({
-            query: (id) => `v1/veterinaries/${id}`,
-
-        }),
-        createVeterinarie: builder.mutation({
-            query: (credentials) => {
+        createProduct: builder.mutation({
+            query: (product) => {
                 return {
-                    url: 'v1/veterinaries',
+                    url: '/v1/products',
                     method: 'POST',
-                    body: JSON.stringify(credentials),
+                    body: JSON.stringify(product),
                 };
             },
-            invalidatesTags: ['NewVet'],
+            invalidatesTags: ['Product'],
         }),
     }),
 });
 
-export const {
-    useGetVeterinariesQuery,
-    useCreateVeterinarieMutation,
-    useGetVeterinariesIdQuery,
-} = vetApi;
+export const { useGetProductsQuery, useCreateProductMutation } = productsApi;

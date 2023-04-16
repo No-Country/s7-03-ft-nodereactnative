@@ -26,17 +26,17 @@ import { StackNavigationProp } from '@react-navigation/stack';
 import { firstLetterMayus } from '../../utils/functions';
 import { alertToast } from '../../utils/alerts';
 import Toast from 'react-native-toast-message';
-import { Text } from 'react-native';
+import { StatusBar, Text } from 'react-native';
 import { useEffect } from 'react';
 import { FontAwesome5 } from '@expo/vector-icons';
 import { SafeAreaView } from 'react-native';
+import { colors } from '../../constants';
 
 export interface HomeProps {}
 
 const Home: React.FC<HomeProps> = () => {
     const infoUser = useSelector((state: AuthSlice) => state.authSlice);
     const { navigate } = useNavigation<StackNavigationProp<ParamListBase>>();
-
 
     useEffect(() => {
         <Text>
@@ -54,12 +54,13 @@ const Home: React.FC<HomeProps> = () => {
 
     return (
         <ContainerHome keyboardShouldPersistTaps="handled">
+            <StatusBar backgroundColor={colors.primaryLight} />
             <ContainerMenuyUbicacion>
                 <SafeAreaView>
                     <TabBar />
                     {/* <InputUbicacion /> */}
                     <Text>Ver veterinarias cercanas</Text>
-                    <ButtonUbication                    
+                    <ButtonUbication
                         onPress={() => {
                             navigate('Maps');
                         }}

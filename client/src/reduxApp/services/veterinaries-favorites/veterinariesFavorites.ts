@@ -15,9 +15,11 @@ export const veterinariesFavoritesApi = createApi({
             return headers;
         },
     }),
+    tagTypes: ['VetFav'],
     endpoints: (builder) => ({
         getVeterinariesFavorites: builder.query({
             query: () => '/v1/veterinaries-favorites',
+            providesTags: ['VetFav'],
         }),
         createFavVeterinarie: builder.mutation({
             query: (veterinarieId) => {
@@ -27,6 +29,16 @@ export const veterinariesFavoritesApi = createApi({
                     body: JSON.stringify(veterinarieId),
                 };
             },
+            invalidatesTags: ['VetFav'],
+        }),
+        deleteFavVeterinarie: builder.mutation({
+            query: (id) => {
+                return {
+                    url: `/v1/veterinaries-favorites/${id}`,
+                    method: 'DELETE',
+                };
+            },
+            invalidatesTags: ['VetFav'],
         }),
     }),
 });
@@ -34,4 +46,5 @@ export const veterinariesFavoritesApi = createApi({
 export const {
     useGetVeterinariesFavoritesQuery,
     useCreateFavVeterinarieMutation,
+    useDeleteFavVeterinarieMutation,
 } = veterinariesFavoritesApi;

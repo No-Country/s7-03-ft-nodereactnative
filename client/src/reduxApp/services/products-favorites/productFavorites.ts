@@ -15,9 +15,11 @@ export const productFavoritesApi = createApi({
             return headers;
         },
     }),
+    tagTypes: ['FavProducts'],
     endpoints: (builder) => ({
         getProductsFavorites: builder.query({
             query: () => '/v1/products-favorites',
+            providesTags: ['FavProducts'],
         }),
         createFavProduct: builder.mutation({
             query: (productId) => {
@@ -27,9 +29,22 @@ export const productFavoritesApi = createApi({
                     body: JSON.stringify(productId),
                 };
             },
+            invalidatesTags: ['FavProducts'],
+        }),
+        deleteFavProduct: builder.mutation({
+            query: (id) => {
+                return {
+                    url: `/v1/products-favorites/${id}`,
+                    method: 'DELETE',
+                };
+            },
+            invalidatesTags: ['FavProducts'],
         }),
     }),
 });
 
-export const { useGetProductsFavoritesQuery, useCreateFavProductMutation } =
-    productFavoritesApi;
+export const {
+    useGetProductsFavoritesQuery,
+    useCreateFavProductMutation,
+    useDeleteFavProductMutation,
+} = productFavoritesApi;

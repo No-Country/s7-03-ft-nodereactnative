@@ -1,5 +1,11 @@
 import { initializeApp } from 'firebase/app';
-import { getStorage, ref, uploadBytes, getDownloadURL } from 'firebase/storage';
+import {
+  getStorage,
+  ref,
+  uploadBytes,
+  getDownloadURL,
+  deleteObject,
+} from 'firebase/storage';
 
 const firebaseConfig = {
   apiKey: process.env.FB_API_KEY,
@@ -11,7 +17,7 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const storage = getStorage(app);
 
-export const uploadProductImages = async (file: Express.Multer.File) => {
+export const uploadProductImage = async (file: Express.Multer.File) => {
   const ext = file.originalname.split('.').pop();
   const timestamp = Date.now();
   const fileName = `product-${timestamp}.${ext}`;
@@ -24,4 +30,33 @@ export const uploadProductImages = async (file: Express.Multer.File) => {
   await uploadBytes(productRef, file.buffer, metadata);
   const productURL = await getDownloadURL(productRef);
   return productURL;
+};
+
+export const deleteProductImage = async (imageUrl: string) => {
+  const fileName = imageUrl.split('/').pop();
+  if (!fileName) {
+    console.error('No se pudo obtener el nombre del archivo');
+    return;
+  }
+  let ext = '';
+
+  const start = fileName.indexOf('2F') + 2;
+
+  if (fileName.indexOf('.png', start) !== -1) {
+    ext = '.png';
+  } else if (fileName.indexOf('.jpg', start) !== -1) {
+    ext = '.jpg';
+  }
+  const end = fileName.indexOf(ext, start) + 4;
+
+  const path = fileName.substring(start, end);
+  const productImageRef = ref(storage, `products-images/${path}`);
+  try {
+    await deleteObject(productImageRef);
+    console.log(`Image ${imageUrl} deleted from Firebase storage`);
+  } catch (error) {
+    console.error(
+      `Error deleting image ${imageUrl} from Firebase storage: ${error}`,
+    );
+  }
 };

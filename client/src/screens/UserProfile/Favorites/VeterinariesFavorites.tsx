@@ -1,5 +1,5 @@
 import React from 'react';
-import { Text, View, ScrollView } from 'react-native';
+import { Text, View, ScrollView, ActivityIndicator } from 'react-native';
 import { useGetVeterinariesFavoritesQuery } from '../../../reduxApp/services/veterinaries-favorites/veterinariesFavorites';
 import RenderVetFav from './RenderFav';
 
@@ -33,22 +33,28 @@ export interface Veterinary {
 }
 
 const VeterinariesFavorites = () => {
-    const { data } = useGetVeterinariesFavoritesQuery('');
+    const { data, isLoading } = useGetVeterinariesFavoritesQuery('');
 
     return (
-        <View>
-            <Text>Estas son tus veterinarias favoritas:</Text>
-            {data?.results?.veterinariesFavorites?.length >= 1 ? (
-                data?.results?.veterinariesFavorites.map((vet: VetFav) => {
-                    return (
-                        <ScrollView key={vet?.veterinaryId} horizontal>
-                            <RenderVetFav vet={vet} />
-                        </ScrollView>
-                    );
-                })
-            ) : (
-                <Text>No tenes ninguna veterinaria favorita</Text>
-            )}
+        <View style={{ backgroundColor: 'white' }}>
+            <ScrollView>
+                <Text style={{ textAlign: 'center' }}>
+                    Veterinarias favoritas{' '}
+                </Text>
+                {isLoading ? (
+                    <ActivityIndicator size={30} />
+                ) : data?.results?.veterinariesFavorites?.length >= 1 ? (
+                    data?.results?.veterinariesFavorites.map((vet: VetFav) => {
+                        return (
+                            <RenderVetFav key={vet?.veterinaryId} vet={vet} />
+                        );
+                    })
+                ) : (
+                    <Text style={{ marginTop: 10 }}>
+                        No tenes ninguna {'\n'}veterinaria favorita
+                    </Text>
+                )}
+            </ScrollView>
         </View>
     );
 };

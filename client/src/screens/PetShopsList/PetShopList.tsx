@@ -1,4 +1,4 @@
-import { ActivityIndicator  } from 'react-native';
+import { ActivityIndicator } from 'react-native';
 import { useGetVeterinariesQuery } from '../../reduxApp/services/veterinaries/vetServices';
 import {
     ContainerVeterinario,
@@ -12,7 +12,6 @@ const PetShopList: React.FC<VeterinariasProps> = () => {
     const { data, isLoading } = useGetVeterinariesQuery('');
 
     const listaVets = data?.results?.veterinaries;
-   
 
     interface Vet {
         id: string;
@@ -37,9 +36,13 @@ const PetShopList: React.FC<VeterinariasProps> = () => {
             source={require('../../../assets/fondoHuellitas.png')}
         >
             <ScrollViewContainer>
-                { isLoading ? <ActivityIndicator size="large" /> : listaVets?.map((vet: Vet) => {
-                    return <PetShopBar key={vet.id} {...vet} />;
-                })}
+                {isLoading ? (
+                    <ActivityIndicator size="large" />
+                ) : (
+                    listaVets?.map((vet: Vet) => {
+                        return <PetShopBar key={vet.id} {...vet} />;
+                    })
+                )}
             </ScrollViewContainer>
         </ContainerVeterinario>
     );
