@@ -93,6 +93,22 @@ const VeterinariasScreen: React.FC<VeterinariasScreenProps> = () => {
                         </Icon>
                         <TextItem>{params?.vet?.address}</TextItem>
                     </IconAndText>
+                    <IconAndText>
+                        <Icon>
+                            <MaterialCommunityIcons
+                                name="text-long"
+                                size={24}
+                                color="#fff"
+                            />
+                        </Icon>
+                        <TextItem>
+                            Lorem ipsum dolor sit, amet consectetur adipisicing
+                            elit. Velit quibusdam fuga corporis hic voluptates!
+                            Adipisci minima rerum ratione fuga ipsa velit
+                            perferendis unde nihil, tenetur temporibus, eveniet
+                            minus esse inventore.
+                        </TextItem>
+                    </IconAndText>
                 </WrapperItems>
             </ContainerData>
         </ContainerVeterinariaScreen>

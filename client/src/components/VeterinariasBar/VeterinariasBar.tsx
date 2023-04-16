@@ -17,6 +17,7 @@ import {
 import { StackNavigationProp } from '@react-navigation/stack';
 import { RootStackParamList } from '../../constants/types/RootStackParamList ';
 import { StarRating } from '../StarRating';
+import { shortText } from '../../utils/functions';
 
 export interface VetBarProps {
     id: string;
@@ -38,8 +39,6 @@ export interface VetBarProps {
 }
 
 const VeterinariasBar: React.FC<VetBarProps> = (vet) => {
-
-
     const navigation =
         useNavigation<StackNavigationProp<RootStackParamList, 'VetDetail'>>();
 
@@ -70,18 +69,7 @@ const VeterinariasBar: React.FC<VetBarProps> = (vet) => {
     //         dispatch(setVetDeletePosition())
     //     }, 2000);
     // }
-    let shortName
 
-    if (vet?.name.length > 20) {
-        shortName = vet?.name.slice(0, 20) + '...'
-    }
-
-
-    let shortDesc
-    if (vet?.description.length > 40) {
-        const shortDesc = vet?.description.slice(0, 40) + '...';
-        
-    }
     return (
         <TouchableOpacity
             style={{
@@ -108,8 +96,12 @@ const VeterinariasBar: React.FC<VetBarProps> = (vet) => {
                     />
                 </ContainerFotoVet>
                 <DataVetContainer>
-                    <NombreVeterinaria>{shortName || vet?.name}</NombreVeterinaria>
-                    <ShortDescription>{shortDesc || vet?.description}</ShortDescription>
+                    <NombreVeterinaria>
+                        {shortText(vet?.name, 20)}
+                    </NombreVeterinaria>
+                    <ShortDescription>
+                        {shortText(vet?.description, 40)}
+                    </ShortDescription>
                     <Rating>
                         <StarRating rating={4} />
                     </Rating>
