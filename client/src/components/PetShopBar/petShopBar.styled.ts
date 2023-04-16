@@ -70,5 +70,5 @@ export const RightSideContainer = styled.View`
 export const UbicationWrapper = styled.View``;
 
 export const Distance = styled.Text`
-  font-size: 20px;
+  font-size: 10px;
 `;
