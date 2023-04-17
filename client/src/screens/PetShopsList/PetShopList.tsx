@@ -4,6 +4,10 @@ import {
     ContainerVeterinario,
     ScrollViewContainer,
 } from './petShopLists.style';
+import { useSelector } from 'react-redux';
+import { PosState } from '../../reduxFeature/user/userPositionSlice';
+import { calculateDistance } from '../../hooks/calculateDistance';
+import { useEffect, useState } from 'react';
 import { PetShopBar } from '../../components/PetShopBar';
 
 export interface VeterinariasProps {}
@@ -11,7 +15,46 @@ export interface VeterinariasProps {}
 const PetShopList: React.FC<VeterinariasProps> = () => {
     const { data, isLoading } = useGetVeterinariesQuery('');
 
-    const listaVets = data?.results?.veterinaries;
+    const listaVets: Vet[] = data?.results?.veterinaries;
+
+    const { latitude, longitude } = useSelector(
+        (state: PosState) => state.userPositionSlice
+    );
+
+    const [sortedList, setSortedList] = useState<Vet[]>([])
+
+    const cerca = (vet:Vet)=>{
+        return (Math.abs(vet.latitude-latitude!) < 20 && Math.abs(vet.longitude-longitude!) < 20)
+        
+    }
+    
+    useEffect(() => {
+        try {
+            if (listaVets)
+            {
+                const newVetList = listaVets.filter(vet=>cerca(vet))
+                    .sort((vet1, vet2) =>
+                     calculateDistance({
+                         longitude1: longitude!,
+                         latitude1: latitude!,
+                         longitude2: vet1.longitude,
+                         latitude2: vet1.latitude,
+                     })-
+                     calculateDistance({
+                         longitude1: longitude!,
+                         latitude1: latitude!,
+                         longitude2: vet2.longitude,
+                         latitude2: vet2.latitude,
+                     })
+                     );
+                    setSortedList(newVetList)
+            }            
+        } catch (error) {
+            console.log('err',error);
+            
+        }
+    }, [listaVets])
+    
 
     interface Vet {
         id: string;
@@ -39,7 +82,7 @@ const PetShopList: React.FC<VeterinariasProps> = () => {
                 {isLoading ? (
                     <ActivityIndicator size="large" />
                 ) : (
-                    listaVets?.map((vet: Vet) => {
+                    sortedList?.map((vet: Vet) => {
                         return <PetShopBar key={vet.id} {...vet} />;
                     })
                 )}

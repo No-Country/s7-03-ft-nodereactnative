@@ -5,6 +5,7 @@ export type RootStackParamList = {
     Cuidadores: undefined;
     Veterinarias: { vet: VeterinariasScreenProps };
     VetDetail: { vet: VetBarProps };
+    PetShopView: { vet: VetBarProps };
     Alimenos: undefined;
     PetShop: undefined;
     // add more screen names and their params here as needed

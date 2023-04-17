@@ -14,6 +14,7 @@ import PetShop from '../screens/PetShop/PetShop';
 import AddNewVeterinarie from '../screens/AddNewVeterinarie/AddNewVeterinarie';
 import { VetRoute } from './VetRoute';
 import { PetShopList } from '../screens';
+import PetShopView from '../screens/PetShop/PetShopView/PetShopView';
 
 export interface AuthSlice {
     authSlice: {
@@ -53,6 +54,14 @@ const LoggedStack = () => {
                 component={PetShopList}
                 options={{
                     title: 'PetShops',
+                    headerTintColor: colors.primary,
+                }}
+            />
+            <Stack.Screen
+                name="PetShopView"
+                component={PetShopView}
+                options={{
+                    title: 'Tienda',
                     headerTintColor: colors.primary,
                 }}
             />
