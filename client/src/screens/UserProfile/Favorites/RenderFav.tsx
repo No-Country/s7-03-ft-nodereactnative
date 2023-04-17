@@ -1,5 +1,5 @@
 import React from 'react';
-import { Text, View, TouchableOpacity } from 'react-native';
+import { Text, View, TouchableOpacity, ActivityIndicator } from 'react-native';
 import { ProductFav } from './ProductsFavorites';
 import { VetFav } from './VeterinariesFavorites';
 import { Ionicons } from '@expo/vector-icons';
@@ -7,6 +7,8 @@ import { useDeleteFavProductMutation } from '../../../reduxApp/services/products
 import { useDeleteFavVeterinarieMutation } from '../../../reduxApp/services/veterinaries-favorites/veterinariesFavorites';
 import Alerts from '../../../components/Alerts/Alerts';
 import { useState } from 'react';
+import { alertToast } from '../../../utils/alerts';
+import { Toast } from 'react-native-toast-message/lib/src/Toast';
 
 interface Props {
     vet?: VetFav | undefined;
@@ -14,9 +16,10 @@ interface Props {
 }
 
 const RenderFav = ({ vet, product }: Props) => {
-    const [deleteFavVet] = useDeleteFavVeterinarieMutation();
-    const [deleteFavProduct] = useDeleteFavProductMutation();
-
+    const [deleteFavVet, { isLoading: loadingVet, isSuccess: successVet }] =
+        useDeleteFavVeterinarieMutation();
+    const [deleteFavProduct, { isLoading: loadingProduct }] =
+        useDeleteFavProductMutation();
     const [alertShow, setAlertShow] = useState(false);
     const [modeType, setModeType] = useState('');
 
@@ -33,144 +36,153 @@ const RenderFav = ({ vet, product }: Props) => {
         }
     };
 
-    // Actualizar cuando se borra algun favorito.
     // Redireccion cuando apretas ir a la tienda/producto
 
     return (
         <>
-            {vet && (
-                <View
-                    style={{
-                        marginTop: 5,
-                        maxWidth: 180,
-                        borderWidth: 1,
-                        gap: 0,
-                        marginBottom: 10,
-                        padding: 10,
-                        borderRadius: 5,
-                    }}
-                >
-                    <Text>Nombre: {vet?.veterinary?.name}</Text>
-                    <Text>Direccion: {vet?.veterinary?.address}</Text>
+            <Toast />
+            {/* {successVet && alertToast('success', 'Se elimino correctamente')} */}
+            {loadingVet ? (
+                <ActivityIndicator size={30} />
+            ) : (
+                vet && (
                     <View
                         style={{
-                            flexDirection: 'row',
-                            gap: 10,
-
-                            marginTop: 10,
+                            marginTop: 5,
+                            maxWidth: 180,
+                            borderWidth: 1,
+                            gap: 0,
+                            marginBottom: 10,
+                            padding: 10,
+                            borderRadius: 5,
                         }}
                     >
-                        <TouchableOpacity
-                            onPress={() => {
-                                setAlertShow(true), setModeType('vet');
-                            }}
+                        <Text>Nombre: {vet?.veterinary?.name}</Text>
+                        <Text>Direccion: {vet?.veterinary?.address}</Text>
+                        <View
                             style={{
-                                borderWidth: 1,
-                                padding: 2,
-                                backgroundColor: 'red',
-                                borderRadius: 5,
-                                borderColor: 'red',
-                                alignItems: 'center',
+                                flexDirection: 'row',
+                                gap: 10,
+
+                                marginTop: 10,
                             }}
                         >
-                            <Text
+                            <TouchableOpacity
+                                onPress={() => {
+                                    setAlertShow(true), setModeType('vet');
+                                }}
                                 style={{
-                                    color: 'white',
+                                    borderWidth: 1,
+                                    padding: 2,
+                                    backgroundColor: 'red',
+                                    borderRadius: 5,
+                                    borderColor: 'red',
+                                    alignItems: 'center',
                                 }}
                             >
-                                Eliminar
-                                <Ionicons size={15} name="close-circle" />
-                            </Text>
-                        </TouchableOpacity>
-                        <TouchableOpacity
-                            // onPress={{}}
-                            style={{
-                                borderWidth: 1,
-                                padding: 2,
-                                backgroundColor: 'green',
-                                borderRadius: 5,
-                                borderColor: 'green',
-                                alignItems: 'center',
-                            }}
-                        >
-                            <Text
+                                <Text
+                                    style={{
+                                        color: 'white',
+                                    }}
+                                >
+                                    Eliminar
+                                    <Ionicons size={15} name="close-circle" />
+                                </Text>
+                            </TouchableOpacity>
+                            <TouchableOpacity
+                                // onPress={{}}
                                 style={{
-                                    color: 'white',
+                                    borderWidth: 1,
+                                    padding: 2,
+                                    backgroundColor: 'green',
+                                    borderRadius: 5,
+                                    borderColor: 'green',
+                                    alignItems: 'center',
                                 }}
                             >
-                                Ir a la tienda
-                            </Text>
-                        </TouchableOpacity>
+                                <Text
+                                    style={{
+                                        color: 'white',
+                                    }}
+                                >
+                                    Ir a la tienda
+                                </Text>
+                            </TouchableOpacity>
+                        </View>
                     </View>
-                </View>
+                )
             )}
-            {product && (
-                <View
-                    // onPress={}
-                    style={{
-                        marginTop: 5,
-                        maxWidth: 180,
-                        borderWidth: 1,
-                        gap: 0,
-                        marginBottom: 10,
-                        padding: 5,
-                        borderRadius: 5,
-                    }}
-                >
-                    <Text>Producto: {product?.product?.name}</Text>
-                    <Text>Categoria: {product?.product?.description}</Text>
-                    <Text>Precio: {product?.product?.price}</Text>
+            {loadingProduct ? (
+                <ActivityIndicator size={30} />
+            ) : (
+                product && (
                     <View
+                        // onPress={}
                         style={{
-                            flexDirection: 'row',
-                            gap: 10,
-
-                            marginTop: 10,
+                            marginTop: 5,
+                            maxWidth: 180,
+                            borderWidth: 1,
+                            gap: 0,
+                            marginBottom: 10,
+                            padding: 5,
+                            borderRadius: 5,
                         }}
                     >
-                        <TouchableOpacity
-                            onPress={() => {
-                                setAlertShow(true), setModeType('product');
-                            }}
+                        <Text>Producto: {product?.product?.name}</Text>
+                        <Text>Categoria: {product?.product?.description}</Text>
+                        <Text>Precio: {product?.product?.price}</Text>
+                        <View
                             style={{
-                                borderWidth: 1,
-                                padding: 2,
-                                backgroundColor: 'red',
-                                borderRadius: 5,
-                                borderColor: 'red',
-                                alignItems: 'center',
+                                flexDirection: 'row',
+                                gap: 10,
+
+                                marginTop: 10,
                             }}
                         >
-                            <Text
+                            <TouchableOpacity
+                                onPress={() => {
+                                    setAlertShow(true), setModeType('product');
+                                }}
                                 style={{
-                                    color: 'white',
+                                    borderWidth: 1,
+                                    padding: 2,
+                                    backgroundColor: 'red',
+                                    borderRadius: 5,
+                                    borderColor: 'red',
+                                    alignItems: 'center',
                                 }}
                             >
-                                Eliminar
-                                <Ionicons size={15} name="close-circle" />
-                            </Text>
-                        </TouchableOpacity>
-                        <TouchableOpacity
-                            // onPress={{}}
-                            style={{
-                                borderWidth: 1,
-                                padding: 2,
-                                backgroundColor: 'green',
-                                borderRadius: 5,
-                                borderColor: 'green',
-                                alignItems: 'center',
-                            }}
-                        >
-                            <Text
+                                <Text
+                                    style={{
+                                        color: 'white',
+                                    }}
+                                >
+                                    Eliminar
+                                    <Ionicons size={15} name="close-circle" />
+                                </Text>
+                            </TouchableOpacity>
+                            <TouchableOpacity
+                                // onPress={{}}
                                 style={{
-                                    color: 'white',
+                                    borderWidth: 1,
+                                    padding: 2,
+                                    backgroundColor: 'green',
+                                    borderRadius: 5,
+                                    borderColor: 'green',
+                                    alignItems: 'center',
                                 }}
                             >
-                                Ir al producto
-                            </Text>
-                        </TouchableOpacity>
+                                <Text
+                                    style={{
+                                        color: 'white',
+                                    }}
+                                >
+                                    Ir al producto
+                                </Text>
+                            </TouchableOpacity>
+                        </View>
                     </View>
-                </View>
+                )
             )}
             {alertShow && (
                 <Alerts
