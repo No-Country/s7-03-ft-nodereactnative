@@ -11,7 +11,7 @@ import Maps from '../screens/Maps/Maps';
 import { Cuidadores } from '../screens/Cuidadores';
 import { colors } from '../constants';
 import PetShop from '../screens/PetShop/PetShop';
-import AddNewVeterinarie from '../screens/PetShop/AddNewVeterinarie/AddNewVeterinarie';
+import AddNewVeterinarie from '../screens/AddNewVeterinarie/AddNewVeterinarie';
 import { VetRoute } from './VetRoute';
 import { PetShopList } from '../screens';
 import PetShopView from '../screens/PetShop/PetShopView/PetShopView';
