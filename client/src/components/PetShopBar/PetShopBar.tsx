@@ -107,7 +107,7 @@ useEffect(() => {
                 marginBottom: 15,
                 margin: 5,
             }}
-            onPress={() => navigation.navigate('PetShopView')}
+            onPress={() => navigation.navigate('PetShopView', {vet})}
             // onPress={handleOnPress}
         >
             <PetshopTabContainer>

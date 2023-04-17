@@ -1,10 +1,18 @@
 import styled from 'styled-components/native';
 import { Ionicons } from '@expo/vector-icons';
+import { useRoute } from '@react-navigation/native';
+import { VeterinariasScreenRouteProp } from '../../VeterinariasScreen/VeterinariasScreen';
+import { useSelector } from 'react-redux';
+import { Product } from '../../../reduxFeature/products/allProductsSlice';
 
 const ContainerVeterinario = styled.ImageBackground`
     flex: 1;
     object-fit: 'cover';
 `;
+
+const Scroll = styled.ScrollView`
+    
+`
 
 const Container = styled.View`
     margin: 20px;
@@ -35,52 +43,51 @@ const Text = styled.Text`
     font-size: 10px;
 `;
 
+const Title = styled.Text`
+    align-self: center;
+    margin: 15px;
+    font-size: 20px;
+`;
+
+interface StateProd {
+    allProductSlice: Product[];
+}
+
 const PetShopView = () => {
+    const { params } = useRoute<VeterinariasScreenRouteProp>();
+    const prods = useSelector((state: StateProd) => state.allProductSlice);
+    console.log(prods);
+
+    const prodFilter = prods.filter((prod)=>prod.veterinaryId===params.vet.id )
+    
+    // const prods = prodSelector[0];
+
     return (
         <ContainerVeterinario
             source={require('../../../../assets/fondoHuellitas.png')}
         >
+            <Scroll>
+
+            <Title>{params.vet.name}</Title>
             <Container>
-                <Card>
-                    <Ionicons
-                        name="add-circle-outline"
-                        size={24}
-                        color="black"
-                        style={{ textAlign: 'right' }}
-                    />
-                    <ProductImg
-                        source={require('../../../../assets/cama1.png')}
-                    />
-                    <Bold>$7.500</Bold>
-                    <Text>Cama para perros, brow lider original.</Text>
-                </Card>
-                <Card>
-                    <Ionicons
-                        name="add-circle-outline"
-                        size={24}
-                        color="black"
-                        style={{ textAlign: 'right' }}
-                    />
-                    <ProductImg
-                        source={require('../../../../assets/cama1.png')}
-                    />
-                    <Bold>$7.500</Bold>
-                    <Text>Cama para perros, brow lider original.</Text>
-                </Card>
-                <Card>
-                    <Ionicons
-                        name="add-circle-outline"
-                        size={24}
-                        color="black"
-                        style={{ textAlign: 'right' }}
-                    />
-                    <ProductImg
-                        source={require('../../../../assets/cama1.png')}
-                    />
-                    <Bold>$7.500</Bold>
-                    <Text>Cama para perros, brow lider original.</Text>
-                </Card>
+                {prodFilter.map((prod) => 
+                    <Card key={prod.id}>
+                        <Ionicons
+                            name="add-circle-outline"
+                            size={24}
+                            color="black"
+                            style={{ textAlign: 'right' }}
+                        />
+                        <ProductImg
+                            source={require('../../../../assets/cama1.png')}
+                        />
+                        <Bold>{prod.name}</Bold>
+                        <Bold>{prod.price}</Bold>
+                        <Text>{prod.description}</Text>
+                    </Card>
+                )}
             </Container>
+                        </Scroll>
         </ContainerVeterinario>
     );
 };
