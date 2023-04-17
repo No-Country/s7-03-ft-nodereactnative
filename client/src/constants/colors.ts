@@ -4,5 +4,6 @@ export const colors = {
     primaryTransparent: 'rgba(184, 147, 253, 0.7)',
     secondary: '#FFC100',
     tertiary: '#FFA8A7', 
+    grey: '#b0b2af',
     backgroundLightViolet: '#ead1fb'   
 };

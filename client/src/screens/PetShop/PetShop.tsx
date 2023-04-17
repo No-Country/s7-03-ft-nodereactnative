@@ -13,8 +13,6 @@ const PetShop = ({ navigation }: any) => {
 
     const dispatch = useDispatch();
 
-    // Falta actulizar que se renderice cuando se agrega una nueva tienda.
-
     useEffect(() => {
         if (data && isSuccess) {
             dispatch(SetVeterinaries(data.results));

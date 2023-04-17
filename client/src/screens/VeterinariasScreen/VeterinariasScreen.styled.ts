@@ -19,6 +19,7 @@ export const ContenedorNombreVet = styled.Text`
   position: absolute;
   padding: 10px 20px;
   bottom: 0;
+  max-width: 80%;
 `;
 
 export const ContainerData = styled.View`
@@ -55,7 +56,7 @@ export const WrapperItems = styled.View`
 export const IconAndText = styled.TouchableOpacity`
   display:flex;
   flex-direction: row;
-  align-items:center;
+  align-items:flex-start;
   gap: 10px;
   margin-bottom: 10px;
 `;
@@ -73,4 +74,5 @@ export const Icon = styled.View`
 
 export const TextItem = styled.Text`
   font-size: 20px;
+  max-width: 80%;
 `;
