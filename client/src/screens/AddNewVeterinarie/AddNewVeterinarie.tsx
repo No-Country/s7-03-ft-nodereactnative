@@ -1,13 +1,13 @@
-import { useCreateVeterinarieMutation } from '../../../reduxApp/services/veterinaries/vetServices';
 import { MainWrapperFormVet } from './addNewVeterinarie.styled';
 import {
     ButtonPrimary,
     CamposRequeridos,
     CommonInput,
     GooglePlacesInput,
-} from '../../../components';
+} from '../../components';
 import { useForm } from 'react-hook-form';
 import { Root, Popup } from 'react-native-popup-confirm-toast';
+import { useCreateVeterinarieMutation } from '../../reduxApp/services/veterinaries/vetServices';
 
 const AddNewVeterinarie = () => {
     const [newVet] = useCreateVeterinarieMutation();
@@ -52,7 +52,7 @@ const AddNewVeterinarie = () => {
 
     return (
         <Root>
-            <MainWrapperFormVet>
+            <MainWrapperFormVet keyboardShouldPersistTaps='handled'>
                 <CamposRequeridos>
                     *Todos los campos son requeridos
                 </CamposRequeridos>

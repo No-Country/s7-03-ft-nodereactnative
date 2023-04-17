@@ -4,7 +4,7 @@ import { PetShopContainer } from './PetShop.styled';
 import { useEffect } from 'react';
 import { SetVeterinaries } from '../../reduxFeature/veterinaries/veterinariesSlice';
 import { useDispatch } from 'react-redux';
-import AddNewVeterinarie from './AddNewVeterinarie/AddNewVeterinarie';
+import AddNewVeterinarie from '../AddNewVeterinarie/AddNewVeterinarie';
 import { Ionicons } from '@expo/vector-icons';
 import { colors } from '../../constants';
 

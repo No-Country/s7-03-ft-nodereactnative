@@ -1,9 +1,6 @@
 import { View, Text } from 'react-native';
 import { Controller } from 'react-hook-form';
-import {
-    Error,
-    LabelGoogle,
-} from './commonInput.styled';
+import { Error, LabelGoogle } from './commonInput.styled';
 import { API_KEY_GOOGLEPLACESAUTOCOMPLETE } from '@env';
 import { GooglePlacesAutocomplete } from 'react-native-google-places-autocomplete';
 import { useState } from 'react';
@@ -37,54 +34,53 @@ const GooglePlacesInput: React.FC<GooglePlacesInputProps> = ({
                     pattern: {
                         value: /^(?=.*[a-zA-Z])[a-zA-Z0-9\s,'-]*$/,
                         message: 'Ingrese una dirección valida',
-                    }
+                    },
                 }}
                 render={({ field: { onChange } }) => (
-                        <GooglePlacesAutocomplete
-                            styles={{
-                                textInputContainer: {
-                                },
-                                textInput: {
-                                    backgroundColor: 'transparent',
-                                    borderStyle: 'solid',
-                                    borderWidth: 1,
-                                    borderColor: '#79747e',
-                                    marginTop: 30,
-                                    marginBottom: 5,
-                                },
-                            }}
-                            placeholder="Ingrese dirección exacta"
-                            onPress={(data, details = null) => {
-                                const alpha2Code =
-                                    details?.address_components?.find((c) =>
-                                        c?.types?.includes('country')
-                                    )?.short_name;
+                    <GooglePlacesAutocomplete
+                        styles={{ 
+                            textInput: {
+                                backgroundColor: 'transparent',
+                                borderStyle: 'solid',
+                                borderWidth: 1,
+                                borderColor: '#79747e',
+                                marginTop: 30,
+                                marginBottom: 5,
 
-                                const alpha3Code = alpha2Code
-                                    ? alpha2ToAlpha3(alpha2Code)
-                                    : undefined;
+                            },
+                        }}
+                        placeholder="Ingrese dirección exacta"
+                        onPress={(data, details = null) => {
+                            const alpha2Code =
+                                details?.address_components?.find((c) =>
+                                    c?.types?.includes('country')
+                                )?.short_name;
 
-                                const location = {
-                                    name: data.description,
-                                    latitude: details?.geometry.location.lat,
-                                    longitude: details?.geometry.location.lng,
-                                    country: alpha3Code,
-                                };
+                            const alpha3Code = alpha2Code
+                                ? alpha2ToAlpha3(alpha2Code)
+                                : undefined;
 
-                                setLocationData(location);
-                                onChange(location);
-                            }}
-                            query={{
-                                key: API_KEY_GOOGLEPLACESAUTOCOMPLETE,
-                                language: 'es',
-                            }}
-                            fetchDetails={true}
-                            listEmptyComponent={() => (
-                                <View style={{flex: 1}}>
-                                  <Text>No se encontraron resultados.</Text>
-                                </View>
-                              )}
-                        />
+                            const location = {
+                                name: data.description,
+                                latitude: details?.geometry.location.lat,
+                                longitude: details?.geometry.location.lng,
+                                country: alpha3Code,
+                            };
+
+                            setLocationData(location);
+                            onChange(location);
+                        }}
+                        query={{
+                            key: API_KEY_GOOGLEPLACESAUTOCOMPLETE,
+                            language: 'es',
+                        }}
+                        fetchDetails={true}
+                        listEmptyComponent={() => (
+                            <View style={{ flex: 1 }}>
+                                <Text>No se encontraron resultados.</Text>
+                            </View>
+                        )}
+                    />
                 )}
             />
             <LabelGoogle>{label}</LabelGoogle>
