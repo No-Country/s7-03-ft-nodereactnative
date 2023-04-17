@@ -3,7 +3,6 @@ import {
     InputBuscador,
     CategoriaBox,
     TabBar,
-    StoreTab,
 } from '../../components';
 import {
     ContainerBuscadoryFiltro,
@@ -53,7 +52,7 @@ const Home: React.FC<HomeProps> = () => {
     }, []);
 
     return (
-        <ContainerHome keyboardShouldPersistTaps="handled">
+        <ContainerHome keyboardShouldPersistTaps="handled">                     
             <StatusBar backgroundColor={colors.primaryLight} />
             <ContainerMenuyUbicacion>
                 <SafeAreaView>
