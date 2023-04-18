@@ -13,7 +13,7 @@ import {
     UbicationWrapper,
     WrapperHorario,
 } from './petShopBar.styled';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { ParamListBase, useNavigation } from '@react-navigation/native';
 import {
     setVetDeletePosition,
@@ -23,6 +23,9 @@ import { StackNavigationProp } from '@react-navigation/stack';
 import { RootStackParamList } from '../../constants/types/RootStackParamList ';
 import { StarRating } from '../StarRating';
 import { MaterialIcons, Feather } from '@expo/vector-icons';
+import { PosState } from '../../reduxFeature/user/userPositionSlice';
+import { calculateDistance } from '../../hooks/calculateDistance';
+import { useEffect, useState } from 'react';
 
 export interface VetBarProps {
     id: string;
@@ -46,6 +49,44 @@ export interface VetBarProps {
 const PetShopBar: React.FC<VetBarProps> = (vet) => {
     const navigation =
         useNavigation<StackNavigationProp<RootStackParamList, 'VetDetail'>>();
+
+    const { latitude, longitude } = useSelector(
+        (state: PosState) => state.userPositionSlice
+    );
+
+    const [distan, setDistan] = useState(10);
+
+    const distance = () => {
+        if (latitude && longitude) {
+            const dist = calculateDistance({
+                latitude1: latitude,
+                longitude1: longitude,
+                latitude2: vet.latitude,
+                longitude2: vet.longitude,
+            });
+            setDistan(dist);
+        }
+    };
+
+useEffect(() => {
+  distance()  
+}, [])
+
+    const dispatch = useDispatch()
+    const navigate = useNavigation<StackNavigationProp<ParamListBase>>()
+    const handleOnPress = ()=>{
+        const vetPos = {
+            latitude: vet.latitude,
+            longitude: vet.longitude
+        }
+        dispatch(setVetPosition(vetPos))
+        navigate.navigate('Maps')
+        setTimeout(() => {
+            dispatch(setVetDeletePosition())
+        }, 2000);
+    }
+
+
     let shortName;
     if (vet?.name.length > 20) {
         shortName = vet?.name.slice(0, 20) + '...';
@@ -66,7 +107,7 @@ const PetShopBar: React.FC<VetBarProps> = (vet) => {
                 marginBottom: 15,
                 margin: 5,
             }}
-            onPress={() => navigation.navigate('VetDetail', { vet })}
+            onPress={() => navigation.navigate('PetShopView', {vet})}
             // onPress={handleOnPress}
         >
             <PetshopTabContainer>
@@ -93,8 +134,8 @@ const PetShopBar: React.FC<VetBarProps> = (vet) => {
                 </LeftSideContainer>
                 <RightSideContainer>
                     <UbicationWrapper>
-                        <Feather name="arrow-right" size={30} color="black" />
-                        <Distance>9km</Distance>
+                        <Feather name="arrow-right" size={30} color="black" onPress={handleOnPress} />
+                        <Distance>{Math.floor(distan*10)/10}km</Distance>
                     </UbicationWrapper>
                 </RightSideContainer>
             </PetshopTabContainer>

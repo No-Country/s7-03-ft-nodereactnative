@@ -1,9 +1,8 @@
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import {
     InputBuscador,
     CategoriaBox,
     TabBar,
-    StoreTab,
 } from '../../components';
 import {
     ContainerBuscadoryFiltro,
@@ -31,12 +30,25 @@ import { useEffect } from 'react';
 import { FontAwesome5 } from '@expo/vector-icons';
 import { SafeAreaView } from 'react-native';
 import { colors } from '../../constants';
+import { useGetProductsQuery } from '../../reduxApp/services/products/products';
+import { setAllProduct } from '../../reduxFeature/products/allProductsSlice';
 
 export interface HomeProps {}
 
 const Home: React.FC<HomeProps> = () => {
     const infoUser = useSelector((state: AuthSlice) => state.authSlice);
     const { navigate } = useNavigation<StackNavigationProp<ParamListBase>>();
+    const { data } = useGetProductsQuery('');
+    const dispatch = useDispatch()
+    console.log(data?.results.results);
+    
+    
+    useEffect(() => {
+        if(data){
+            dispatch(setAllProduct(data?.results.results))
+        }
+    }, [data])
+    
 
     useEffect(() => {
         <Text>
@@ -53,7 +65,7 @@ const Home: React.FC<HomeProps> = () => {
     }, []);
 
     return (
-        <ContainerHome keyboardShouldPersistTaps="handled">
+        <ContainerHome keyboardShouldPersistTaps="handled">                     
             <StatusBar backgroundColor={colors.primaryLight} />
             <ContainerMenuyUbicacion>
                 <SafeAreaView>
