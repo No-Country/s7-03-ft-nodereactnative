@@ -26,7 +26,7 @@ export class ProductImagesService {
       }
       return productImages;
     } catch (error) {
-      console.log(error);
+      console.warn(error);
     }
   }
 }

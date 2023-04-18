@@ -1,5 +1,5 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useDispatch, useSelector } from 'react-redux';
 import {
@@ -22,7 +22,7 @@ interface DataUser {
 
 const useSettings = () => {
     const infoUser = useSelector((state: AuthSlice) => state.authSlice);
-
+   
     const dispatch = useDispatch();
 
     const [mode, setMode] = useState('');
@@ -70,7 +70,7 @@ const useSettings = () => {
                 }, 1000);
             }
         } catch (error) {
-            console.log(error);
+            console.warn(error);
         }
     };
 
@@ -80,7 +80,7 @@ const useSettings = () => {
             dispatch(setDelete());
             await AsyncStorage.removeItem('token');
         } catch (error) {
-            console.log(error);
+            console.warn(error);
         }
     };
 
@@ -110,6 +110,7 @@ const useSettings = () => {
         control,
         handleSubmit,
         onSubmit,
+        errors,
         handleDelete,
         alertShow,
         mode,

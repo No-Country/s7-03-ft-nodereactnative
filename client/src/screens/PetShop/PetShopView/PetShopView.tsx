@@ -56,7 +56,6 @@ interface StateProd {
 const PetShopView = () => {
     const { params } = useRoute<VeterinariasScreenRouteProp>();
     const prods = useSelector((state: StateProd) => state.allProductSlice);
-    console.log(prods);
 
     const prodFilter = prods.filter((prod)=>prod.veterinaryId===params.vet.id )
     
