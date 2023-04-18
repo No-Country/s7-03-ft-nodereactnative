@@ -21,40 +21,41 @@ const PetShopList: React.FC<VeterinariasProps> = () => {
         (state: PosState) => state.userPositionSlice
     );
 
-    const [sortedList, setSortedList] = useState<Vet[]>([])
+    const [sortedList, setSortedList] = useState<Vet[]>([]);
 
-    const cerca = (vet:Vet)=>{
-        return (Math.abs(vet.latitude-latitude!) < 20 && Math.abs(vet.longitude-longitude!) < 20)
-        
-    }
-    
+    const cerca = (vet: Vet) => {
+        return (
+            Math.abs(vet.latitude - latitude!) < 20 &&
+            Math.abs(vet.longitude - longitude!) < 20
+        );
+    };
+
     useEffect(() => {
         try {
-            if (listaVets)
-            {
-                const newVetList = listaVets.filter(vet=>cerca(vet))
-                    .sort((vet1, vet2) =>
-                     calculateDistance({
-                         longitude1: longitude!,
-                         latitude1: latitude!,
-                         longitude2: vet1.longitude,
-                         latitude2: vet1.latitude,
-                     })-
-                     calculateDistance({
-                         longitude1: longitude!,
-                         latitude1: latitude!,
-                         longitude2: vet2.longitude,
-                         latitude2: vet2.latitude,
-                     })
-                     );
-                    setSortedList(newVetList)
-            }            
+            if (listaVets) {
+                const newVetList = listaVets
+                    .filter((vet) => cerca(vet))
+                    .sort(
+                        (vet1, vet2) =>
+                            calculateDistance({
+                                longitude1: longitude!,
+                                latitude1: latitude!,
+                                longitude2: vet1.longitude,
+                                latitude2: vet1.latitude,
+                            }) -
+                            calculateDistance({
+                                longitude1: longitude!,
+                                latitude1: latitude!,
+                                longitude2: vet2.longitude,
+                                latitude2: vet2.latitude,
+                            })
+                    );
+                setSortedList(newVetList);
+            }
         } catch (error) {
-            console.log('err',error);
-            
+            console.log('err', error);
         }
-    }, [listaVets])
-    
+    }, [listaVets]);
 
     interface Vet {
         id: string;
