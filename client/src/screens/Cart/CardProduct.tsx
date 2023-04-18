@@ -1,10 +1,19 @@
 import React from 'react';
 import { View, Text, ScrollView } from 'react-native';
 import RenderProduct from './RenderProduct';
+import TotalCart from './TotalCart';
 
 const CardProduct = () => {
     return (
-        <View style={{ marginTop: 5 }}>
+        <View
+            style={{
+                marginTop: 5,
+                height: '100%',
+                justifyContent: 'space-between',
+                paddingBottom: 210,
+                backgroundColor: 'white',
+            }}
+        >
             <View
                 style={{
                     borderBottomWidth: 1,
@@ -29,7 +38,11 @@ const CardProduct = () => {
                 <RenderProduct />
                 <RenderProduct />
                 <RenderProduct />
+                <RenderProduct />
+                <RenderProduct />
+                <RenderProduct />
             </ScrollView>
+            <TotalCart />
         </View>
     );
 };
