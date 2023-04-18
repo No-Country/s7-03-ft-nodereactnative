@@ -1,7 +1,7 @@
 import { View } from 'react-native';
 import { Input, Label, ViewContainer, ViewMenu } from './Settings.styled';
 import { Controller, useForm } from 'react-hook-form';
-import { ButtonPrimary, CommonInput } from '../../../components';
+import { ButtonPrimary, ProfileInput } from '../../../components';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import { Toast } from 'react-native-toast-message/lib/src/Toast';
 import Alerts from '../../../components/Alerts/Alerts';
@@ -32,7 +32,7 @@ const Settings = () => {
                 }}
             >
                 <ViewContainer>
-                    <CommonInput
+                    <ProfileInput
                         control={control}
                         errors={errors?.firstName?.message}
                         keyboardType="default"
@@ -40,7 +40,7 @@ const Settings = () => {
                         name="firstName"
                     />
 
-                    <CommonInput
+                    <ProfileInput
                         control={control}
                         errors={errors?.lastName?.message}
                         keyboardType="default"
@@ -48,7 +48,7 @@ const Settings = () => {
                         name="lastName"
                     />
 
-                    <CommonInput
+                    <ProfileInput
                         control={control}
                         errors={errors?.firstName?.message}
                         keyboardType="phone-pad"
@@ -56,7 +56,7 @@ const Settings = () => {
                         name="codePhone"
                     />
 
-                    <CommonInput
+                    <ProfileInput
                         control={control}
                         errors={errors?.phone?.message}
                         keyboardType="phone-pad"
@@ -64,7 +64,7 @@ const Settings = () => {
                         name="phone"
                     />
 
-                    <CommonInput
+                    <ProfileInput
                         control={control}
                         errors={errors?.country?.message}
                         keyboardType="default"
@@ -72,7 +72,7 @@ const Settings = () => {
                         name="country"
                     />
 
-                    <CommonInput
+                    <ProfileInput
                         control={control}
                         errors={errors?.email?.message}
                         keyboardType="email-address"
