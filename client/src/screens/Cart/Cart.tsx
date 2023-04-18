@@ -23,6 +23,7 @@ const Cart = () => {
                         fontWeight: '600',
                         letterSpacing: 1,
                         marginHorizontal: 10,
+                        marginVertical: 20,
                     }}
                 >
                     Carrito de compras

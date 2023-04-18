@@ -18,7 +18,7 @@ const CardProduct = () => {
                     style={{
                         textTransform: 'uppercase',
                         fontWeight: '300',
-                        marginVertical: 10,
+                        marginVertical: 15,
                         marginHorizontal: 10,
                     }}
                 >
