@@ -28,6 +28,21 @@ export class UsersService {
             name: true,
           },
         },
+        veterinary: {
+          select: {
+            id: true,
+            userId: true,
+            name: true,
+            description: true,
+            country: true,
+            address: true,
+            latitude: true,
+            longitude: true,
+            phone: true,
+            isActive: true,
+            createdAt: true,
+          },
+        },
         updatedAt: true,
         createdAt: true,
         password: false,
@@ -80,6 +95,7 @@ export class UsersService {
   async userExists(id: string) {
     const user = await this.prisma.user.findFirst({
       where: { id, isActive: true },
+      include: { veterinary: true },
     });
 
     if (!user) {

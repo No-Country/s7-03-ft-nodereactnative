@@ -1,6 +1,8 @@
 import {
   Body,
   Controller,
+  Delete,
+  Param,
   Post,
   UploadedFiles,
   UseInterceptors,
@@ -15,6 +17,15 @@ import { ApiBearerAuth, ApiBody, ApiConsumes, ApiTags } from '@nestjs/swagger';
 @Controller('api/v1/product-images')
 export class ProductImagesController {
   constructor(private readonly productImagesServices: ProductImagesService) {}
+
+  @Delete(':id')
+  @ApiBearerAuth()
+  async test(@Param('id') id: string) {
+    const productImage = await this.productImagesServices.removeImage(id);
+    return {
+      message: productImage,
+    };
+  }
 
   @ApiBearerAuth()
   @Post()
