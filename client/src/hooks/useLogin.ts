@@ -73,7 +73,7 @@ const useLogin = () => {
                 }
             }
         } catch (error) {
-            console.log(error);
+            console.warn(error);
         }
         reset();
     };

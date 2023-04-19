@@ -40,9 +40,7 @@ const Home: React.FC<HomeProps> = () => {
     const { navigate } = useNavigation<StackNavigationProp<ParamListBase>>();
     const { data } = useGetProductsQuery('');
     const dispatch = useDispatch()
-    console.log(data?.results.results);
-    
-    
+   
     useEffect(() => {
         if(data){
             dispatch(setAllProduct(data?.results.results))

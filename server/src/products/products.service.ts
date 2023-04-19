@@ -114,7 +114,7 @@ export class ProductsService {
       });
       return product;
     } catch (error) {
-      console.log(error);
+      console.warn(error);
       return error;
     }
   }
