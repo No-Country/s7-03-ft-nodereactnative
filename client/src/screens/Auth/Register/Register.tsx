@@ -5,7 +5,7 @@ import CountryPicker, {
     Country,
     CountryCode,
 } from 'react-native-country-picker-modal';
-import { ActivityIndicator, Text } from 'react-native';
+import { Text } from 'react-native';
 import { useRegisterUserMutation } from '../../../reduxApp/services/auth/auth';
 import {
     Container,

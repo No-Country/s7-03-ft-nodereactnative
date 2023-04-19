@@ -15,6 +15,7 @@ import AddNewVeterinarie from '../screens/PetShop/AddNewVeterinarie/AddNewVeteri
 import { VetRoute } from './VetRoute';
 import { PetShopList } from '../screens';
 import PetShopView from '../screens/PetShop/PetShopView/PetShopView';
+import AddProduct from '../screens/PetShop/AddProduct/AddProduct';
 
 export interface AuthSlice {
     authSlice: {
@@ -62,6 +63,14 @@ const LoggedStack = () => {
                 component={PetShopView}
                 options={{
                     title: 'Tienda',
+                    headerTintColor: colors.primary,
+                }}
+            />
+            <Stack.Screen
+                name="AddProduct"
+                component={AddProduct}
+                options={{
+                    title: 'Agregar producto',
                     headerTintColor: colors.primary,
                 }}
             />

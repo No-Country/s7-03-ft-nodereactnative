@@ -1,18 +1,18 @@
 import styled from 'styled-components/native';
 import { Ionicons } from '@expo/vector-icons';
-import { useRoute } from '@react-navigation/native';
+import { useNavigation, useRoute, ParamListBase } from '@react-navigation/native';
 import { VeterinariasScreenRouteProp } from '../../VeterinariasScreen/VeterinariasScreen';
 import { useSelector } from 'react-redux';
 import { Product } from '../../../reduxFeature/products/allProductsSlice';
+import { ButtonPrimary } from '../../../components';
+import { StackNavigationProp } from '@react-navigation/stack';
 
 const ContainerVeterinario = styled.ImageBackground`
     flex: 1;
     object-fit: 'cover';
 `;
 
-const Scroll = styled.ScrollView`
-    
-`
+const Scroll = styled.ScrollView``;
 
 const Container = styled.View`
     margin: 20px;
@@ -58,8 +58,12 @@ const PetShopView = () => {
     const prods = useSelector((state: StateProd) => state.allProductSlice);
     console.log(prods);
 
-    const prodFilter = prods.filter((prod)=>prod.veterinaryId===params.vet.id )
-    
+    const { navigate } = useNavigation<StackNavigationProp<ParamListBase>>();
+
+    const prodFilter = prods.filter(
+        (prod) => prod.veterinaryId === params.vet.id
+    );
+
     // const prods = prodSelector[0];
 
     return (
@@ -67,27 +71,27 @@ const PetShopView = () => {
             source={require('../../../../assets/fondoHuellitas.png')}
         >
             <Scroll>
-
-            <Title>{params.vet.name}</Title>
-            <Container>
-                {prodFilter.map((prod) => 
-                    <Card key={prod.id}>
-                        <Ionicons
-                            name="add-circle-outline"
-                            size={24}
-                            color="black"
-                            style={{ textAlign: 'right' }}
-                        />
-                        <ProductImg
-                            source={require('../../../../assets/cama1.png')}
-                        />
-                        <Bold>{prod.name}</Bold>
-                        <Bold>{prod.price}</Bold>
-                        <Text>{prod.description}</Text>
-                    </Card>
-                )}
-            </Container>
-                        </Scroll>
+                <ButtonPrimary title='Agregar producto' onPress={()=>navigate('AddProduct')} />
+                <Title>{params.vet.name}</Title>
+                <Container>
+                    {prodFilter.map((prod) => (
+                        <Card key={prod.id}>
+                            <Ionicons
+                                name="add-circle-outline"
+                                size={24}
+                                color="black"
+                                style={{ textAlign: 'right' }}
+                            />
+                            <ProductImg
+                                source={require('../../../../assets/cama1.png')}
+                            />
+                            <Bold>{prod.name}</Bold>
+                            <Bold>{prod.price}</Bold>
+                            <Text>{prod.description}</Text>
+                        </Card>
+                    ))}
+                </Container>
+            </Scroll>
         </ContainerVeterinario>
     );
 };
