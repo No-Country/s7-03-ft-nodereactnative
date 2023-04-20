@@ -1,4 +1,4 @@
-# Nombre de la Aplicación
+# Petsdidos Ya
 
 Aplicación de Veterinarias
 
@@ -16,7 +16,7 @@ Esta aplicación permite a los dueños de mascotas encontrar fácilmente veterin
 
 
 ## Front-end
-- [Juan Pérez](https://katu-dev.netlify.app/)
+- [Cintia Jimena Martinez](https://katu-dev.netlify.app/)
 - [Emanuel Capo](https://www.linkedin.com/)
 - [Francisco Rey](https://www.linkedin.com/)
 
