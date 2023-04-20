@@ -1,13 +1,29 @@
 import { API_APP_BASE_URL } from '@env';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import { fetchBaseQuery, createApi } from '@reduxjs/toolkit/query/react';
-import { useSelector } from 'react-redux';
-import { Response } from '../../../../../server/dist/src/interceptors/transform.interceptor';
-import { AuthSlice } from '../../../router/Router';
 import { RootState } from '../../store';
+import { Veterinaria } from '../auth/types';
 
 export interface UserId {
     id: string;
+}
+
+interface GetUserResponse {
+    results: {
+        user: {
+            codePhone: string;
+            country: string;
+            createdAt: Date;
+            email: string;
+            firstName: string;
+            id: string;
+            isActive: boolean;
+            lastName: string;
+            phone: string;
+            roleId: string;
+            updatedAt: Date;
+            veterinary: Array<Veterinaria>;
+        };
+    };
 }
 
 interface UserUpdate {
@@ -32,7 +48,7 @@ export const userApi = createApi({
         },
     }),
     endpoints: (builder) => ({
-        getUser: builder.query<UserId, string>({
+        getUser: builder.query<GetUserResponse, string>({
             query: (id) => ({
                 url: `/v1/users/${id}`,
             }),

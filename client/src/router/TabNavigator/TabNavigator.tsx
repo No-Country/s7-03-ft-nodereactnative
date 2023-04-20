@@ -14,7 +14,6 @@ const TabNavigator = () => {
             <Tab.Screen
                 options={{
                     headerShown: false,
-                    tabBarShowLabel: false,
                     tabBarIcon: ({ focused }) => (
                         <Ionicons
                             name={focused ? 'home' : 'home-outline'}
@@ -30,7 +29,6 @@ const TabNavigator = () => {
             <Tab.Screen
                 options={{
                     headerShown: false,
-                    tabBarShowLabel: false,
                     tabBarIcon: ({ focused }) => (
                         <Ionicons
                             name={focused ? 'heart' : 'heart-outline'}
@@ -45,7 +43,6 @@ const TabNavigator = () => {
 
             <Tab.Screen
                 options={{
-                    tabBarShowLabel: false,
                     headerLeft: () => (
                         <Ionicons
                             name="arrow-back"
@@ -68,8 +65,6 @@ const TabNavigator = () => {
             <Tab.Screen
                 options={{
                     headerShown: true,
-                    tabBarShowLabel: false,
-
                     title: 'Mi perfil',
                     headerLeft: () => (
                         <Ionicons

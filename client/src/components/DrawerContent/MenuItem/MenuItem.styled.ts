@@ -13,7 +13,6 @@ export const MenuItemWrapper = styled.TouchableOpacity<MenuItemWrapperProps>`
     border-bottom-style: solid;
     border-bottom-color: #EBEBEB;
     border-bottom-width: 1px;
-   
 `;
 
 
@@ -23,5 +22,4 @@ export const MenuText = styled.Text<MenuTextProps>`
     flex: 6;
     color: ${colors.primary};
     font-weight: ${(props) => (props.estaActivo ? '700' : '400')};
-
 `;

@@ -102,11 +102,7 @@ const VeterinariasScreen: React.FC<VeterinariasScreenProps> = () => {
                             />
                         </Icon>
                         <TextItem>
-                            Lorem ipsum dolor sit, amet consectetur adipisicing
-                            elit. Velit quibusdam fuga corporis hic voluptates!
-                            Adipisci minima rerum ratione fuga ipsa velit
-                            perferendis unde nihil, tenetur temporibus, eveniet
-                            minus esse inventore.
+                        {params?.vet?.description}
                         </TextItem>
                     </IconAndText>
                 </WrapperItems>
