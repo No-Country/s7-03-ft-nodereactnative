@@ -32,20 +32,29 @@ import { SafeAreaView } from 'react-native';
 import { colors } from '../../constants';
 import { useGetProductsQuery } from '../../reduxApp/services/products/products';
 import { setAllProduct } from '../../reduxFeature/products/allProductsSlice';
+import { useGetProductsCategoryQuery } from '../../reduxApp/services/product-categories/productCategories';
+import { setProductCategory } from '../../reduxFeature/products/productsCategorySlice';
 
 export interface HomeProps {}
 
 const Home: React.FC<HomeProps> = () => {
     const infoUser = useSelector((state: AuthSlice) => state.authSlice);
     const { navigate } = useNavigation<StackNavigationProp<ParamListBase>>();
-    const { data } = useGetProductsQuery('');
+    const getProducts = useGetProductsQuery('');
+    const getCategories = useGetProductsCategoryQuery('')
     const dispatch = useDispatch()
    
     useEffect(() => {
-        if(data){
-            dispatch(setAllProduct(data?.results.results))
+        if(getProducts.data){
+            dispatch(setAllProduct(getProducts.data?.results.results))
         }
-    }, [data])
+    }, [getProducts.data])
+   
+    useEffect(() => {
+        if(getCategories.data){
+            dispatch(setProductCategory(getCategories.data?.results.results))            
+        }
+    }, [getCategories.data])
     
 
     useEffect(() => {
