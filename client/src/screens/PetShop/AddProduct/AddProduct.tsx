@@ -7,6 +7,11 @@ import { ButtonPrimary } from '../../../components';
 import { useState } from 'react';
 import { Image } from 'react-native';
 import { useCreateProductMutation } from '../../../reduxApp/services/products/products';
+import { useSelector } from 'react-redux';
+import { ProductCategory } from '../../../reduxFeature/products/productsCategorySlice';
+import { Picker } from '@react-native-picker/picker';
+import { useRoute } from '@react-navigation/native';
+
 
 interface PropsInput {
     errors?: boolean;
@@ -23,7 +28,7 @@ interface NewPorduct {
     quantity: number;
     productCategoryId: string;
     veterinaryId: string;
-    productImage: ImageUrl[];
+    productImage: any;
 }
 
 const Input = styled.TextInput<PropsInput>`
@@ -32,9 +37,24 @@ const Input = styled.TextInput<PropsInput>`
     height: 40px;
     border-radius: 4px;
     border-width: 1px;
-    width: 90%;
+    width: 100%;
     margin-bottom: 5px;
     border-color: ${(props) => (props.errors ? 'red' : 'black')};
+`;
+
+const PickView = styled.View`
+    background-color: white;
+    height: 40px;
+    border-radius: 4px;
+    border-width: 1px;
+    width: 100%;
+    margin-bottom: 5px;
+    border-color: black;
+    overflow: hidden;
+`;
+
+const Pick = styled(Picker)`
+    margin: -9px 0 0;
 `;
 
 const InputArea = styled.TextInput<PropsInput>`
@@ -43,32 +63,44 @@ const InputArea = styled.TextInput<PropsInput>`
     height: 100px;
     border-radius: 4px;
     border-width: 1px;
-    width: 90%;
+    width: 100%;
     margin-bottom: 5px;
     border-color: ${(props) => (props.errors ? 'red' : 'black')};
 `;
 
 const Container = styled.ImageBackground`
     flex: 1;
-    object-fit: 'cover';
-    align-items: center;
+    padding: 0 20px;
 `;
 
 const Label = styled.Text`
-margin: 5px auto 5px 30px;
-`
+    margin: 5px auto 5px 30px;
+`;
 
 const ImagePic = styled.Image`
     height: 150px;
     width: 150px;
-    resize: "contain";
-`
+    align-self: center;
+    resize: 'contain';
+    margin: 10px;
+`;
 
+const Scroll = styled.ScrollView`
+    align-self: center;
+    width: 100%;
+`;
 
+interface StateProd {
+    productCategorySlice: ProductCategory[];
+}
 
 const AddProduct = () => {
-    const [createProduct, {isLoading}] = useCreateProductMutation()
+    const { params } = useRoute<any>();
+    const [createProduct, { isLoading }] = useCreateProductMutation();
     const [selectedImage, setSelectedImage] = useState(null);
+    const [selectedCategory, setSelectedCategory] = useState(null);
+
+    const categ = useSelector((state: StateProd) => state.productCategorySlice);
 
     const {
         handleSubmit,
@@ -86,19 +118,19 @@ const AddProduct = () => {
 
     const onSubmit = async (data: NewPorduct) => {
         const { name, description, price, quantity } = data;
-        console.log(data);
-        
+        console.log(selectedImage);
+
         const resp: any = await createProduct({
             name,
             description,
             price,
             quantity,
-            productCategoryId: "9c9df076-b54d-47a5-b9d6-e79acb3be2aa",
-            veterinaryId: "75e516d2-6915-4b5d-980f-b62a48cd45d2",
-            'product-image': selectedImage
+            productCategoryId: selectedCategory,
+            veterinaryId: params.id,
+            'product-image': selectedImage,
         });
         console.log(resp);
-        if (resp.error) console.log(resp.error.data.message)
+        if (resp.error) console.log(resp.error.data.message);
         if (!resp.error) {
             Toast.show({
                 type: 'success',
@@ -114,32 +146,35 @@ const AddProduct = () => {
     };
 
     const pickImage = async () => {
-        const permissionResult = await ImagePicker.requestCameraPermissionsAsync();
-    
+        const permissionResult =
+            await ImagePicker.requestCameraPermissionsAsync();
+
         if (permissionResult.granted === false) {
-          alert("Permission to camara roll is required");
-          return;
+            alert('Permission to camara roll is required');
+            return;
         }
-    
+
         const pickerResult = await ImagePicker.launchImageLibraryAsync({
             mediaTypes: ImagePicker.MediaTypeOptions.All,
             allowsEditing: true,
             aspect: [4, 3],
-            quality: 1
-          });
-        console.log(pickerResult)
-    
+            quality: 1,
+        });
+        console.log(pickerResult);
+
         // if (pickerResult.canceled === true) {
         //   return;
-        // }    
-        setSelectedImage(pickerResult.assets[0].uri );
-        console.log('sel',selectedImage);
-        
-      };
+        // }
+        if (pickerResult?.assets) {
+            setSelectedImage(pickerResult.assets[0]);
+            console.log('sel', selectedImage);
+        }
+    };
 
     return (
         <Container source={require('../../../../assets/fondoHuellitas.png')}>
-            <Label>Nombre del producto</Label>
+            <Scroll>
+                <Label>Nombre del producto</Label>
                 <Controller
                     control={control}
                     render={({ field: { onChange, onBlur, value } }) => (
@@ -154,32 +189,44 @@ const AddProduct = () => {
                     name="name"
                     rules={{ required: true }}
                 />
-            <Label>Precio</Label>
+                <Label>Categoría</Label>
+                <PickView>
+                    <Pick
+                        selectedValue={selectedCategory}
+                        onValueChange={(itemValue) => {
+                            if (itemValue !== 0) setSelectedCategory(itemValue);
+                        }}
+                    >
+                        <Picker.Item label="Slecciona una opción" value={0} />
+                        {categ.map((cate) => (
+                            <Picker.Item label={cate.name} value={cate.id} />
+                        ))}
+                    </Pick>
+                </PickView>
+                <Label>Precio</Label>
                 <Controller
                     control={control}
                     render={({ field: { onChange, onBlur, value } }) => (
                         <Input
-                            
                             keyboardType="numeric"
                             onBlur={onBlur}
                             onChangeText={(value) => onChange(value)}
-                            value={value}
+                            value={value.toString()}
                             errors={errors.price?.type === 'required'}
                         />
                     )}
                     name="price"
                     rules={{ required: true }}
                 />
-            <Label>Cantidad</Label>
+                <Label>Cantidad</Label>
                 <Controller
                     control={control}
                     render={({ field: { onChange, onBlur, value } }) => (
                         <Input
-                            
                             keyboardType="numeric"
                             onBlur={onBlur}
                             onChangeText={(value) => onChange(value)}
-                            value={value}
+                            value={value.toString()}
                             errors={errors.quantity?.type === 'required'}
                         />
                     )}
@@ -191,8 +238,8 @@ const AddProduct = () => {
                     control={control}
                     render={({ field: { onChange, onBlur, value } }) => (
                         <InputArea
-                        multiline = {true}
-numberOfLines = {5}
+                            multiline={true}
+                            numberOfLines={5}
                             keyboardType="default"
                             onBlur={onBlur}
                             onChangeText={(value) => onChange(value)}
@@ -203,13 +250,20 @@ numberOfLines = {5}
                     name="description"
                     rules={{ required: true }}
                 />
-                {selectedImage && <ImagePic
-          source={{
-            uri: selectedImage
-          }}
-        />}
-                <ButtonPrimary title='Agregar imagen' onPress={pickImage}/>
-                <ButtonPrimary title='Aceptar' onPress={handleSubmit(onSubmit)}/>
+                {selectedImage && (
+                    <ImagePic
+                        source={{
+                            uri: selectedImage.uri,
+                        }}
+                    />
+                )}
+                <ButtonPrimary title="Agregar imagen" onPress={pickImage} />
+                <ButtonPrimary
+                disabled={!isDirty || !isValid || selectedCategory===null}
+                    title="Aceptar"
+                    onPress={handleSubmit(onSubmit)}
+                />
+            </Scroll>
         </Container>
     );
 };

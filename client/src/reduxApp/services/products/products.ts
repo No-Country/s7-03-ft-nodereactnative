@@ -10,6 +10,7 @@ export const productsApi = createApi({
             const token = (getState() as RootState).authSlice.token;
             if (token) {
                 headers.set('authorization', `Bearer ${token}`);
+                headers.set('Content-Type', 'multipart/form-data')
             }
             headers.set('Content-Type', 'application/json');
             return headers;

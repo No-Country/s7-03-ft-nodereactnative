@@ -5,7 +5,7 @@ import CountryPicker, {
     Country,
     CountryCode,
 } from 'react-native-country-picker-modal';
-import { Text } from 'react-native';
+import { ActivityIndicator, Text, View } from 'react-native';
 import { useRegisterUserMutation } from '../../../reduxApp/services/auth/auth';
 import {
     Container,
@@ -20,6 +20,7 @@ import {
 } from './register.styled';
 import { Toast } from 'react-native-toast-message/lib/src/Toast';
 import { colors } from '../../../constants';
+import { Ionicons } from '@expo/vector-icons';
 
 interface DataRegister {
     firstName: string;
@@ -34,6 +35,7 @@ interface Props {
 }
 
 const Register = ({ navigation }: Props) => {
+    const [showPassword, setShowPassword] = useState(false);
     const [register, { isLoading }] = useRegisterUserMutation();
     const [countryCode, setCountryCode] = useState<CountryCode>('AR');
     const [country, setCountry] = useState<Country>({
@@ -101,7 +103,7 @@ const Register = ({ navigation }: Props) => {
         <Container>
             <ViewForm>
                 <CountryView>
-                    <Text> Elige tu país: </Text>
+                    <Text>* Elige tu país: </Text>
                     <CountryPick>
                         <CountryPicker
                             {...{
@@ -112,7 +114,7 @@ const Register = ({ navigation }: Props) => {
                         />
                     </CountryPick>
                 </CountryView>
-                <Label>Nombre</Label>
+                <Label>*Nombre</Label>
                 <Controller
                     control={control}
                     render={({ field: { onChange, onBlur, value } }) => (
@@ -130,7 +132,7 @@ const Register = ({ navigation }: Props) => {
                 {errors.firstName?.type === 'required' && (
                     <LabelError>Nombre requerido</LabelError>
                 )}
-                <Label>Apellido</Label>
+                <Label>*Apellido</Label>
                 <Controller
                     control={control}
                     render={({ field: { onChange, onBlur, value } }) => (
@@ -148,7 +150,7 @@ const Register = ({ navigation }: Props) => {
                 {errors.lastName?.type === 'required' && (
                     <LabelError>Apellido requerido</LabelError>
                 )}
-                <Label>Email</Label>
+                <Label>*Email</Label>
                 <Controller
                     control={control}
                     render={({ field: { onChange, onBlur, value } }) => (
@@ -175,20 +177,37 @@ const Register = ({ navigation }: Props) => {
                 {errors.email?.type === 'pattern' && (
                     <LabelError>No es un email válido</LabelError>
                 )}
-                <Label>Contraseña</Label>
+                <Label>*Contraseña</Label>
                 <Controller
                     control={control}
                     render={({ field: { onChange, onBlur, value } }) => (
-                        <Input
-                            secureTextEntry
-                            onBlur={onBlur}
-                            onChangeText={(value) => onChange(value)}
-                            value={value}
-                            errors={
-                                errors.password?.type === 'required' ||
-                                errors.password?.type === 'minLength'
-                            }
-                        />
+                        <View
+                            style={{
+                                flexDirection: 'row',
+                                alignItems: 'center',
+                            }}
+                        >
+                            <Input
+                                secureTextEntry={!showPassword}
+                                onBlur={onBlur}
+                                onChangeText={(value) => onChange(value)}
+                                value={value}
+                                errors={
+                                    errors.password?.type === 'required' ||
+                                    errors.password?.type === 'minLength'
+                                }
+                            />
+                            <Ionicons
+                                name={showPassword ? 'eye-off' : 'eye'}
+                                style={{
+                                    position: 'absolute',
+                                    right: 10,
+                                    top: 10,
+                                }}
+                                onPress={() => setShowPassword(!showPassword)}
+                                size={20}
+                            />
+                        </View>
                     )}
                     name="password"
                     rules={{ required: true, minLength: 8 }}
@@ -199,20 +218,37 @@ const Register = ({ navigation }: Props) => {
                 {errors.password?.type === 'minLength' && (
                     <LabelError>Debe tener al menos 8 caracteres</LabelError>
                 )}
-                <Label>Repetir Contraseña</Label>
+                <Label>*Repetir Contraseña</Label>
                 <Controller
                     control={control}
                     render={({ field: { onChange, onBlur, value } }) => (
-                        <Input
-                            secureTextEntry
-                            onBlur={onBlur}
-                            onChangeText={(value) => onChange(value)}
-                            value={value}
-                            errors={
-                                errors.password2?.type === 'required' ||
-                                errors.password2?.type === 'validate'
-                            }
-                        />
+                        <View
+                            style={{
+                                flexDirection: 'row',
+                                alignItems: 'center',
+                            }}
+                        >
+                            <Input
+                                secureTextEntry={!showPassword}
+                                onBlur={onBlur}
+                                onChangeText={(value) => onChange(value)}
+                                value={value}
+                                errors={
+                                    errors.password2?.type === 'required' ||
+                                    errors.password2?.type === 'validate'
+                                }
+                            />
+                            <Ionicons
+                                name={showPassword ? 'eye-off' : 'eye'}
+                                style={{
+                                    position: 'absolute',
+                                    right: 10,
+                                    top: 10,
+                                }}
+                                onPress={() => setShowPassword(!showPassword)}
+                                size={20}
+                            />
+                        </View>
                     )}
                     name="password2"
                     rules={{

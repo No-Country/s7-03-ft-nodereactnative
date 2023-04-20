@@ -32,7 +32,8 @@ export const uploadProductImage = async (file: Express.Multer.File) => {
   return productURL;
 };
 
-export const deleteProductImage = async (imageUrl: string) => {
+export const deleteProductImage = async (imageUrl: string | undefined) => {
+  imageUrl = imageUrl ?? '';
   const fileName = imageUrl.split('/').pop();
   if (!fileName) {
     console.error('No se pudo obtener el nombre del archivo');
