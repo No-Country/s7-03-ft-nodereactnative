@@ -5,8 +5,7 @@ interface InputProps {
     disabled?: boolean;
 }
 
-export const ViewMenu = styled.View`
-    align-items: center;
+export const ViewMenu = styled.ScrollView`
     padding: 10px 20px 0px 20px;
     height: 100%;
     width: 100%;

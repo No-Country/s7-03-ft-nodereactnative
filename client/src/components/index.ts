@@ -5,6 +5,7 @@ export * from './DrawerContent/MenuItem';
 export * from './DrawerContent';
 export * from './InputBuscador';
 export * from './PetShopBar';
+export * from './ProfileInput';
 export * from './StarRating';
 export * from './StoreTab';
 export * from './TabBar';

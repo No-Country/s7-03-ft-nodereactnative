@@ -1,7 +1,7 @@
 import { View } from 'react-native';
 import { Input, Label, ViewContainer, ViewMenu } from './Settings.styled';
 import { Controller, useForm } from 'react-hook-form';
-import { ButtonPrimary } from '../../../components';
+import { ButtonPrimary, ProfileInput } from '../../../components';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import { Toast } from 'react-native-toast-message/lib/src/Toast';
 import Alerts from '../../../components/Alerts/Alerts';
@@ -19,6 +19,7 @@ const Settings = () => {
         handleCancel,
         confirmEdit,
         confirmDelete,
+        errors
     } = useSettings();
 
     return (
@@ -31,90 +32,52 @@ const Settings = () => {
                 }}
             >
                 <ViewContainer>
-                    <Label>Nombre</Label>
-                    <Controller
+                    <ProfileInput
                         control={control}
-                        render={({ field: { onChange, onBlur, value } }) => (
-                            <Input
-                                keyboardType="default"
-                                onBlur={onBlur}
-                                onChangeText={(value) => onChange(value)}
-                                value={value}
-                            />
-                        )}
+                        errors={errors?.firstName?.message}
+                        keyboardType="default"
+                        label="Nombre"
                         name="firstName"
-                        rules={{ required: true }}
                     />
-                    <Label>Apellido</Label>
-                    <Controller
+
+                    <ProfileInput
                         control={control}
-                        render={({ field: { onChange, onBlur, value } }) => (
-                            <Input
-                                keyboardType="default"
-                                onBlur={onBlur}
-                                onChangeText={(value) => onChange(value)}
-                                value={value}
-                            />
-                        )}
+                        errors={errors?.lastName?.message}
+                        keyboardType="default"
+                        label="Apellido"
                         name="lastName"
-                        rules={{ required: true }}
                     />
-                    <Label>Codigo de Pais(Celular)</Label>
-                    <Controller
+
+                    <ProfileInput
                         control={control}
-                        render={({ field: { onChange, onBlur, value } }) => (
-                            <Input
-                                keyboardType="default"
-                                onBlur={onBlur}
-                                onChangeText={(value) => onChange(value)}
-                                value={value}
-                            />
-                        )}
+                        errors={errors?.firstName?.message}
+                        keyboardType="phone-pad"
+                        label="Prefijo internacional (ej: +54)"
                         name="codePhone"
-                        rules={{ required: true }}
                     />
-                    <Label>Celular</Label>
-                    <Controller
+
+                    <ProfileInput
                         control={control}
-                        render={({ field: { onChange, onBlur, value } }) => (
-                            <Input
-                                keyboardType="default"
-                                onBlur={onBlur}
-                                onChangeText={(value) => onChange(value)}
-                                value={value}
-                            />
-                        )}
+                        errors={errors?.phone?.message}
+                        keyboardType="phone-pad"
+                        label="Número de teléfono"
                         name="phone"
-                        rules={{ required: true }}
                     />
-                    <Label>Pais</Label>
-                    <Controller
+
+                    <ProfileInput
                         control={control}
-                        render={({ field: { onChange, onBlur, value } }) => (
-                            <Input
-                                keyboardType="default"
-                                onBlur={onBlur}
-                                onChangeText={(value) => onChange(value)}
-                                value={value}
-                            />
-                        )}
+                        errors={errors?.country?.message}
+                        keyboardType="default"
+                        label="País"
                         name="country"
-                        rules={{ required: true }}
                     />
-                    <Label>Email</Label>
-                    <Controller
+
+                    <ProfileInput
                         control={control}
-                        render={({ field: { onChange, onBlur, value } }) => (
-                            <Input
-                                editable={false}
-                                keyboardType="default"
-                                onBlur={onBlur}
-                                onChangeText={(value) => onChange(value)}
-                                value={value}
-                            />
-                        )}
+                        errors={errors?.email?.message}
+                        keyboardType="email-address"
+                        label="E-mail"
                         name="email"
-                        rules={{ required: false }}
                     />
                 </ViewContainer>
                 <View

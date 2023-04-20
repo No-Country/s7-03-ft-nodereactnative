@@ -72,7 +72,6 @@ const Register = ({ navigation }: Props) => {
 
     const onSubmit = async (data: DataRegister) => {
         const countryName = country?.name.toString();
-        console.log(data, countryName);
         const { firstName, lastName, password, email } = data;
         const resp: any = await register({
             firstName,
@@ -81,7 +80,6 @@ const Register = ({ navigation }: Props) => {
             email,
             country: countryName,
         });
-        console.log(resp);
         if (!resp.error) {
             Toast.show({
                 type: 'success',

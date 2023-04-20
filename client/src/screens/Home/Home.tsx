@@ -43,8 +43,7 @@ const Home: React.FC<HomeProps> = () => {
     const getProducts = useGetProductsQuery('');
     const getCategories = useGetProductsCategoryQuery('')
     const dispatch = useDispatch()
-    
-    
+   
     useEffect(() => {
         if(getProducts.data){
             dispatch(setAllProduct(getProducts.data?.results.results))
