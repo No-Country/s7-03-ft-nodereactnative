@@ -1,9 +1,11 @@
-# Nombre de la Aplicación
 
+![Logo](https://i.imgur.com/Fly5CSG.png)
+
+
+# PetsDidos Ya 😸🐶🐾🦮
 Aplicación de Veterinarias
 
 ## Descripción
-
 Esta aplicación permite a los dueños de mascotas encontrar fácilmente veterinarias cercanas a su ubicación actual. También permite a los propietarios de veterinarias publicar sus negocios y productos, y recibir pedidos de los clientes para su entrega y pago.
 
 ## Funcionalidades
@@ -15,14 +17,25 @@ Esta aplicación permite a los dueños de mascotas encontrar fácilmente veterin
 - Panel de administración para la gestión de las veterinarias y sus productos.
 
 
-## Front-end
-- [Juan Pérez](https://katu-dev.netlify.app/)
-- [Emanuel Capo](https://www.linkedin.com/)
-- [Francisco Rey](https://www.linkedin.com/)
 
-## Back-end
+## Autores
+### Front-end
+- [Emanuel Capo](https://www.linkedin.com/in/emanuel-capo/)
+- [Francisco Rey](https://www.linkedin.com/in/francisco-rey-71060419a/)
+- [Cintia Jimena Martinez](https://katu-dev.netlify.app/)
+
+### Back-end
 - [Jered Mejia](https://www.linkedin.com/)
 - [Diego Javier Calva](https://www.linkedin.com/)
 
-## UX/UI
+### UX/UI
 - [Maria Rivero](https://www.linkedin.com/)
+
+### QA TESTER MANUAL
+- [Jesús Eduardo Quintero](https://www.linkedin.com/in/jes%C3%BAs-quintero-a3750a90/)
+## Tech Stack
+
+**Client:** Expo, Typescript, Redux Toolkit, React Hook Form, Styled Component, React Navigation, eslint, expo-location
+
+**Server:** Postgresql, Prisma ORM, Nest.Js, Firebase
+
