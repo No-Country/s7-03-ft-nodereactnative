@@ -6,6 +6,7 @@ import userPositionSlice from '../reduxFeature/user/userPositionSlice';
 import veterinariesSlice from '../reduxFeature/veterinaries/veterinariesSlice';
 import vetPositionSlice from '../reduxFeature/veterinaries/vetPositionSlice';
 import productSlice from '../reduxFeature/products/productsSlice';
+import cartSlice from '../reduxFeature/products/cartSlice';
 import allProductSlice from '../reduxFeature/products/allProductsSlice';
 import productCategorySlice from '../reduxFeature/products/productsCategorySlice';
 // Api
@@ -34,7 +35,8 @@ export const store = configureStore({
         productSlice,
         vetPositionSlice,
         allProductSlice,
-        productCategorySlice
+        productCategorySlice,
+        cartSlice
     },
     middleware: (getDefaultMiddleware) =>
         getDefaultMiddleware().concat(

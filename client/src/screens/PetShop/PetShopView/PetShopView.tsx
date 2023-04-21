@@ -6,13 +6,14 @@ import {
     ParamListBase,
 } from '@react-navigation/native';
 import { VeterinariasScreenRouteProp } from '../../VeterinariasScreen/VeterinariasScreen';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { Product } from '../../../reduxFeature/products/allProductsSlice';
 import { ButtonPrimary } from '../../../components';
 import { StackNavigationProp } from '@react-navigation/stack';
-import { Modal, Pressable, View } from 'react-native';
-import { useState } from 'react';
+import { Modal, Pressable, TouchableOpacity, View } from 'react-native';
+import { useEffect, useState } from 'react';
 import { colors } from '../../../constants';
+import { setCart } from '../../../reduxFeature/products/cartSlice';
 
 const ContainerVeterinario = styled.ImageBackground`
     flex: 1;
@@ -39,13 +40,15 @@ const Card = styled.TouchableOpacity`
 const ProductImg = styled.Image`
     align-self: center;
     height: 80px;
+    width: 100px;
 `;
 
 const ProductImgMod = styled.Image`
     align-self: center;
-    height: 150px;
+    height: 170px;
     width: 80%;
     margin-bottom: 20px;
+    object-fit: contain;
 `;
 
 const Bold = styled.Text`
@@ -82,7 +85,7 @@ const PopUp = styled.View`
 
 const PopUpInt = styled.View`
     width: 90%;
-    height: 50%;
+    height: 55%;
 `;
 
 const Touch = styled.TouchableOpacity`
@@ -96,20 +99,21 @@ const RowView = styled.View`
     width: 80%;
 `;
 
-const ButtonCart=styled.TouchableOpacity`
+const ButtonCart = styled.TouchableOpacity`
     width: 50px;
     height: 50px;
-    background-color:${ colors.primaryLight};
+    background-color: ${colors.backgroundLightViolet};
     border-radius: 8;
     justify-content: center;
     padding: 3px;
-`
+`;
 
 interface StateProd {
     allProductSlice: Product[];
 }
 
 const PetShopView = () => {
+    const dispatch = useDispatch()
     const { params } = useRoute<VeterinariasScreenRouteProp>();
     const prods = useSelector((state: StateProd) => state.allProductSlice);
 
@@ -124,15 +128,21 @@ const PetShopView = () => {
     const [modalVisible, setModalVisible] = useState(false);
     const [thisProd, setThisProd] = useState<Product | null>(null);
 
+useEffect(() => {
+ console.log('prod', thisProd);
+ 
+}, [thisProd])
+
+
     return (
         <ContainerVeterinario
             source={require('../../../../assets/fondoHuellitas.png')}
         >
             <Scroll>
-                <ButtonPrimary
-                    title="Agregar producto"
-                    onPress={() => navigate('AddProduct', params.vet)}
-                />
+                <TouchableOpacity
+                    onPress={() => navigate('Inicio')}
+                    style={{marginLeft:'auto'}}
+                ><Text style={{fontSize:15}}>Ir al Home</Text></TouchableOpacity>
                 <Title>{params.vet.name}</Title>
                 <Container>
                     {prodFilter.map((prod) => (
@@ -143,14 +153,16 @@ const PetShopView = () => {
                                 setThisProd(prod);
                             }}
                         >
-                            <Ionicons
+                            {/* <Ionicons
                                 name="add-circle-outline"
                                 size={24}
                                 color="black"
                                 style={{ textAlign: 'right' }}
-                            />
+                            /> */}
                             <ProductImg
-                                source={require('../../../../assets/cama1.png')}
+                                source={prod?.productImage[0].imageUrl
+                                    ? {uri: prod.productImage[0].imageUrl}
+                                    : require('../../../../assets/vetImage.png')}
                             />
                             <Bold>{prod.name}</Bold>
                             <Bold>{prod.price}</Bold>
@@ -158,9 +170,6 @@ const PetShopView = () => {
                         </Card>
                     ))}
                 </Container>
-                <Pressable onPress={() => setModalVisible(true)}>
-                    <Text>Show Modal</Text>
-                </Pressable>
             </Scroll>
             <Modal
                 animationType="fade"
@@ -197,7 +206,11 @@ const PetShopView = () => {
                         </Touch>
 
                         <ProductImgMod
-                            source={require('../../../../assets/cama1.png')}
+                            source={
+                                thisProd?.productImage[0].imageUrl
+                                    ? {uri:thisProd?.productImage[0].imageUrl}
+                                    : require('../../../../assets/vetImage.png')
+                            }
                         />
                         <RowView>
                             <View>
@@ -205,14 +218,14 @@ const PetShopView = () => {
                                 <BoldMod>$ {thisProd?.price}</BoldMod>
                                 <TextMod>{thisProd?.description}</TextMod>
                             </View>
-                            <ButtonCart>
-
-                            <Ionicons
-                                name="cart-outline"
-                                size={40}
-                                color="black"
+                            <ButtonCart
+                            onPress={()=>dispatch(setCart(thisProd))}>
+                                <Ionicons
+                                    name="cart-outline"
+                                    size={40}
+                                    color="black"
                                 />
-                                </ButtonCart>
+                            </ButtonCart>
                         </RowView>
                     </PopUpInt>
                 </PopUp>

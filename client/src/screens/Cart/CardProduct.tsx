@@ -1,9 +1,43 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { View, Text, ScrollView } from 'react-native';
 import RenderProduct from './RenderProduct';
 import TotalCart from './TotalCart';
 
-const CardProduct = () => {
+interface Product  {
+    id: string
+    name: string
+    description: string
+    price: number
+    quantity: number
+    veterinaryId: string
+    productCategoryId: string
+    productCategory: {
+      id: string
+      name: string
+    },
+    productImage: IMG[]
+  }
+  interface IMG {
+imageUrl:string
+  }
+
+  interface Props {
+    cart:Product[]
+  }
+
+const CardProduct = ({cart}: Props) => {
+    const [total, setTotal] = useState(0)
+const totalCalc = ()=>{
+let tot = 0
+cart.forEach(car=>{tot = tot + car.price})
+setTotal(tot)
+}
+
+useEffect(() => {
+  totalCalc()
+}, [])
+
+
     return (
         <View
             style={{
@@ -31,18 +65,13 @@ const CardProduct = () => {
                         marginHorizontal: 10,
                     }}
                 >
-                    2 artículos
+                    {cart.length} artículos
                 </Text>
             </View>
             <ScrollView>
-                <RenderProduct />
-                <RenderProduct />
-                <RenderProduct />
-                <RenderProduct />
-                <RenderProduct />
-                <RenderProduct />
+                {cart.map(car=><RenderProduct product={car} /> )}
             </ScrollView>
-            <TotalCart />
+            <TotalCart total={total} />
         </View>
     );
 };

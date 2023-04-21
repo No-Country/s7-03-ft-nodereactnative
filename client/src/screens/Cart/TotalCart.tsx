@@ -3,7 +3,11 @@ import { Text, View, TouchableOpacity } from 'react-native';
 import { ButtonPrimary } from '../../components';
 import { Ionicons } from '@expo/vector-icons';
 
-const TotalCart = () => {
+interface Props {
+    total:number
+}
+
+const TotalCart = ({total}:Props) => {
     return (
         <View
             style={{
@@ -30,8 +34,7 @@ const TotalCart = () => {
                         fontWeight: '600',
                     }}
                 >
-                    {' '}
-                    $ 91.398,00
+                    $ 2.000,00
                 </Text>
             </View>
             <View

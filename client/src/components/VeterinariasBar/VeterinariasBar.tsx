@@ -56,11 +56,6 @@ const VeterinariasBar: React.FC<VetBarProps> = (vet) => {
             onPress={() => navigation.navigate('VetDetail', { vet })}
         >
             <VetTabContainer>
-                <ContainerFotoVet>
-                    <FotoVet
-                        source={require('../../../assets/DefaultUserPic.png')}
-                    />
-                </ContainerFotoVet>
                 <DataVetContainer>
                     <NombreVeterinaria>
                         {shortText(vet?.name, 20)}
