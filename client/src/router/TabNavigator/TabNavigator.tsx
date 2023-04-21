@@ -1,15 +1,19 @@
 import React from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import { Home, UserProfile, Cart } from '../../screens';
+import { Home, Cart, Settings, Favorites } from '../../screens';
 import { Ionicons } from '@expo/vector-icons';
-
+import { useNavigation } from '@react-navigation/native';
+import { colors } from '../../constants';
 const Tab = createBottomTabNavigator();
 
 const TabNavigator = () => {
+    const navigation = useNavigation();
+
     return (
-        <Tab.Navigator screenOptions={{ headerShown: false }}>
+        <Tab.Navigator>
             <Tab.Screen
                 options={{
+                    headerShown: false,
                     tabBarIcon: ({ focused }) => (
                         <Ionicons
                             name={focused ? 'home' : 'home-outline'}
@@ -21,8 +25,32 @@ const TabNavigator = () => {
                 name="Inicio"
                 component={Home}
             />
+
             <Tab.Screen
                 options={{
+                    headerShown: false,
+                    tabBarIcon: ({ focused }) => (
+                        <Ionicons
+                            name={focused ? 'heart' : 'heart-outline'}
+                            size={24}
+                            color={focused ? '#551391' : '#b2b2b2'}
+                        />
+                    ),
+                }}
+                name="Favoritos"
+                component={Favorites}
+            />
+
+            <Tab.Screen
+                options={{
+                    headerLeft: () => (
+                        <Ionicons
+                            name="arrow-back"
+                            size={24}
+                            onPress={() => navigation.goBack()}
+                            style={{ marginLeft: 5 }}
+                        />
+                    ),
                     tabBarIcon: ({ focused }) => (
                         <Ionicons
                             name={focused ? 'cart' : 'cart-outline'}
@@ -31,21 +59,31 @@ const TabNavigator = () => {
                         />
                     ),
                 }}
-                name="Carro"
+                name="Carro de compras"
                 component={Cart}
             />
             <Tab.Screen
                 options={{
+                    headerShown: true,
+                    title: 'Mi perfil',
+                    headerLeft: () => (
+                        <Ionicons
+                            name="arrow-back"
+                            size={24}
+                            onPress={() => navigation.goBack()}
+                            style={{ marginLeft: 5 }}
+                        />
+                    ),
                     tabBarIcon: ({ focused }) => (
                         <Ionicons
                             name={focused ? 'person' : 'person-outline'}
                             size={24}
-                            color={focused ? '#551391' : '#b2b2b2'}
+                            color={focused ? colors.primary : '#b2b2b2'}
                         />
                     ),
                 }}
                 name="Perfil"
-                component={UserProfile}
+                component={Settings}
             />
         </Tab.Navigator>
     );

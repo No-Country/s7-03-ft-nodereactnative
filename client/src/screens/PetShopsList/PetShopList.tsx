@@ -53,7 +53,7 @@ const PetShopList: React.FC<VeterinariasProps> = () => {
                 setSortedList(newVetList);
             }
         } catch (error) {
-            console.log('err', error);
+            console.warn('err', error);
         }
     }, [listaVets]);
 

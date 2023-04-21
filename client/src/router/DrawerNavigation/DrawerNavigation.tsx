@@ -30,7 +30,7 @@ const DrawerNavigation: React.FC<DrawerNavigationProps> = () => {
                             name="arrow-back"
                             size={24}
                             onPress={() => navigation.goBack()}
-                            style={{ marginLeft: 10 }}
+                            style={{ marginLeft: 5 }}
                         />
                     ),
                 }}

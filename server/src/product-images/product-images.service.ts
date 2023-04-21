@@ -27,6 +27,30 @@ export class ProductImagesService {
       }
       return productImages;
     } catch (error) {
+      console.warn(error);
+    }
+  }
+
+  async removeImage(id: string) {
+    try {
+      const productImage = await this.prisma.productImage.findFirst({
+        where: {
+          id: id,
+        },
+      });
+      if (!productImage) {
+        throw new NotFoundException(
+          'No se encontró ninguna imagen con ese id y url',
+        );
+      }
+      await deleteProductImage(productImage?.imageUrl);
+      await this.prisma.productImage.delete({
+        where: {
+          id,
+        },
+      });
+      return 'Imagen eliminada exitosamente';
+    } catch (error) {
       console.log(error);
     }
   }

@@ -1,9 +1,5 @@
 import { useDispatch, useSelector } from 'react-redux';
-import {
-    InputBuscador,
-    CategoriaBox,
-    TabBar,
-} from '../../components';
+import { InputBuscador, CategoriaBox, TabBar } from '../../components';
 import {
     ContainerBuscadoryFiltro,
     ContainerCategorias,
@@ -32,23 +28,29 @@ import { SafeAreaView } from 'react-native';
 import { colors } from '../../constants';
 import { useGetProductsQuery } from '../../reduxApp/services/products/products';
 import { setAllProduct } from '../../reduxFeature/products/allProductsSlice';
+import { useGetProductsCategoryQuery } from '../../reduxApp/services/product-categories/productCategories';
+import { setProductCategory } from '../../reduxFeature/products/productsCategorySlice';
 
 export interface HomeProps {}
 
 const Home: React.FC<HomeProps> = () => {
     const infoUser = useSelector((state: AuthSlice) => state.authSlice);
     const { navigate } = useNavigation<StackNavigationProp<ParamListBase>>();
-    const { data } = useGetProductsQuery('');
-    const dispatch = useDispatch()
-    console.log(data?.results.results);
-    
-    
+    const getProducts = useGetProductsQuery('');
+    const getCategories = useGetProductsCategoryQuery('');
+    const dispatch = useDispatch();
+
     useEffect(() => {
-        if(data){
-            dispatch(setAllProduct(data?.results.results))
+        if (getProducts.data) {
+            dispatch(setAllProduct(getProducts.data?.results.results));
         }
-    }, [data])
-    
+    }, [getProducts.data]);
+
+    useEffect(() => {
+        if (getCategories.data) {
+            dispatch(setProductCategory(getCategories.data?.results.results));
+        }
+    }, [getCategories.data]);
 
     useEffect(() => {
         <Text>
@@ -65,13 +67,13 @@ const Home: React.FC<HomeProps> = () => {
     }, []);
 
     return (
-        <ContainerHome keyboardShouldPersistTaps="handled">                     
+        <ContainerHome keyboardShouldPersistTaps="handled">
             <StatusBar backgroundColor={colors.primaryLight} />
             <ContainerMenuyUbicacion>
                 <SafeAreaView>
                     <TabBar />
                     {/* <InputUbicacion /> */}
-                    <Text>Ver veterinarias cercanas</Text>
+                    {/* <Text>Ver veterinarias cercanas</Text> */}
                     <ButtonUbication
                         onPress={() => {
                             navigate('Maps');
@@ -107,6 +109,12 @@ const Home: React.FC<HomeProps> = () => {
                         to="Veterinarias"
                     />
                     <CategoriaBox
+                        img={require('../../../assets/categoriasImg/juguetes.png')}
+                        color="#ffda66"
+                        text="Pet Shop"
+                        to="PetShop"
+                    />
+                    <CategoriaBox
                         img={require('../../../assets/categoriasImg/cuidadores.png')}
                         color="#bb92ff"
                         text="Cuidadores"
@@ -117,12 +125,6 @@ const Home: React.FC<HomeProps> = () => {
                         color="#85cb98"
                         text="Alimentos"
                         to="Cuidadores"
-                    />
-                    <CategoriaBox
-                        img={require('../../../assets/categoriasImg/juguetes.png')}
-                        color="#ffda66"
-                        text="Pet Shop"
-                        to="PetShop"
                     />
                 </FilaCategorias>
             </ContainerCategorias>

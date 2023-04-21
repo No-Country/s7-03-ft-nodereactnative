@@ -26,6 +26,7 @@ export interface User {
     role: Role;
     roleId: string;
     updatedAt: Date;
+    veterinary: [];
 }
 
 export interface Role {
@@ -36,4 +37,19 @@ export interface Data {
     error: string;
     message: string;
     statusCode: number;
+}
+
+export interface Veterinaria {
+    id: string;
+    userId: string;
+    name: string;
+    description: string;
+    country: string;
+    address: string;
+    latitude: string;
+    longitude: string;
+    phone: string;
+    isActive: boolean;
+    createdAt: Date;
+    updatedAt: Date;
 }

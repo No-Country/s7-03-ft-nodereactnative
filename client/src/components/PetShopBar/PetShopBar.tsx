@@ -112,11 +112,11 @@ useEffect(() => {
         >
             <PetshopTabContainer>
                 <LeftSideContainer>
-                    <ContainerFotoPetshop>
+                    {/* <ContainerFotoPetshop>
                         <FotoPetshop
                             source={require('../../../assets/DefaultUserPic.png')}
                         />
-                    </ContainerFotoPetshop>
+                    </ContainerFotoPetshop> */}
                     <DataPetshopContainer>
                         <NombrePetshop>{shortName || vet?.name}</NombrePetshop>
                         <WrapperHorario>

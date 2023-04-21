@@ -10,6 +10,7 @@ export const productsApi = createApi({
             const token = (getState() as RootState).authSlice.token;
             if (token) {
                 headers.set('authorization', `Bearer ${token}`);
+                headers.set('Content-Type', 'multipart/form-data');
             }
             headers.set('Content-Type', 'application/json');
             return headers;
@@ -18,18 +19,16 @@ export const productsApi = createApi({
     tagTypes: ['Product'],
     endpoints: (builder) => ({
         getProducts: builder.query({
-            query: () => '/v1/products',
+            query: () => '/v1/products?size=1000',
             providesTags: ['Product'],
         }),
         createProduct: builder.mutation({
-            query: (product) => {
-                return {
-                    url: '/v1/products',
-                    method: 'POST',
-                    body: JSON.stringify(product),
-                };
-            },
-            invalidatesTags: ['Product'],
+            query: (product) => ({
+                url: '/v1/products',
+                method: 'POST',
+                body: product,
+            }),
+            // invalidatesTags: ['Product'],
         }),
     }),
 });

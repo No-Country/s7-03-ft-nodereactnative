@@ -8,12 +8,7 @@ import {
     ShortDescription,
     VetTabContainer,
 } from './VeterinariasBar.styled';
-import { useDispatch } from 'react-redux';
-import { ParamListBase, useNavigation } from '@react-navigation/native';
-import {
-    setVetDeletePosition,
-    setVetPosition,
-} from '../../reduxFeature/veterinaries/vetPositionSlice';
+import {  useNavigation } from '@react-navigation/native';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { RootStackParamList } from '../../constants/types/RootStackParamList ';
 import { StarRating } from '../StarRating';
@@ -41,35 +36,7 @@ export interface VetBarProps {
 const VeterinariasBar: React.FC<VetBarProps> = (vet) => {
     const navigation =
         useNavigation<StackNavigationProp<RootStackParamList, 'VetDetail'>>();
-
-    // const dispatch = useDispatch()
-    // const navigate = useNavigation<StackNavigationProp<ParamListBase>>()
-    // const handleOnPress = ()=>{
-    //     const vetPos = {
-    //         latitude: vet.latitude,
-    //         longitude: vet.longitude
-    //     }
-    //     dispatch(setVetPosition(vetPos))
-    //     navigate.navigate('Maps')
-    //     setTimeout(() => {
-    //         dispatch(setVetDeletePosition())
-    //     }, 2000);
-    // }
-
-    // const dispatch = useDispatch()
-    // const navigate = useNavigation<StackNavigationProp<ParamListBase>>()
-    // const handleOnPress = ()=>{
-    //     const vetPos = {
-    //         latitude: vet.latitude,
-    //         longitude: vet.longitude
-    //     }
-    //     dispatch(setVetPosition(vetPos))
-    //     navigate.navigate('Maps')
-    //     setTimeout(() => {
-    //         dispatch(setVetDeletePosition())
-    //     }, 2000);
-    // }
-
+        
     return (
         <TouchableOpacity
             style={{
@@ -87,14 +54,8 @@ const VeterinariasBar: React.FC<VetBarProps> = (vet) => {
                 margin: 5,
             }}
             onPress={() => navigation.navigate('VetDetail', { vet })}
-            // onPress={handleOnPress}
         >
             <VetTabContainer>
-                <ContainerFotoVet>
-                    <FotoVet
-                        source={require('../../../assets/DefaultUserPic.png')}
-                    />
-                </ContainerFotoVet>
                 <DataVetContainer>
                     <NombreVeterinaria>
                         {shortText(vet?.name, 20)}

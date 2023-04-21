@@ -1,6 +1,6 @@
 import styled from 'styled-components/native';
 import { colors } from '../../constants';
-import { ViewProps, TouchableOpacityProps } from 'react-native';
+import { TouchableOpacityProps } from 'react-native';
 
 interface MainContainerProps extends TouchableOpacityProps {
     color: string;

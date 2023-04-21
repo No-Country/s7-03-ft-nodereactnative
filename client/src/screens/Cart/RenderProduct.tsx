@@ -12,7 +12,29 @@ import { Ionicons } from '@expo/vector-icons';
 import { useState } from 'react';
 import ModalProductOptions from './ModalProductOptions';
 
-const RenderProduct = () => {
+interface Product  {
+    id: string
+    name: string
+    description: string
+    price: number
+    quantity: number
+    veterinaryId: string
+    productCategoryId: string
+    productCategory: {
+      id: string
+      name: string
+    },
+    productImage: IMG[]
+  }
+  interface IMG {
+imageUrl:string
+  }
+
+  interface Props {
+    product:Product
+  }
+
+const RenderProduct = ({product}:Props) => {
     const [isModalVisible, setIsModalVisible] = useState(false);
     const toggleModal = () => {
         setIsModalVisible(!isModalVisible);
@@ -30,10 +52,10 @@ const RenderProduct = () => {
             }}
         >
             <Image
-                source={require('../../../assets/veterinaryLoc.webp')}
+                source={{uri: product.productImage[0].imageUrl}}
                 style={{
-                    height: '100%',
-                    maxWidth: 80,
+                    height: 100,
+                    width: 100,
                 }}
             />
             <View>
@@ -44,15 +66,15 @@ const RenderProduct = () => {
                         textAlign: 'center',
                     }}
                 >
-                    $ 50.500,00
+                    $ {product.price}
                 </Text>
                 <View style={{ marginVertical: 5 }}>
                     <Text style={{ fontWeight: '600' }}>
-                        Juguete para perro
+                       {product.name}
                     </Text>
-                    <Text>Cantidad: 2</Text>
+                    {/* <Text>Cantidad: 2</Text> */}
                 </View>
-                <TouchableOpacity
+                {/* <TouchableOpacity
                     style={{
                         borderColor: 'black',
                         borderWidth: 1,
@@ -74,11 +96,11 @@ const RenderProduct = () => {
                                 textTransform: 'uppercase',
                             }}
                         >
-                            Guardar{' '}
+                            Guardar
                         </Text>
                         <Ionicons color={'black'} name="heart-outline" />
                     </View>
-                </TouchableOpacity>
+                </TouchableOpacity> */}
             </View>
             <View>
                 <TouchableOpacity onPress={toggleModal}>
