@@ -62,7 +62,6 @@ export const ButtonUbication = (props: Props) => {
                 color="black"
             />
             <Text>
-                {' '}
                 {positionSelector?.city
                     ? positionSelector.city
                     : 'Mi ubicación'}{' '}

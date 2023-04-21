@@ -1,4 +1,4 @@
-import { useRoute, RouteProp } from '@react-navigation/native';
+import { useRoute, RouteProp, useNavigation, ParamListBase } from '@react-navigation/native';
 import { RootStackParamList } from '../../constants/types';
 import {
     ContainerData,
@@ -20,6 +20,8 @@ import {
 } from '@expo/vector-icons';
 import { View, Linking } from 'react-native';
 import { colors } from '../../constants';
+import { StackNavigationProp } from '@react-navigation/stack';
+import { ButtonPrimary } from '../../components';
 
 export interface VeterinariasScreenProps {
     id: string;
@@ -47,6 +49,9 @@ export type VeterinariasScreenRouteProp = RouteProp<
 
 const VeterinariasScreen: React.FC<VeterinariasScreenProps> = () => {
     const { params } = useRoute<VeterinariasScreenRouteProp>();
+    const { navigate } = useNavigation<StackNavigationProp<ParamListBase>>();
+    const {vet} = params
+
 
     const nombrePropietaria = `${params?.vet?.user?.firstName} ${params?.vet?.user?.lastName}`;
 
@@ -106,6 +111,7 @@ const VeterinariasScreen: React.FC<VeterinariasScreenProps> = () => {
                         </TextItem>
                     </IconAndText>
                 </WrapperItems>
+                <ButtonPrimary title='Petshop' onPress={()=>navigate('PetShopView', {vet})} />
             </ContainerData>
         </ContainerVeterinariaScreen>
     );

@@ -10,7 +10,6 @@ import { setCredentials } from '../reduxFeature/auth/authSlice';
 import Maps from '../screens/Maps/Maps';
 import { Cuidadores } from '../screens/Cuidadores';
 import { colors } from '../constants';
-import PetShop from '../screens/PetShop/PetShop';
 import AddNewVeterinarie from '../screens/AddNewVeterinarie/AddNewVeterinarie';
 import { VetRoute } from './VetRoute';
 import { PetShopList } from '../screens';
@@ -79,7 +78,7 @@ const LoggedStack = () => {
                 component={Maps}
                 options={{
                     headerShown: true,
-                    title: 'Mapa',
+                    title: 'Veterinarias cerca de tu ubicación',
                 }}
             />
             <Stack.Screen

@@ -4,8 +4,12 @@ import { colors, safeTopSpace } from '../../constants';
 import TotalCart from './TotalCart';
 import CardProduct from './CardProduct';
 import EmptyCart from './EmptyCart';
+import { useSelector } from 'react-redux';
 
 const Cart = () => {
+    const cartSelector =useSelector(state=>state.cartSlice)
+    console.log(cartSelector);
+    
     const cart = true;
 
     return (
@@ -28,7 +32,7 @@ const Cart = () => {
                 >
                     Carrito de compras
                 </Text>
-                {cart ? <CardProduct /> : <EmptyCart />}
+                {cart ? <CardProduct cart={cartSelector} /> : <EmptyCart />}
             </View>
         </View>
     );
