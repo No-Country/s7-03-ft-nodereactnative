@@ -29,7 +29,7 @@ Esta aplicación permite a los dueños de mascotas encontrar fácilmente veterin
 - [Diego Javier Calva](https://www.linkedin.com/)
 
 ### UX/UI
-- [Maria Rivero](https://www.linkedin.com/)
+- [Maria Rivero](https://www.linkedin.com/in/maria-de-los-angeles-rivero)
 
 ### QA TESTER MANUAL
 - [Jesús Eduardo Quintero](https://www.linkedin.com/in/jes%C3%BAs-quintero-a3750a90/)
